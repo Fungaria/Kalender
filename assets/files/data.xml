@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<ns2:dataRoot xmlns:ns2="de.saufgenossen.ehre">
+    <kalender>
+        <termin>
+            <id>0</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-01 13:30:00</start>
+            <dauer>90</dauer>
+            <service>1</service>
+            <friseur>0</friseur>
+        </termin>
+        <termin>
+            <id>1</id>
+            <kundenid>1</kundenid>
+            <datum>15.09.2019</datum>
+            <start>2019-09-01 13:30:00</start>
+            <dauer>90</dauer>
+            <service>1</service>
+            <friseur>0</friseur>
+        </termin>
+    </kalender>
+    <kunden>
+        <kunde>
+            <id>0</id>
+            <name>Reiser</name>
+            <vorname>Samuel</vorname>
+        </kunde>
+        <kunde>
+            <id>1</id>
+            <name>Doe</name>
+            <vorname>Jane</vorname>
+        </kunde>
+    </kunden>
+    <friseure>
+        <friseur>
+            <id>0</id>
+            <name>Meryem</name>
+            <services>0,1,2,3</services>
+        </friseur>
+        <friseur>
+            <id>0</id>
+            <name>Nardos</name>
+            <services>0,1</services>
+        </friseur>
+    </friseure>
+    <services>
+        <service>
+            <id>0</id>
+            <name>Schnitt und Styling (Damen)</name>
+        </service>
+        <service>
+            <id>1</id>
+            <name>Schnitt und Styling (Herren)</name>
+        </service>
+        <service>
+            <id>2</id>
+            <name>Ansatzfarbe</name>
+        </service>
+        <service>
+            <id>2</id>
+            <name>Handmassage</name>
+        </service>
+    </services>
+</ns2:dataRoot>
