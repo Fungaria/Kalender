@@ -18,7 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.MenuButton;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddTerminDialog;
-import de.fungistudii.kalender.main.tabs.kalender.side.Navigation;
+import de.fungistudii.kalender.main.tabs.kalender.Navigation;
 import de.fungistudii.kalender.util.DrawableSolid;
 
 /**
@@ -34,15 +34,13 @@ public class SidePanel extends Container {
     
     private final AddTerminDialog dialog;
     
-    public SidePanel() {
+    public SidePanel(Navigation.DateSelectCallback callback) {
         super.setBackground(new DrawableSolid(ERE.assets.grey1));
         super.top();
         super.fill();
         
         content = new Table();
-        navigation = new Navigation((date) -> {
-            
-        });
+        navigation = new Navigation(callback);
         terminHinzufügen = new MenuButton("Termin hinzufugen");
         dialog = new AddTerminDialog();
         
@@ -57,7 +55,7 @@ public class SidePanel extends Container {
         
         terminHinzufügen.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                dialog.show(ERE.mainScreen.stage);
+                dialog.show(ERE.mainScreen.stage, navigation.getDate());
             }
         });
     }

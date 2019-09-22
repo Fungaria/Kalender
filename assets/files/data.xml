@@ -2,45 +2,70 @@
 <ns2:dataRoot xmlns:ns2="de.saufgenossen.ehre">
     <kalender>
         <termin>
-            <id>0</id>
+            <id>1</id>
             <kundenid>0</kundenid>
-            <start>2019-09-01 13:30:00</start>
+            <start>2019-09-01 10:30:00</start>
             <dauer>90</dauer>
-            <service>1</service>
-            <friseur>0</friseur>
+            <service>0</service>
+            <friseur>3</friseur>
+            <urheber>0</urheber>
         </termin>
         <termin>
-            <id>1</id>
-            <kundenid>1</kundenid>
-            <datum>15.09.2019</datum>
-            <start>2019-09-01 13:30:00</start>
-            <dauer>90</dauer>
-            <service>1</service>
-            <friseur>0</friseur>
+            <id>2</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-08 15:15:00</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>4</friseur>
+            <urheber>0</urheber>
         </termin>
     </kalender>
     <kunden>
         <kunde>
-            <id>0</id>
+            <vorname>Peter</vorname>
             <name>Reiser</name>
-            <vorname>Samuel</vorname>
         </kunde>
         <kunde>
-            <id>1</id>
-            <name>Doe</name>
-            <vorname>Jane</vorname>
+            <vorname>Luis</vorname>
+            <name>Hülß</name>
+        </kunde>
+        <kunde>
+            <vorname>Samuel</vorname>
+            <name>Reiser</name>
+        </kunde>
+        <kunde>
+            <vorname>Paul</vorname>
+            <name>Kuschfeld</name>
         </kunde>
     </kunden>
     <friseure>
         <friseur>
             <id>0</id>
             <name>Meryem</name>
-            <services>0,1,2,3</services>
         </friseur>
         <friseur>
-            <id>0</id>
+            <id>1</id>
+            <name>Nena</name>
+        </friseur>
+        <friseur>
+            <id>2</id>
+            <name>Nicole</name>
+        </friseur>
+        <friseur>
+            <id>3</id>
+            <name>Barbara</name>
+        </friseur>
+        <friseur>
+            <id>4</id>
             <name>Nardos</name>
-            <services>0,1</services>
+        </friseur>
+        <friseur>
+            <id>5</id>
+            <name>Linh</name>
+        </friseur>
+        <friseur>
+            <id>6</id>
+            <name>Nida</name>
         </friseur>
     </friseure>
     <services>

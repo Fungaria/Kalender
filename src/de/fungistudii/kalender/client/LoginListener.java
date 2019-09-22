@@ -16,7 +16,6 @@ public class LoginListener extends Listener{
         if(object instanceof LoginResponse){
             Gdx.app.postRunnable(() -> {
                 ERE.setScreen(ERE.mainScreen);
-                System.out.println("setScreen");
             });
         }
     }

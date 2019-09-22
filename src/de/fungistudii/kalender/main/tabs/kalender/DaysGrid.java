@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.fungistudii.kalender.main.tabs.kalender.side;
+package de.fungistudii.kalender.main.tabs.kalender;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import java.util.Calendar;
 import static java.util.Calendar.LONG;
+import java.util.Date;
 import java.util.Locale;
 
 /**
@@ -23,7 +24,7 @@ public class DaysGrid extends Table {
 
     private int currentYear = 2019;
     private int currentMonth = 1;
-    private final Calendar c = Calendar.getInstance(new Locale("en","UK"));
+    private final Calendar calendar = Calendar.getInstance(new Locale("en","UK"));
 
     DayButton[] dayButtons = new DayButton[42];
     
@@ -38,57 +39,74 @@ public class DaysGrid extends Table {
         int i=0;
         for (int w = 0; w < 6; w++) {
             for (int d = 0; d < 7; d++) {
-                DayButton button = new DayButton(d, callback);
+                DayButton button = new DayButton(callback);
                 dayButtons[i++] = button;
                 group.add(button);
                 super.add(button).minSize(0);
             }
             row().fill();
         }
-        
+        updateButtons();
         updateButtons();
     }
 
-    private void updateButtons(){
-        this.currentMonth = c.get(Calendar.MONTH);
-        this.currentYear = c.get(Calendar.YEAR);
-        int beg = c.get(Calendar.DAY_OF_WEEK);
+    void updateButtons(){
+        this.currentMonth = calendar.get(Calendar.MONTH);
+        this.currentYear = calendar.get(Calendar.YEAR);
+        calendar.set(Calendar.DATE, 1);
+        int beg = calendar.get(Calendar.DAY_OF_WEEK);
         if(beg==1){
-            c.add(Calendar.DATE, -6);
+            calendar.add(Calendar.DATE, -6);
         }else{
-            c.add(Calendar.DATE, 2-beg);
+            calendar.add(Calendar.DATE, 2-beg);
         }
         for (int i = 0; i < 42; i++) {
-            dayButtons[i].setText(c.get(Calendar.DAY_OF_MONTH)+"");
-            if(c.get(Calendar.MONTH) == currentMonth){
+            dayButtons[i].setDate(calendar.get(Calendar.DAY_OF_MONTH));
+            if(calendar.get(Calendar.MONTH) == currentMonth){
                 dayButtons[i].setStyle(new HardStyle());
             }else{
                 dayButtons[i].setStyle(new SoftStyle());
             }
-            c.add(Calendar.DATE, 1);
+            calendar.add(Calendar.DATE, 1);
         }
         
-        c.set(currentYear, currentMonth, 1);
+        calendar.set(currentYear, currentMonth, 1);
     }
     
     public String getHeaderName(){
-        return c.getDisplayName(Calendar.MONTH, LONG, Locale.GERMANY) + "  " + c.get(Calendar.YEAR);
+        return calendar.getDisplayName(Calendar.MONTH, LONG, Locale.GERMANY) + "  " + calendar.get(Calendar.YEAR);
     }
 
+    public void setDate(Date date){
+        calendar.setTime(date);
+        for (DayButton dayButton : dayButtons) {
+            if(dayButton.getDay() == calendar.get(Calendar.DATE))
+                dayButton.setChecked(true);
+        }
+        updateButtons();
+    }
+    
     public void next(){
-        c.add(Calendar.MONTH, 1);
+        calendar.add(Calendar.MONTH, 1);
         updateButtons();
     }
     
     public void previous(){
-        c.add(Calendar.MONTH, -1);
+        calendar.add(Calendar.MONTH, -1);
         updateButtons();
+    }
+    
+    public Date getSelected(){
+        return calendar.getTime();
     }
     
     private class DayButton extends TextButton {
         private final Navigation.DateSelectCallback callback;
-        public DayButton(final int day, Navigation.DateSelectCallback callback) {
-            super("" + day, new HardStyle());
+        
+        private int day;
+        
+        public DayButton(Navigation.DateSelectCallback callback) {
+            super("", new HardStyle());
             this.callback = callback;
             super.getLabel().setFontScale(0.5f);
             super.addListener(new ClickListener(){
@@ -96,11 +114,20 @@ public class DaysGrid extends Table {
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
                     if(callback != null){
-                        c.set(Calendar.DATE, day);
-                        callback.dateSelected(c.getTime());
+                        calendar.set(Calendar.DATE, day);
+                        callback.dateSelected(calendar.getTime());
                     }
                 }
             });
+        }
+        
+        public void setDate(int day){
+            this.day = day;
+            setText(day+"");
+        }
+
+        public int getDay() {
+            return day;
         }
     }
 

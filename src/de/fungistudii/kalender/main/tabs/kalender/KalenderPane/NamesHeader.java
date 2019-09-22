@@ -16,16 +16,17 @@ import static de.fungistudii.kalender.Main.ERE;
  */
 public class NamesHeader extends Table{
     
-    private String[] names = new String[]{"Meryem", "Nena", "Nicole", "Barbara", "Nardos", "Linh", "Nida"};
+    private final String[] names;
     
-    private Label[] labels = new Label[names.length];
+    private Label[] labels;
     
-    private final Label.LabelStyle style = new Label.LabelStyle(ERE.assets.openSansSmall, ERE.assets.grey4);
-    public NamesHeader() {
+    private final Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 17), ERE.assets.grey4);
+    public NamesHeader(String[] names) {
+        this.names = names;
+        this.labels = new Label[names.length];
         for (int i = 0; i < 7; i++) {
             labels[i] = new Label(names[i], style);
             labels[i].setAlignment(Align.bottom);
-            labels[i].setFontScale(0.7f);
             add(labels[i]).grow().uniform();
         }
     }

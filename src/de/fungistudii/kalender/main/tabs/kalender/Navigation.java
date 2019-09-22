@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.fungistudii.kalender.main.tabs.kalender.side;
+package de.fungistudii.kalender.main.tabs.kalender;
 
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -46,10 +47,22 @@ public class Navigation extends Table{
         super.add(dates).growX().prefHeight(Value.percentWidth((6f/7f), this));
         super.row();
         super.add(new Image(separator)).growX();
+        
+        updateHeader();
+        dates.updateButtons();
+    }
+    
+    public void setDate(Date date){
+        dates.setDate(date);
+        updateHeader();
     }
     
     private void updateHeader(){
         monthHeader.label.setText(dates.getHeaderName());
+    }
+
+    public Date getDate() {
+        return dates.getSelected();
     }
     
     private class MonthHeader extends Table{

@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import de.fungistudii.kalender.main.tabs.kalender.dialog.KalenderPage;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
 import de.fungistudii.kalender.main.tabs.kunden.KundenPage;
 import de.fungistudii.kalender.main.tabs.mitarbeiter.MitarbeiterPage;
 import de.fungistudii.kalender.main.tabs.produkte.ProduktePage;

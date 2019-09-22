@@ -42,7 +42,6 @@ public class DataHandler {
     }
 
     public void setData(DataRoot dataRoot) {
-        System.out.println(dataRoot);
         this.root = dataRoot;
         try {
             writeFile();

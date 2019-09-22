@@ -13,8 +13,8 @@ public class DataRoot {
     @XmlElement(name = "termin")
     public final ArrayList<Termin> termine = new ArrayList<Termin>();
 
-    @XmlElementWrapper(name = "ehrungen")
-    @XmlElement(name = "ehrung")
+    @XmlElementWrapper(name = "kunden")
+    @XmlElement(name = "kunde")
     public final ArrayList<Kunde> kunden = new ArrayList<Kunde>();
     
     @XmlElementWrapper(name = "friseure")

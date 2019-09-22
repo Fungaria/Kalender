@@ -1,9 +1,6 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -11,6 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.client.database.Kunde;
+import de.fungistudii.kalender.client.database.Service;
+import de.fungistudii.kalender.client.database.Termin;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -18,81 +21,103 @@ import static de.fungistudii.kalender.Main.ERE;
  */
 public class Kalender extends Table {
 
-    private static final int NUM_ROWS = 16, NUM_COLS = 7;
+    public final int startTime = 8;
+
+    private final int NUM_ROWS = 16, NUM_COLS;
     private static final float spacing = 0.1f;
 
-    public KalenderElement[][] elements = new KalenderElement[NUM_COLS][NUM_ROWS*4];
-    public Table[] groups = new Table[NUM_COLS * 2 + 1];
+    public Table[] columns;
 
     private final SpriteDrawable timeFiller = ERE.assets.createDrawable("kalender/grid/time");
     private final SpriteDrawable topElement = ERE.assets.createDrawable("kalender/grid/element_top");
     private final SpriteDrawable bottomElement = ERE.assets.createDrawable("kalender/grid/element_bottom");
     private final SpriteDrawable topFiller = ERE.assets.createDrawable("kalender/grid/filler_top");
     private final SpriteDrawable bottomFiller = ERE.assets.createDrawable("kalender/grid/filler_bottom");
+    
+    private Calendar calendar;
+    private Date start;
 
-    public Kalender() {
-        for (int i = 0; i < NUM_COLS * 2 + 1; i++) {
-            groups[i] = new Table();
-            add(groups[i]);
-            groups[i].setZIndex(i% 2);
-        }
+    public Kalender(Calendar calendar) {
+        this.calendar = calendar;
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.HOUR_OF_DAY, startTime);
+        this.start = calendar.getTime();
+        NUM_COLS = ERE.data.root.friseure.size();
+        columns = new Table[NUM_COLS];
 
-        for (int i = 0; i < NUM_ROWS * 4; i++) {
-            for (int j = 1; j < NUM_COLS * 2; j++) {
-                if (j % 2 == 1) {
-                    int index = (j - 1) / 2;
-                    if (i % 4 == 0) {
-                        elements[index][i] = new KalenderElement(i, index, true);
-                        groups[j].add(elements[index][i]).grow().minSize(0);
-                        groups[j].row();
-                    } else {
-                        elements[index][i] = new KalenderElement(i, index, false);
-                        groups[j].add(elements[index][i]).grow().minSize(0);
-                        groups[j].row();
-                    }
-                } else {
-                    if (i % 4 == 0) {
-                        Image img = new Image(topFiller);
-                        img.setScaling(Scaling.fillY);
-                        groups[j].add(img).grow().prefWidth(Value.percentWidth(spacing, elements[0][0]));
-                        groups[j].row();
-                    } else {
-                        Image img = new Image(bottomFiller);
-                        img.setScaling(Scaling.fillY);
-                        groups[j].add(img).grow().prefWidth(Value.percentWidth(spacing, elements[0][0]));
-                        groups[j].row();
-                    }
-                }
-            }
+        for (int i = 0; i < NUM_COLS; i++) {
+            columns[i] = createKalenderTable(i);
         }
         
-        initTimeColumn(groups[0], Align.right);
-        initTimeColumn(groups[14], Align.left);
-        addTermin(2, 5, 14);
+        add(initTimeColumn(Align.right));
+        for (int i = 0; i < NUM_COLS; i++) {
+            add(columns[i]).grow().width(Value.percentWidth(1/8f, this));
+            columns[i].setZIndex(1);
+            if(i<NUM_COLS-1){
+                Table filler = createFiller();
+                add(filler);
+                filler.setZIndex(0);
+            }
+        }
+        add(initTimeColumn(Align.left));
+    }
+
+    private static final SimpleDateFormat compareDayFormat = new SimpleDateFormat("yyyyMMdd");
+
+    private Table createKalenderTable(int column) {
+        Table table = new Table();
+        calendar.setTime(start);
+        Termin[] termine = ERE.data.root.termine.stream().filter((termin) -> (termin.friseur == column && compareDayFormat.format(calendar.getTime()).equals(compareDayFormat.format(termin.start)))).toArray(Termin[]::new);
+        int nextIndex = 0;
+        
+        
+        for (int row = 0; row < NUM_ROWS * 4; row++) {
+            calendar.add(Calendar.MINUTE, 15);
+            if(nextIndex<termine.length && termine[nextIndex].start.before(calendar.getTime())){
+                TerminElement element = new TerminElement(termine[nextIndex], table);
+                int cells = termine[nextIndex].dauer/15;
+                table.add(element).height(Value.percentHeight(cells, table.getCells().get(0).getActor())).grow();
+                row += cells-1;
+                nextIndex++;
+            }else{
+                BackgroundElement element = new BackgroundElement(row, column, row % 4 == 0);
+                table.add(element).grow().minSize(0);
+            }
+            table.row();
+        }
+        return table;
+    }
+
+    private Table createFiller() {
+        Table table = new Table();
+        for (int row = 0; row < NUM_ROWS * 4; row++) {
+            Image img = new Image(row % 4 == 0 ? topFiller : bottomFiller);
+            img.setScaling(Scaling.fillY);
+            table.add(img).grow().width(Value.percentWidth(spacing, columns[1].getCells().get(0).getActor()));
+            table.row();
+        }
+        return table;
     }
 
     TextButton.TextButtonStyle dateStyle = new TextButton.TextButtonStyle(timeFiller, timeFiller, timeFiller, ERE.assets.robotoCondensedRegular);
-    private void initTimeColumn(Table table, int align) {
+
+    private Table initTimeColumn(int align) {
         dateStyle.fontColor = ERE.assets.grey4;
+        Table table = new Table();
         for (int i = 0; i < NUM_ROWS; i++) {
-            TextButton element = new TextButton(7+i+"", dateStyle);
+            TextButton element = new TextButton(startTime + i + "", dateStyle);
             element.getLabel().setFontScale(0.65f);
             element.getLabel().setAlignment((align | Align.top) & ~Align.bottom);
             element.getLabelCell().pad(6);
-            table.add(element).minSize(0).height(Value.percentHeight(4, elements[0][0]));
+            table.add(element).minSize(0).height(Value.percentHeight(4, columns[0].getCells().get(0).getActor()));
             table.row();
         }
+        return table;
     }
 
-    public void addTermin(int col, int start, int end) {
-        for (int i = start; i < end; i++) {
-            elements[col][i].remove();
-            getCells().removeValue(null, true);
-        }
-        TerminElement element = new TerminElement();
-        groups[col * 2 + 1].row();
-        groups[col * 2 + 1].add(element).height(Value.percentHeight(end - start, elements[1][1])).grow();
+    public void reloadColumn(int col) {
+        columns[col] = createKalenderTable(col);
+        super.getCells().get(col*2+1).clearActor();
+        super.getCells().get(col*2+1).setActor(columns[col]);
     }
-    
-    
 }

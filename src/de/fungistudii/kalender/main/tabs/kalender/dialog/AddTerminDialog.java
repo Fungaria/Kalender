@@ -8,6 +8,7 @@ package de.fungistudii.kalender.main.tabs.kalender.dialog;
 import de.fungistudii.kalender.main.feneric.TitledWidget;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
@@ -28,6 +29,7 @@ import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Popup;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -138,8 +140,9 @@ public class AddTerminDialog extends Popup{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 date.calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeHours.getSelected()));
+                date.calendar.set(Calendar.MINUTE, Integer.parseInt(timeMins.getSelected()));
                 TerminRequest request = new TerminRequest();
-                request.duration = 90;
+                request.duration = parseMinutes(leistungen.get(0).duration.getSelected());
                 request.start = date.calendar.getTime();
                 request.friseurId = friseur.getSelected().id;
                 request.kundenId = 0;
@@ -155,6 +158,16 @@ public class AddTerminDialog extends Popup{
                 hide();
             }
         });
+    }
+
+    public Popup show(Stage stage, Date def) {
+        date.navigator.setDate(def);
+        return super.show(stage);
+    }
+    
+    private static int parseMinutes(String input){
+        String[] s = input.split(":");
+        return Integer.parseInt(s[0])*60+Integer.parseInt(s[1]);
     }
     
     private void addLeistung(){

@@ -13,13 +13,16 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Termin {
     public int id;
     public int kundenid;
-    
     @XmlElement(name = "start", required = true) 
     @XmlJavaTypeAdapter(DateAdapter.class)
     public Date start;
     public int dauer;
     public int service;
     public int friseur;
+    @XmlElement(name = "start", required = true) 
+    @XmlJavaTypeAdapter(DateAdapter.class)
+    public Date erstellt;
+    public int urheber;
 
     @Override
     public String toString() {

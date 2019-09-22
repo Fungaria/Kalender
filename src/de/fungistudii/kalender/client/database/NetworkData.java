@@ -12,6 +12,7 @@ import java.util.Date;
  * @author sreis
  */
 public class NetworkData {
+
     public static class LoginRequest {
 
         public String username;
@@ -31,5 +32,6 @@ public class NetworkData {
         public int duration;
         public int serviceId;
         public int friseurId;
+        public int urheber;
     }
 }
