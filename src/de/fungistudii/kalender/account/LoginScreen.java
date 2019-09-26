@@ -21,8 +21,8 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.NetworkData.LoginRequest;
-import de.fungistudii.kalender.main.feneric.GenericTextButton;
-import de.fungistudii.kalender.main.feneric.GenericTextField;
+import de.fungistudii.kalender.main.generic.GenericTextButton;
+import de.fungistudii.kalender.main.generic.GenericTextField;
 
 /**
  *
@@ -61,11 +61,6 @@ public class LoginScreen extends ScreenAdapter {
         Label pw = new Label("Password: ", new LStyle());
         password = new GenericTextField("pw");
         login = new GenericTextButton("Login");
-
-        user.setFontScale(0.6f);
-        pw.setFontScale(0.6f);
-
-        register.getLabel().setFontScale(0.4f);
 
         root.top();
         root.add().expandX().fill().width(Value.minWidth);
@@ -130,7 +125,7 @@ public class LoginScreen extends ScreenAdapter {
 
     private static class LStyle extends Label.LabelStyle {
         public LStyle() {
-            super(ERE.assets.openSans, Color.BLACK);
+            super(ERE.assets.fonts.createFont("roboto", 10), Color.BLACK);
         }
     }
 }

@@ -5,7 +5,7 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.dialog;
 
-import de.fungistudii.kalender.main.feneric.TitledWidget;
+import de.fungistudii.kalender.main.generic.TitledWidget;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -20,13 +20,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
 import de.fungistudii.kalender.client.database.NetworkData.TerminRequest;
-import de.fungistudii.kalender.main.feneric.GenericDropDown;
-import de.fungistudii.kalender.main.feneric.GenericTextField;
+import de.fungistudii.kalender.main.generic.GenericDropDown;
+import de.fungistudii.kalender.main.generic.GenericTextField;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Popup;
+import de.fungistudii.kalender.util.SearchField;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -39,14 +42,13 @@ public class AddTerminDialog extends Popup{
     
     VerticalGroup leistungsGroup;
     
-    private GenericTextField name;
-    private GenericTextField phone;
-    private GenericTextField mail;
+    private KundenRow row1;
     
     private DateButton date;
     private GenericDropDown<String> timeHours;
     private GenericDropDown<String> timeMins;
     private GenericDropDown<Friseur> friseur;
+    private GenericDropDown<Friseur> urheber;
     
     private ArrayList<LeistungTable> leistungen = new ArrayList<>();
     
@@ -55,21 +57,14 @@ public class AddTerminDialog extends Popup{
         popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
         super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
         
-        name = new GenericTextField("Name");
-        phone = new GenericTextField("Telefon");
-        mail = new GenericTextField("Mail");
+        row1 = new KundenRow();
+        
         date = new DateButton();
         timeHours = new GenericDropDown<>(null, "generic/dropdown", "generic/dropdown_selected", new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
         timeMins = new GenericDropDown<>(null, "generic/dropdown", "generic/dropdown_selected", new String[]{"00", "15", "30", "45"});
         friseur = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
         
         SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");
-        
-        Table row1 = new Table();
-        row1.defaults().space(Value.percentWidth(0.06f, row1));
-        row1.add(new TitledWidget("NAME", name)).growX().fillY();
-        row1.add(new TitledWidget("TELEFON", phone)).growX().fillY();
-        row1.add(new TitledWidget("MAIL", mail)).growX().fillY();
         
         HorizontalGroup time = new HorizontalGroup();
         time.space(5);
@@ -81,7 +76,8 @@ public class AddTerminDialog extends Popup{
         
         Table row2 = new Table();
         row2.defaults().space(Value.percentWidth(0.06f, row2));
-        row2.add(new TitledWidget("DATE", date)).prefWidth(Value.percentWidth(1, name)).fillY();
+        row2.defaults().left();
+        row2.add(new TitledWidget("DATE", date)).width(Value.percentWidth(0.4f, contentTable)).fill();
         row2.add(new TitledWidget("TIME", time)).growX().fillY();
         row2.add(new TitledWidget("FRISEUR", friseur)).growX().fillY();
         
@@ -90,6 +86,7 @@ public class AddTerminDialog extends Popup{
         addLeistung();
         
         Label leistLabel = new Label("LEISTUNGEN", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey4));
+        Label urheberLabel = new Label("URHEBER", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey4));
         SpriteDrawable plus = ERE.assets.createDrawable("kalender/dialog/plus");
         ImageButton addButton = new ImageButton(new ImageButton.ImageButtonStyle(null, null, null, plus, plus, plus));
         
@@ -101,31 +98,38 @@ public class AddTerminDialog extends Popup{
         TextButton ok = new TextButton("Bestätigen", buttonStyle);
         TextButton cancel = new TextButton("Abbrechen", buttonStyle);
         
-        HorizontalGroup buttons = new HorizontalGroup();
-        buttons.space(20);
-        buttons.addActor(cancel);
-        buttons.addActor(ok);
+        urheber = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
+        Table buttons = new Table();
+        buttons.defaults().spaceLeft(Value.percentWidth(0.01f, this));
+        buttons.add(urheber).width(Value.percentWidth(0.3f, contentTable)).left();
+        buttons.add(new Image()).grow();
+        buttons.add(cancel);
+        buttons.add(ok);
+        
+        contentTable.defaults().space(10);
         
         contentTable.left();
-        contentTable.add(title).padBottom(Value.percentHeight(1.5f, title));
+        contentTable.add(title);
         contentTable.row();
-        contentTable.add(row1).grow().padBottom(20);
+        contentTable.add(row1).grow().padTop(15);
         contentTable.row();
-        contentTable.add(new Image(separator)).growX().height(1).padBottom(20);
+        contentTable.add(new Image(separator)).growX().height(1);
         contentTable.row();
-        contentTable.add(row2).grow().padBottom(20);
+        contentTable.add(row2).grow().padTop(15);
         contentTable.row();
-        contentTable.add(new Image(separator)).growX().height(1).padBottom(20);
+        contentTable.add(new Image(separator)).growX().height(1);
         contentTable.row();
-        contentTable.add(leistLabel).left();
+        contentTable.add(leistLabel).left().padTop(15);
         contentTable.row();
         contentTable.add(leistungsGroup).growX();
         contentTable.row();
-        contentTable.add(addButton).size(Value.percentHeight(0.5f, name)).padBottom(20);
+        contentTable.add(addButton).size(Value.percentHeight(0.5f, date));
         contentTable.row();
-        contentTable.add(new Image(separator)).growX().height(1).padBottom(20);
+        contentTable.add(new Image(separator)).growX().height(1);
         contentTable.row();
-        contentTable.add(buttons).right().padBottom(20);
+        contentTable.add(urheberLabel).left().padTop(15);
+        contentTable.row();
+        contentTable.add(buttons).grow().right();
         contentTable.row();
         contentTable.add().grow();
         
@@ -173,9 +177,9 @@ public class AddTerminDialog extends Popup{
     private void addLeistung(){
         LeistungTable leistung = new LeistungTable();
         leistungen.add(leistung);
-        leistung.prefHeight(Value.percentHeight(1, name));
+        leistung.prefHeight(Value.percentHeight(1, date));
         leistung.prefWidth(Value.percentWidth(0.7f, contentTable));
-        leistung.padBottom(Value.percentHeight(0.1f, name));
+        leistung.padBottom(Value.percentHeight(0.1f, date));
         leistungsGroup.addActor(leistung);
         leistung.delete.addListener(new ClickListener(){
             @Override

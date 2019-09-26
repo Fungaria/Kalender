@@ -17,19 +17,20 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.util.Fonts;
 import java.util.Date;
 
 /**
  *
  * @author sreis
  */
-public class Navigation extends Table{
+public class DatePicker extends Table{
 
     private DaysGrid dates;
     private MonthHeader monthHeader;
     private WeekLabel weekLabel;
     
-    public Navigation(DateSelectCallback callback) {
+    public DatePicker(DateSelectCallback callback) {
         dates = new DaysGrid(callback);
         weekLabel = new WeekLabel();
         monthHeader = new MonthHeader();
@@ -70,8 +71,7 @@ public class Navigation extends Table{
         public ImageButton next;
         public ImageButton previous;
         public MonthHeader() {
-            label = new Label("Januar 2020", new Label.LabelStyle(ERE.assets.robotoCondensedBold, ERE.assets.grey5));
-            label.setFontScale(0.6f);
+            label = new Label("Januar 2020", new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14, Fonts.BOLD), ERE.assets.grey5));
             
             SpriteDrawable arrowf = ERE.assets.createDrawable("kalender/navigation/arrow_up");
             SpriteDrawable arrowb = ERE.assets.createDrawable("kalender/navigation/arrow_up");
@@ -104,7 +104,7 @@ public class Navigation extends Table{
     
     private static class WeekLabel extends Table{
         public WeekLabel() {
-            Label.LabelStyle style = new Label.LabelStyle(ERE.assets.robotoCondensedRegular10, ERE.assets.grey5);
+            Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
             add(createLabel("Mo", style)).uniform().expand();
             add(createLabel("Di", style)).uniform().expand();
             add(createLabel("Mi", style)).uniform().expand();
@@ -116,7 +116,6 @@ public class Navigation extends Table{
         
         private Label createLabel(String s, Label.LabelStyle style){
             Label l = new Label(s, style);
-            l.setFontScale(0.5f);
             super.align(Align.center);
             return l;
         }

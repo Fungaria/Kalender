@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import de.fungistudii.kalender.Main;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.util.Fonts;
 
 /**
  *
@@ -20,10 +21,9 @@ public class Logo extends TextButton{
                 ERE.assets.createNinePatchDrawable("tabs/button_up", 4),     //up
                 ERE.assets.createNinePatchDrawable("tabs/button_up", 4),     //down 
                 ERE.assets.createNinePatchDrawable("tabs/button_up", 4),     //checked
-                Main.ERE.assets.openSansBoldSmall
+                Main.ERE.assets.fonts.createFont("roboto", 14, Fonts.BOLD)
         ));
         
-        super.getLabel().setFontScale(0.5f);
         super.getLabel().setAlignment(Align.left);
         super.getLabel().setX(5);
     }

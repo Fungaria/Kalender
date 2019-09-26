@@ -1,15 +1,17 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
+import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Kunde;
-import de.fungistudii.kalender.client.database.Service;
 import de.fungistudii.kalender.client.database.Termin;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,30 +48,32 @@ public class Kalender extends Table {
         columns = new Table[NUM_COLS];
 
         for (int i = 0; i < NUM_COLS; i++) {
-            columns[i] = createKalenderTable(i);
+            columns[i] = createKalenderColumn(i);
         }
         
-        add(initTimeColumn(Align.right));
+        super.align(Align.left);
+        add(initTimeColumn(Align.right)).width(Value.percentWidth(0.05f, this));
         for (int i = 0; i < NUM_COLS; i++) {
             add(columns[i]).grow().width(Value.percentWidth(1/8f, this));
             columns[i].setZIndex(1);
             if(i<NUM_COLS-1){
                 Table filler = createFiller();
-                add(filler);
+                add(filler).growX().uniform();
                 filler.setZIndex(0);
             }
         }
-        add(initTimeColumn(Align.left));
+        add(initTimeColumn(Align.left)).width(Value.percentWidth(0.05f, this));
+        
+        calendar.setTime(start);
     }
 
     private static final SimpleDateFormat compareDayFormat = new SimpleDateFormat("yyyyMMdd");
 
-    private Table createKalenderTable(int column) {
+    private Table createKalenderColumn(int column) {
         Table table = new Table();
         calendar.setTime(start);
         Termin[] termine = ERE.data.root.termine.stream().filter((termin) -> (termin.friseur == column && compareDayFormat.format(calendar.getTime()).equals(compareDayFormat.format(termin.start)))).toArray(Termin[]::new);
         int nextIndex = 0;
-        
         
         for (int row = 0; row < NUM_ROWS * 4; row++) {
             calendar.add(Calendar.MINUTE, 15);
@@ -93,30 +97,29 @@ public class Kalender extends Table {
         for (int row = 0; row < NUM_ROWS * 4; row++) {
             Image img = new Image(row % 4 == 0 ? topFiller : bottomFiller);
             img.setScaling(Scaling.fillY);
-            table.add(img).grow().width(Value.percentWidth(spacing, columns[1].getCells().get(0).getActor()));
+            table.add(img).growX();
             table.row();
         }
         return table;
     }
 
-    TextButton.TextButtonStyle dateStyle = new TextButton.TextButtonStyle(timeFiller, timeFiller, timeFiller, ERE.assets.robotoCondensedRegular);
+    TextButton.TextButtonStyle dateStyle = new TextButton.TextButtonStyle(timeFiller, timeFiller, timeFiller, ERE.assets.fonts.createFont("robotoCondensed", 10));
 
     private Table initTimeColumn(int align) {
         dateStyle.fontColor = ERE.assets.grey4;
         Table table = new Table();
         for (int i = 0; i < NUM_ROWS; i++) {
             TextButton element = new TextButton(startTime + i + "", dateStyle);
-            element.getLabel().setFontScale(0.65f);
             element.getLabel().setAlignment((align | Align.top) & ~Align.bottom);
             element.getLabelCell().pad(6);
-            table.add(element).minSize(0).height(Value.percentHeight(4, columns[0].getCells().get(0).getActor()));
+            table.add(element).minSize(0).growX().height(Value.percentHeight(4, columns[0].getCells().get(0).getActor()));
             table.row();
         }
         return table;
     }
 
     public void reloadColumn(int col) {
-        columns[col] = createKalenderTable(col);
+        columns[col] = createKalenderColumn(col);
         super.getCells().get(col*2+1).clearActor();
         super.getCells().get(col*2+1).setActor(columns[col]);
     }

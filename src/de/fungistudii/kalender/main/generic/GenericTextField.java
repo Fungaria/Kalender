@@ -1,4 +1,4 @@
-package de.fungistudii.kalender.main.feneric;
+package de.fungistudii.kalender.main.generic;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
@@ -12,7 +12,8 @@ import de.fungistudii.kalender.util.Fonts;
 public class GenericTextField extends TextField{
 
     public GenericTextField(String defaultText) {
-        super(defaultText, new TFStyle());
+        super("", new TFStyle());
+        super.setMessageText(defaultText);
     }
  
     private static final class TFStyle extends TextField.TextFieldStyle{

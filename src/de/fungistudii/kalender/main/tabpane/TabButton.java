@@ -15,7 +15,6 @@ import static de.fungistudii.kalender.Main.ERE;
 public class TabButton extends TextButton{
     public TabButton(String text) {
         super(text, new TabButtonStyle());
-        super.getLabel().setFontScale(0.5f);
     }
     
     private static class TabButtonStyle extends TextButtonStyle{
@@ -23,7 +22,7 @@ public class TabButton extends TextButton{
             super.down = ERE.assets.createNinePatchDrawable("tabs/button_down", 4);
             super.checked = ERE.assets.createNinePatchDrawable("tabs/button_down", 4);
             super.up = ERE.assets.createNinePatchDrawable("tabs/button_up", 4);
-            super.font = Main.ERE.assets.openSansSmall;
+            super.font = Main.ERE.assets.fonts.createFont("roboto", 14);
         }
     }
 }

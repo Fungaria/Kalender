@@ -23,6 +23,7 @@ public class Fonts implements Disposable{
     public static final int THIN = 3;
     
     private final HashMap<String, FreeTypeFontGenerator> generators = new HashMap<>();
+    private final HashMap<String, BitmapFont> fonts = new HashMap<>();
     
     public Fonts() {
         generators.put("roboto0", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Medium.ttf")));
@@ -40,7 +41,14 @@ public class Fonts implements Disposable{
     
     public BitmapFont createFont(String font, int size, int style){
         parameter.size = size;
-        return createFont(font, parameter, style);
+        String key = font+""+style+"_"+size;
+        if(fonts.containsKey(key)){
+            return fonts.get(key);
+        }else{
+            BitmapFont fnt = createFont(font, parameter, style);
+            fonts.put(key, fnt);
+            return fnt;
+        }
     }
     
     public BitmapFont createFont(String font, FreeTypeFontParameter parameter, int style){

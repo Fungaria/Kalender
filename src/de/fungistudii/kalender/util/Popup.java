@@ -59,7 +59,7 @@ public class Popup extends Container {
     private void initialize() {
         super.setFillParent(true);
         super.setActor(popupContainer);
-        popupContainer.prefWidth(Value.percentWidth(0.65f, this));
+        popupContainer.prefWidth(Value.percentWidth(0.45f, this));
 
         popupContainer.setActor(contentTable);
         contentTable.defaults().space(6);

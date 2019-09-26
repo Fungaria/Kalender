@@ -14,4 +14,5 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 public abstract class TabPage extends Table{
     public abstract void show();
     public abstract void hide();
+    public abstract void resize(int width, int height);
 }

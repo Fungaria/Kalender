@@ -1,12 +1,15 @@
 package de.fungistudii.kalender.main.tabs.kalender.dialog;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.tabs.kalender.Navigation;
-import java.util.Calendar;
+import de.fungistudii.kalender.main.tabs.kalender.DatePicker;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 /**
  *
@@ -14,36 +17,30 @@ import java.util.Locale;
  */
 public class DateNavigationWiget extends Table {
 
-    private Navigation navigation;
+    private DatePicker navigation;
     private final Vector2 screenPosition = new Vector2();
     private DateButton parent;
 
     private boolean open;
 
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
+
     public DateNavigationWiget(DateButton parent) {
         super.setBackground(ERE.assets.createNinePatchDrawable("generic/dropdown_list", 10));
-        navigation = new Navigation((date) -> {
+        navigation = new DatePicker((date) -> {
             hide();
             parent.calendar.setTime(date);
             parent.setChecked(false);
-            parent.getLabel().setText(getLabelName());
+            parent.getLabel().setText(dateFormat.format(parent.calendar.getTime()));
         });
         super.add(navigation).grow().height(600).pad(20);
         this.parent = parent;
     }
 
-    public String getLabelName(){
-        return parent.calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, Locale.GERMAN)+", "+
-               parent.calendar.get(Calendar.DATE)+" "+
-               parent.calendar.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.GERMAN)+" "+
-               parent.calendar.get(Calendar.YEAR);
-    }
-    
     public void setDate(Date date) {
         navigation.setDate(date);
         parent.calendar.setTime(date);
-        System.out.println(getLabelName());
-        parent.getLabel().setText(getLabelName());
+        parent.getLabel().setText(dateFormat.format(parent.calendar.getTime()));
     }
 
     public void hide() {

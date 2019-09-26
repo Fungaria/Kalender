@@ -18,7 +18,7 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.feneric.GenericTextButton;
+import de.fungistudii.kalender.main.generic.GenericTextButton;
 
 /**
  *
@@ -50,7 +50,6 @@ public class ConnectionFailedScreen extends ScreenAdapter {
         stage.addActor(root);
 
         Label l = new Label("Failed to connect to our servers. Stop DDOS-ing them!!", new LStyle());
-        l.setFontScale(0.5f);
         l.setWrap(true);
         l.setAlignment(Align.center, Align.center);
         root.add(l).width(Gdx.graphics.getWidth()).left().fill().pad(10);
@@ -99,7 +98,7 @@ public class ConnectionFailedScreen extends ScreenAdapter {
     static class LStyle extends Label.LabelStyle {
 
         public LStyle() {
-            super(ERE.assets.openSans, Color.BLACK);
+            super(ERE.assets.fonts.createFont("roboto", 10), Color.BLACK);
         }
     }
 }

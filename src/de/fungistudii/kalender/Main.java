@@ -53,8 +53,6 @@ public class Main extends Game{
     private void loadDataBase(){
         data = new DataHandler();
         data.load();
-        
-        System.out.println(data.root.termine);
     }
     
 }

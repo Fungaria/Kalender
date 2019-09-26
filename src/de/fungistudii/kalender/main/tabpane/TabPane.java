@@ -45,7 +45,7 @@ public class TabPane extends Table {
         kunden = new TabButton("Kunden");
         mitarbeiter = new TabButton("Mitarbeiter");
         produkte = new TabButton("Produkte");
-        filler = new Image(ERE.assets.createDrawable("tabs/button_up"));
+        filler = new Image(ERE.assets.createNinePatchDrawable("tabs/button_up", 3));
         
         tabs.add(kalender);
         tabs.add(kunden);
@@ -83,11 +83,11 @@ public class TabPane extends Table {
         });
 
         super.align(Align.left);
-        super.add(orplid).width(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY().minHeight(0);
+        super.add(orplid).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY().minSize(0);
         ButtonGroup bg = new ButtonGroup();
         for (Button tab : tabs) {
             bg.add(tab);
-            super.add(tab).width(Cons.tabButtonWidth*Gdx.graphics.getWidth()).growY().minHeight(0);
+            super.add(tab).prefWidth(Value.percentWidth(Cons.tabButtonWidth, this)).growY().minSize(0);
         }
         super.add(filler).grow();
     }

@@ -27,7 +27,7 @@ public class TerminElement extends Button {
 
     private Termin termin;
 
-    private static final float[][] colors = new float[][]{{237, 0.9f, 1}, {208, 0.12f, 1}, {300, 0.08f, 1}};
+    private static final float[][] colors = new float[][]{{237, 0.09f, 1}, {208, 0.12f, 1}, {300, 0.08f, 1}};
     private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH':'mm");
 
     private static final Calendar calendar = Calendar.getInstance();
@@ -67,15 +67,11 @@ public class TerminElement extends Button {
         float[] params = colors[id % colors.length];
         params[2] = 1;
         result.up = new NinePatchSolid(color.fromHsv(params));
+        params[2] = 0.96f;
+        result.over = new NinePatchSolid(color.fromHsv(params));
         params[2] = 0.9f;
         result.down = new NinePatchSolid(color.fromHsv(params));
-        result.over = new NinePatchSolid(color.fromHsv(params));
-        return result;
-    }
-
-    private static Color fromHSV(int h, int s, int v) {
-        Color result = new Color();
-        result.fromHsv(h, s / 100f, v / 100f);
+        result.checked = new NinePatchSolid(color.fromHsv(params));
         return result;
     }
 }

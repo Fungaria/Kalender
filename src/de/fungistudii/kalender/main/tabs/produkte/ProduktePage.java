@@ -7,14 +7,27 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.main.tabs.TabPage;
 
 /**
  *
  * @author sreis
  */
-public class ProduktePage extends Table{
+public class ProduktePage extends TabPage{
     public ProduktePage() {
         Image im = new Image(ERE.assets.createNinePatchDrawable("tabs/red", 5));
         add(im).grow();
+    }
+
+    @Override
+    public void show() {
+    }
+
+    @Override
+    public void hide() {
+    }
+
+    @Override
+    public void resize(int width, int height) {
     }
 }

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
 import de.fungistudii.kalender.main.tabs.kunden.KundenPage;
 import de.fungistudii.kalender.main.tabs.mitarbeiter.MitarbeiterPage;
@@ -27,7 +28,8 @@ public class MainScreen extends ScreenAdapter {
     public final Table root;
     private Viewport viewport;
 
-    private Table content;
+    private Table contentTable;
+    private TabPage currentPage;
 
     public KalenderPage kalender;
     public MitarbeiterPage mitarbeiter;
@@ -62,8 +64,12 @@ public class MainScreen extends ScreenAdapter {
         root.setFillParent(true);
         stage.addActor(root);
 
-        
-        content = new Table();
+        contentTable = new Table();
+        currentPage = new TabPage() {
+            public void show() {}
+            public void hide() {}
+            public void resize(int width, int height) {}
+        };
         
         kalender = new KalenderPage();
         mitarbeiter = new MitarbeiterPage();
@@ -73,7 +79,7 @@ public class MainScreen extends ScreenAdapter {
         root.row();
         root.add(new TabPane()).left().height(Value.percentHeight(0.05f, root)).growX().fillY();
         root.row();
-        root.add(content).grow();
+        root.add(contentTable).grow();
         root.top();
 
         setTab(kalender);
@@ -83,9 +89,12 @@ public class MainScreen extends ScreenAdapter {
         });
     }
 
-    public void setTab(Table t) {
-        content.clear();
-        content.add(t).grow();
+    public void setTab(TabPage t) {
+        contentTable.clear();
+        currentPage.hide();
+        contentTable.add(t).grow();
+        t.show();
+        currentPage = t;
     }
 
     @Override
@@ -122,5 +131,6 @@ public class MainScreen extends ScreenAdapter {
     public void resize(int width, int height) {
         super.resize(width, height);
         stage.getViewport().update(width, height, true);
+        currentPage.resize(width, height);
     }
 }

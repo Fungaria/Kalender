@@ -16,4 +16,9 @@ public class Kunde {
     public String name;
     public String vorname;
     public int id;
+
+    @Override
+    public String toString() {
+        return vorname+" "+name;
+    }
 }

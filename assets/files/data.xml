@@ -19,23 +19,80 @@
             <friseur>4</friseur>
             <urheber>0</urheber>
         </termin>
+        <termin>
+            <id>5</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-10 14:30:23</start>
+            <dauer>120</dauer>
+            <service>2</service>
+            <friseur>2</friseur>
+            <start>2019-09-26 18:28:02</start>
+            <urheber>0</urheber>
+        </termin>
+        <termin>
+            <id>3</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-23 12:59:56</start>
+            <dauer>180</dauer>
+            <service>2</service>
+            <friseur>2</friseur>
+            <urheber>0</urheber>
+        </termin>
+        <termin>
+            <id>4</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-23 16:31:08</start>
+            <dauer>120</dauer>
+            <service>0</service>
+            <friseur>5</friseur>
+            <urheber>0</urheber>
+        </termin>
     </kalender>
     <kunden>
         <kunde>
+            <name>Reiser</name>
             <vorname>Peter</vorname>
-            <name>Reiser</name>
+            <id>0</id>
         </kunde>
         <kunde>
+            <name>Huels</name>
             <vorname>Luis</vorname>
-            <name>Hülß</name>
+            <id>1</id>
         </kunde>
         <kunde>
-            <vorname>Samuel</vorname>
             <name>Reiser</name>
+            <vorname>Samuel</vorname>
+            <id>2</id>
         </kunde>
         <kunde>
-            <vorname>Paul</vorname>
             <name>Kuschfeld</name>
+            <vorname>Paul</vorname>
+            <id>3</id>
+        </kunde>
+        <kunde>
+            <name>Tengmark</name>
+            <vorname>Anna</vorname>
+            <id>4</id>
+        </kunde>
+        <kunde>
+            <name>Schuetz</name>
+            <vorname>Annette</vorname>
+            <id>5</id>
+        </kunde>
+        <kunde>
+            <name>Krampf</name>
+            <vorname>Annegred</vorname>
+            <id>6</id>
+        </kunde>
+        <kunde>
+            <name>Hamari</name>
+            <vorname>Julia</vorname>
+            <id>7</id>
+        </kunde>
+        <kunde>
+            <name>Stuart</name>
+            <vorname>Maria</vorname>
+            <id>8</id>
         </kunde>
     </kunden>
     <friseure>
