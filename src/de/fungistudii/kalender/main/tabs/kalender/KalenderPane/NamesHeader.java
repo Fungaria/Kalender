@@ -5,8 +5,7 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -24,14 +23,17 @@ public class NamesHeader extends Table{
     private Label[] labels;
     
     private final Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 17), ERE.assets.grey4);
-    public NamesHeader(String[] names) {
+    public NamesHeader(String[] names, Innerlander inner) {
         this.names = names;
         super.center();
         this.labels = new Label[names.length];
         for (int i = 0; i < 7; i++) {
             labels[i] = new Label(names[i], style);
-            labels[i].setAlignment(Align.bottom);
-            add(labels[i]).grow().uniform();
+            labels[i].setAlignment(Align.center);
+            add(labels[i]).grow().uniform().width(Value.percentWidth(1, inner.columns[0]));
+            add(new Container()).width(Value.percentWidth(1, inner.getCells().get(1).getActor()));
+            
+            super.setClip(true);
         }
     }
 }

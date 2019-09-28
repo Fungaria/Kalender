@@ -26,15 +26,14 @@ public class Assets {
     public final Color grey3 = new Color(130f/255f, 130f/255f, 130f/255f, 1);
     public final Color grey4 = new Color(160f/255f, 160f/255f, 160f/255f, 1);
     public final Color grey5 = new Color(53f/255f, 53f/255f, 53f/255f, 1);
+    public final Color darkRed = new Color(204/255f, 43/255f, 43/255f, 1);
 
     public final Fonts fonts;
     
     private final TextureAtlas atlas;
     
     public Assets() {
-        
         fonts = new Fonts();
-        
         atlas = new TextureAtlas(Gdx.files.internal("img/sprites.pack"));
     }
     
@@ -44,7 +43,9 @@ public class Assets {
         if(region == null)
             throw new RuntimeException("Texture " + name +" not found!");
 
-        return new NinePatchDrawable(new NinePatch(region, l, r, t, b));
+        NinePatchDrawable res = new NinePatchDrawable(new NinePatch(region, l, r, t, b));
+        res.getPatch().scale(0.5f, 0.5f);
+        return res;
     }
     
     public NinePatchDrawable createNinePatchDrawable(String name, int pad){

@@ -1,98 +1,142 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dataRoot xmlns:ns2="de.saufgenossen.ehre">
-    <kalender>
+    <termine>
         <termin>
             <id>1</id>
             <kundenid>0</kundenid>
-            <start>2019-09-01 10:30:00</start>
-            <dauer>90</dauer>
-            <service>0</service>
-            <friseur>3</friseur>
-            <urheber>0</urheber>
-        </termin>
-        <termin>
-            <id>2</id>
-            <kundenid>0</kundenid>
-            <start>2019-09-08 15:15:00</start>
+            <start>2019-09-12 08:00:15</start>
             <dauer>60</dauer>
             <service>0</service>
-            <friseur>4</friseur>
+            <friseur>0</friseur>
+            <erstellt>2019-09-28 18:21:25</erstellt>
             <urheber>0</urheber>
         </termin>
         <termin>
             <id>5</id>
             <kundenid>0</kundenid>
-            <start>2019-09-10 14:30:23</start>
-            <dauer>120</dauer>
-            <service>2</service>
-            <friseur>2</friseur>
-            <start>2019-09-26 18:28:02</start>
-            <urheber>0</urheber>
-        </termin>
-        <termin>
-            <id>3</id>
-            <kundenid>0</kundenid>
-            <start>2019-09-23 12:59:56</start>
-            <dauer>180</dauer>
-            <service>2</service>
-            <friseur>2</friseur>
+            <start>2019-09-25 10:00:21</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>4</friseur>
+            <erstellt>2019-09-28 18:33:56</erstellt>
             <urheber>0</urheber>
         </termin>
         <termin>
             <id>4</id>
             <kundenid>0</kundenid>
-            <start>2019-09-23 16:31:08</start>
-            <dauer>120</dauer>
+            <start>2019-09-25 11:00:21</start>
+            <dauer>60</dauer>
             <service>0</service>
-            <friseur>5</friseur>
+            <friseur>2</friseur>
+            <erstellt>2019-09-28 18:33:48</erstellt>
             <urheber>0</urheber>
         </termin>
-    </kalender>
+        <termin>
+            <id>2</id>
+            <kundenid>5</kundenid>
+            <start>2019-09-28 09:00:00</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>0</friseur>
+            <erstellt>2019-09-28 18:25:58</erstellt>
+            <urheber>0</urheber>
+        </termin>
+        <termin>
+            <id>3</id>
+            <kundenid>5</kundenid>
+            <start>2019-09-28 10:00:58</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>4</friseur>
+            <erstellt>2019-09-28 12:15:33</erstellt>
+            <urheber>0</urheber>
+        </termin>
+        <termin>
+            <id>6</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-28 10:30:21</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>3</friseur>
+            <erstellt>2019-09-28 18:34:06</erstellt>
+            <urheber>0</urheber>
+        </termin>
+        <termin>
+            <id>4</id>
+            <kundenid>5</kundenid>
+            <start>2019-09-28 12:00:00</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>2</friseur>
+            <erstellt>2019-09-28 12:15:27</erstellt>
+            <urheber>0</urheber>
+        </termin>
+        <termin>
+            <id>3</id>
+            <kundenid>0</kundenid>
+            <start>2019-09-28 12:00:21</start>
+            <dauer>60</dauer>
+            <service>0</service>
+            <friseur>4</friseur>
+            <erstellt>2019-09-28 18:33:30</erstellt>
+            <urheber>0</urheber>
+        </termin>
+    </termine>
+    <blockierungen/>
     <kunden>
         <kunde>
             <name>Reiser</name>
             <vorname>Peter</vorname>
             <id>0</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Huels</name>
             <vorname>Luis</vorname>
             <id>1</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Reiser</name>
             <vorname>Samuel</vorname>
             <id>2</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Kuschfeld</name>
             <vorname>Paul</vorname>
             <id>3</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Tengmark</name>
             <vorname>Anna</vorname>
             <id>4</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Schuetz</name>
             <vorname>Annette</vorname>
             <id>5</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Krampf</name>
             <vorname>Annegred</vorname>
             <id>6</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Hamari</name>
             <vorname>Julia</vorname>
             <id>7</id>
+            <phone>089346556</phone>
         </kunde>
         <kunde>
             <name>Stuart</name>
             <vorname>Maria</vorname>
             <id>8</id>
+            <phone>089346556</phone>
         </kunde>
     </kunden>
     <friseure>

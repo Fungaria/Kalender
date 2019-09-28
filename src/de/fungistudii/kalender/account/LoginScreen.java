@@ -20,7 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.NetworkData.LoginRequest;
+import de.fungistudii.kalender.client.NetworkData.LoginRequest;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.main.generic.GenericTextField;
 
@@ -55,12 +55,12 @@ public class LoginScreen extends ScreenAdapter {
         root.setFillParent(true);
         stage.addActor(root);
 
-        register = new GenericTextButton("Register");
+        register = new GenericTextButton("Register", new GenericTextButton.OutlineStyle());
         Label user = new Label("Genossentitel: ", new LStyle());
         username = new GenericTextField("username");
         Label pw = new Label("Password: ", new LStyle());
         password = new GenericTextField("pw");
-        login = new GenericTextButton("Login");
+        login = new GenericTextButton("Login", new GenericTextButton.OutlineStyle());
 
         root.top();
         root.add().expandX().fill().width(Value.minWidth);

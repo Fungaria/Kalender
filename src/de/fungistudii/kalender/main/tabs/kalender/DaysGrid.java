@@ -5,6 +5,8 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -24,18 +26,20 @@ import java.util.Locale;
 public class DaysGrid extends Table {
 
     private Date selectedDate;
-    private final Calendar calendar = Calendar.getInstance(new Locale("en","UK"));
+    private final Calendar calendar = Calendar.getInstance(new Locale("en", "UK"));
 
     DayButton[] dayButtons = new DayButton[42];
-    
+
     private final HardStyle hardStyle = new HardStyle();
     private final SoftStyle softStyle = new SoftStyle();
-    
+
     private ButtonGroup group;
-    
+
+    Rectangle rect = new Rectangle();
+
     public DaysGrid(DatePicker.DateSelectCallback callback) {
         group = new ButtonGroup();
-        int i=0;
+        int i = 0;
         for (int w = 0; w < 6; w++) {
             for (int d = 0; d < 7; d++) {
                 DayButton button = new DayButton(callback);
@@ -49,88 +53,100 @@ public class DaysGrid extends Table {
         updateButtons();
     }
 
-    void updateButtons(){
+    void updateButtons() {
         this.selectedDate = calendar.getTime();
         int currentMonth = calendar.get(Calendar.MONTH);
         calendar.set(Calendar.DATE, 1);
         int beg = calendar.get(Calendar.DAY_OF_WEEK);
-        if(beg==1){
+        if (beg == 1) {
             calendar.add(Calendar.DATE, -6);
-        }else{
-            calendar.add(Calendar.DATE, 2-beg);
+        } else {
+            calendar.add(Calendar.DATE, 2 - beg);
         }
         for (int i = 0; i < 42; i++) {
             dayButtons[i].setDate(calendar.getTime());
-            if(calendar.get(Calendar.MONTH) == currentMonth){
+            if (calendar.get(Calendar.MONTH) == currentMonth) {
                 dayButtons[i].setStyle(new HardStyle());
-            }else{
+            } else {
                 dayButtons[i].setStyle(new SoftStyle());
             }
             calendar.add(Calendar.DATE, 1);
         }
-        
+
         calendar.setTime(selectedDate);
     }
-    
-    public String getHeaderName(){
+
+    public String getHeaderName() {
         return calendar.getDisplayName(Calendar.MONTH, LONG, Locale.GERMANY) + "  " + calendar.get(Calendar.YEAR);
     }
 
     SimpleDateFormat comp = new SimpleDateFormat("MMdd");
     
-    public void setDate(Date date){
+    public Date getDate(){
+        return calendar.getTime();
+    }
+
+    public void setDate(Date date) {
         calendar.setTime(date);
         updateButtons();
         for (DayButton dayButton : dayButtons) {
-            if(comp.format(dayButton.getDay()).equals(comp.format(calendar.getTime())))
+            if (comp.format(dayButton.getDay()).equals(comp.format(calendar.getTime()))) {
                 dayButton.setChecked(true);
+            }
         }
     }
-    
-    public void next(){
-        calendar.add(Calendar.MONTH, 1);
+
+    public void next(int month) {
+        calendar.add(Calendar.MONTH, month);
         updateButtons();
     }
-    
-    public void previous(){
-        calendar.add(Calendar.MONTH, -1);
+
+    public void previous(int month) {
+        calendar.add(Calendar.MONTH, -month);
         updateButtons();
     }
-    
-    public Date getSelected(){
+
+    public Date getSelected() {
         return calendar.getTime();
     }
-    
+
     private class DayButton extends TextButton {
+
         private final DatePicker.DateSelectCallback callback;
         private Date day;
-        
+
         public DayButton(DatePicker.DateSelectCallback callback) {
             super("", new HardStyle());
             this.callback = callback;
-            super.addListener(new ClickListener(){
+            super.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     super.clicked(event, x, y);
-                    if(callback != null){
+                    if (callback != null) {
                         callback.dateSelected(day);
                     }
                 }
             });
         }
-        
-        public void setDate(Date day){
+
+        public void setDate(Date day) {
             this.day = day;
             calendar.setTime(day);
-            setText(calendar.get(Calendar.DAY_OF_MONTH)+"");
+            setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
         }
 
         public Date getDay() {
             return day;
         }
+
+        @Override
+        public void draw(Batch batch, float parentAlpha) {
+            super.draw(batch, parentAlpha);
+        }
     }
 
     private static class HardStyle extends TextButton.TextButtonStyle {
+
         public HardStyle() {
             super.up = ERE.assets.createNinePatchDrawable("kalender/navigation/date_up", 10);
             super.over = ERE.assets.createNinePatchDrawable("kalender/navigation/date_hover", 10);
@@ -140,7 +156,9 @@ public class DaysGrid extends Table {
             super.fontColor = ERE.assets.grey5;
         }
     }
+
     private static class SoftStyle extends TextButton.TextButtonStyle {
+
         public SoftStyle() {
             super.up = ERE.assets.createNinePatchDrawable("kalender/navigation/date_up", 10);
             super.over = ERE.assets.createNinePatchDrawable("kalender/navigation/date_hover", 10);

@@ -1,19 +1,25 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Kunde;
 import de.fungistudii.kalender.client.database.Service;
 import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.main.generic.ConfirmationDialog;
+import de.fungistudii.kalender.main.generic.ContextMenu;
 import static de.fungistudii.kalender.util.Fonts.LIGHT;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  *
@@ -36,6 +42,18 @@ public class TerminElement extends Button {
         super(createButtonStyle(termin.id));
         this.termin = termin;
 
+        final ConfirmationDialog dialog = new ConfirmationDialog("Bestätigen", "Sind sie sicher das sie den ausgewählten Termin löschen möchten?");
+        dialog.addConfirmCallback(() -> {
+            NetworkData.StornoRequest request = new NetworkData.StornoRequest();
+            request.id = termin.id;
+            ERE.client.sendTCP(request);
+        });
+        
+        HashMap<String, Runnable> actions = new HashMap<>();
+        actions.put("Termin stornieren", ()->{dialog.show(getStage());});
+        actions.put("Termin bearbeiten", ()->{});
+        new ContextMenu(this, actions);
+        
         Kunde kunde = ERE.data.root.kunden.get(termin.kundenid);
         Service service = ERE.data.root.services.get(termin.service);
         String startTime = timeFormat.format(termin.start);
@@ -52,15 +70,18 @@ public class TerminElement extends Button {
 
         super.align(Align.topLeft);
         super.defaults().space(Value.percentWidth(0.02f, parent));
-        super.pad(Value.percentWidth(0.05f, parent));
+        super.padTop(15);
+        super.padLeft(15);
 
         super.add(nameLabel).fillY().top().left();
         super.row();
         super.add(leistungLabel).fillY().left();
         super.row();
-        super.add(timeLabel).expand().bottom().right();
+        super.add(timeLabel).expand().bottom().right().padRight(10).padBottom(10);
+        
+        super.setClip(true);
     }
-
+    
     private static ButtonStyle createButtonStyle(int id) {
         ButtonStyle result = new ButtonStyle();
         Color color = new Color();

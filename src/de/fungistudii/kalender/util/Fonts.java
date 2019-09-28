@@ -17,26 +17,28 @@ public class Fonts implements Disposable{
 
     private FreeTypeFontParameter parameter = new FreeTypeFontParameter();
     
-    public static final int MEDIUM = 0;
+    public static final int REGULAR = 0;
     public static final int BOLD = 1;
     public static final int LIGHT = 2;
     public static final int THIN = 3;
+    public static final int MEDIUM = 4;
     
     private final HashMap<String, FreeTypeFontGenerator> generators = new HashMap<>();
     private final HashMap<String, BitmapFont> fonts = new HashMap<>();
     
     public Fonts() {
-        generators.put("roboto0", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Medium.ttf")));
+        generators.put("roboto0", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Regular.ttf")));
         generators.put("roboto1", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Bold.ttf")));
         generators.put("roboto2", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Light.ttf")));
         generators.put("roboto3", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Thin.ttf")));
+        generators.put("roboto4", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto/Roboto-Medium.ttf")));
         generators.put("robotoCondensed0", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto_Condensed/RobotoCondensed-Regular.ttf")));
         generators.put("robotoCondensed1", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto_Condensed/RobotoCondensed-Bold.ttf")));
         generators.put("robotoCondensed2", new FreeTypeFontGenerator(Gdx.files.internal("ttf/Roboto_Condensed/RobotoCondensed-Light.ttf")));
     }
     
     public BitmapFont createFont(String font, int size){
-        return createFont(font, size, MEDIUM);
+        return createFont(font, size, REGULAR);
     }
     
     public BitmapFont createFont(String font, int size, int style){

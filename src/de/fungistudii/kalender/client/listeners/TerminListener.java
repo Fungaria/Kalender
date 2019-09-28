@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Termin;
 import java.util.Comparator;
 import java.util.logging.Level;
@@ -20,13 +21,13 @@ public class TerminListener extends Listener{
         if(object instanceof Termin){
             Gdx.app.postRunnable(() -> {
                 writeTerminToDatabase((Termin)object);
-                addTerminToGUI((Termin)object);
+                addTerminToGUI();
             });
         }
     }
     
-    private void addTerminToGUI(Termin termin){
-        ERE.mainScreen.kalender.addTermin(termin);
+    private void addTerminToGUI(){
+        ERE.mainScreen.kalender.updateCurrentTable();
     }
     
     private void writeTerminToDatabase(Termin termin){

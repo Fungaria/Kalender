@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.NetworkData.LoginResponse;
+import de.fungistudii.kalender.client.NetworkData.LoginResponse;
 
 /**
  *

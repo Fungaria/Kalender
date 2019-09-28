@@ -1,6 +1,8 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 
 /**
@@ -15,6 +17,12 @@ public class BackgroundElement extends ImageButton{
         super(top?new TopStyle():new BottomStyle());
         this.row = row;
         this.column = col;
+        
+        addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+            }
+        });
     }
     
     private static final class TopStyle extends ImageButtonStyle{

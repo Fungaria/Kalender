@@ -54,7 +54,7 @@ public class ConnectionFailedScreen extends ScreenAdapter {
         l.setAlignment(Align.center, Align.center);
         root.add(l).width(Gdx.graphics.getWidth()).left().fill().pad(10);
 
-        GenericTextButton b = new GenericTextButton("Retry");
+        GenericTextButton b = new GenericTextButton("Retry", new GenericTextButton.OutlineStyle());
         root.row();
         root.add(b).expandX().padTop(30);
         

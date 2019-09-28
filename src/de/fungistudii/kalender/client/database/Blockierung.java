@@ -5,21 +5,18 @@
  */
 package de.fungistudii.kalender.client.database;
 
+import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
  * @author sreis
  */
-@XmlRootElement(name = "kunde")
-public class Kunde {
-    public String name;
-    public String vorname;
+@XmlRootElement(name = "blockierung")
+public class Blockierung {
     public int id;
-    public String phone;
-
-    @Override
-    public String toString() {
-        return vorname+" "+name;
-    }
+    public Date start;
+    public int dauer;
+    public int friseur;
+    public String msg;
 }

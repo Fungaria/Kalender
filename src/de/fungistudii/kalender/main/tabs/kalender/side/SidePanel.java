@@ -6,15 +6,18 @@
 package de.fungistudii.kalender.main.tabs.kalender.side;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.tabs.MenuButton;
+import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.main.tabs.kalender.DatePicker;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddTerminDialog;
 import de.fungistudii.kalender.util.DrawableSolid;
+import java.util.Date;
 
 /**
  *
@@ -23,7 +26,7 @@ import de.fungistudii.kalender.util.DrawableSolid;
 public class SidePanel extends Container {
 
     public DatePicker navigation;
-    private MenuButton terminHinzufügen;
+    private GenericTextButton terminHinzufügen;
     
     private Table content;
     
@@ -36,7 +39,7 @@ public class SidePanel extends Container {
         
         content = new Table();
         navigation = new DatePicker(callback);
-        terminHinzufügen = new MenuButton("Termin hinzufugen");
+        terminHinzufügen = new GenericTextButton("Termin hinzufugen", new GenericTextButton.FilledStyle());
         dialog = new AddTerminDialog();
         
         content.add(navigation).fillX().height(Value.percentWidth(1.2f, this)).minWidth(0);
@@ -50,8 +53,22 @@ public class SidePanel extends Container {
         
         terminHinzufügen.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                dialog.show(ERE.mainScreen.stage, navigation.getDate());
+                openDialog();
             }
         });
+    }
+    
+    public void openDialog(){
+        Button selectedElement = ERE.mainScreen.kalender.getKalender().getSelectedElement();
+        
+        System.out.println(selectedElement);
+        
+        dialog.show(ERE.mainScreen.stage, navigation.getDate());
+        if(selectedElement instanceof BackgroundElement){
+            BackgroundElement e = (BackgroundElement)selectedElement;
+            dialog.friseur.setSelectedIndex(e.column);
+            dialog.timeHours.setSelectedIndex(e.row/4);
+            dialog.timeMins.setSelectedIndex(e.row%4);
+        }
     }
 }

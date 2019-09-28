@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.fungistudii.kalender.client.database;
+package de.fungistudii.kalender.client;
 
 import java.util.Date;
 
@@ -14,7 +14,6 @@ import java.util.Date;
 public class NetworkData {
 
     public static class LoginRequest {
-
         public String username;
         //encryption is for n00bs i think
         public String password;
@@ -33,5 +32,9 @@ public class NetworkData {
         public int serviceId;
         public int friseurId;
         public int urheber;
+    }
+    
+    public static class StornoRequest{
+        public int id;
     }
 }

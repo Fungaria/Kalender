@@ -32,7 +32,7 @@ public class DateHeader extends Table{
     
     public DateHeader(KalenderPage parent) {
         super();
-        super.setBackground(ERE.assets.createNinePatchDrawable("generic/textfield", 7));
+        super.setBackground(ERE.assets.createNinePatchDrawable("generic/rounded", 7));
         
         this.parent = parent;
         
@@ -61,14 +61,14 @@ public class DateHeader extends Table{
         next.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 parent.calendar.add(Calendar.DATE, 1);
-                parent.updateDate();
+                parent.updateDate(1);
                 parent.panel.navigation.setDate(parent.calendar.getTime());
             }
         });
         previous.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 parent.calendar.add(Calendar.DATE, -1);
-                parent.updateDate();
+                parent.updateDate(-1);
                 parent.panel.navigation.setDate(parent.calendar.getTime());
             }
         });

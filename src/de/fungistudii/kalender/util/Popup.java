@@ -1,5 +1,6 @@
 package de.fungistudii.kalender.util;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -63,7 +64,6 @@ public class Popup extends Container {
 
         popupContainer.setActor(contentTable);
         contentTable.defaults().space(6);
-        contentTable.pad(Value.percentWidth(0.023f, this));
 
         focusListener = new FocusListener() {
             public void keyboardFocusChanged(FocusListener.FocusEvent event, Actor actor, boolean focused) {

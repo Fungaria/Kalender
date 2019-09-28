@@ -10,7 +10,7 @@ import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.NetworkData.LoginRequest;
+import de.fungistudii.kalender.client.NetworkData.LoginRequest;
 import java.io.IOException;
 import java.util.Timer;
 import java.util.TimerTask;

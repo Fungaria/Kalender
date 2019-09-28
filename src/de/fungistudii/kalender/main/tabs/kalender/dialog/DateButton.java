@@ -24,7 +24,7 @@ import java.util.Calendar;
  */
 public class DateButton extends TextButton {
 
-    public final DateNavigationWiget navigator;
+    public final DatePickerPopup navigator;
 
     public final Calendar calendar = Calendar.getInstance();
 
@@ -32,7 +32,7 @@ public class DateButton extends TextButton {
 
     public DateButton() {
         super("", new DateButtonStyle());
-        navigator = new DateNavigationWiget(this);
+        navigator = new DatePickerPopup(this);
         super.getLabelCell().left();
         super.getLabel().setAlignment(Align.left);
         super.addListener(new ClickListener() {
@@ -74,9 +74,9 @@ public class DateButton extends TextButton {
     private static class DateButtonStyle extends TextButtonStyle {
 
         public DateButtonStyle() {
-            super.up = ERE.assets.createNinePatchDrawable("generic/dropdown", 13);
-            super.down = ERE.assets.createNinePatchDrawable("generic/dropdown_selected", 13);
-            super.checked = ERE.assets.createNinePatchDrawable("generic/dropdown_selected", 13);
+            super.up = ERE.assets.createNinePatchDrawable("generic/rounded", 13);
+            super.down = ERE.assets.createNinePatchDrawable("generic/rounded_check", 13);
+            super.checked = ERE.assets.createNinePatchDrawable("generic/rounded_check", 13);
             super.font = ERE.assets.fonts.createFont("roboto", 15, LIGHT);
             super.fontColor = Color.BLACK;
         }

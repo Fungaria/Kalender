@@ -23,8 +23,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
-import de.fungistudii.kalender.client.database.NetworkData.TerminRequest;
+import de.fungistudii.kalender.client.NetworkData.TerminRequest;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
+import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.main.generic.GenericTextField;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Popup;
@@ -45,9 +46,9 @@ public class AddTerminDialog extends Popup{
     private KundenRow row1;
     
     private DateButton date;
-    private GenericDropDown<String> timeHours;
-    private GenericDropDown<String> timeMins;
-    private GenericDropDown<Friseur> friseur;
+    public GenericDropDown<String> timeHours;
+    public GenericDropDown<String> timeMins;
+    public GenericDropDown<Friseur> friseur;
     private GenericDropDown<Friseur> urheber;
     
     private ArrayList<LeistungTable> leistungen = new ArrayList<>();
@@ -57,11 +58,13 @@ public class AddTerminDialog extends Popup{
         popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
         super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
         
+        contentTable.pad(Value.percentWidth(0.023f, this));
+        
         row1 = new KundenRow();
         
         date = new DateButton();
-        timeHours = new GenericDropDown<>(null, "generic/dropdown", "generic/dropdown_selected", new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
-        timeMins = new GenericDropDown<>(null, "generic/dropdown", "generic/dropdown_selected", new String[]{"00", "15", "30", "45"});
+        timeHours = new GenericDropDown<>(null, "generic/rounded", "generic/rounded_check", new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
+        timeMins = new GenericDropDown<>(null, "generic/rounded", "generic/rounded_check", new String[]{"00", "15", "30", "45"});
         friseur = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
         
         SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");
@@ -92,11 +95,9 @@ public class AddTerminDialog extends Popup{
         
         Label title = new Label("Termin erstellen", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20), ERE.assets.grey4));
         
-        NinePatchDrawable button_bg = ERE.assets.createNinePatchDrawable("generic/textfield", 10);
-        TextButton.TextButtonStyle buttonStyle = new TextButton.TextButtonStyle(button_bg, button_bg, button_bg, ERE.assets.fonts.createFont("roboto", 13));
-        buttonStyle.fontColor = ERE.assets.grey4;
-        TextButton ok = new TextButton("Bestätigen", buttonStyle);
-        TextButton cancel = new TextButton("Abbrechen", buttonStyle);
+        NinePatchDrawable button_bg = ERE.assets.createNinePatchDrawable("generic/rounded", 10);
+        TextButton ok = new GenericTextButton("Bestätigen", new GenericTextButton.OutlineStyle());
+        TextButton cancel = new TextButton("Abbrechen", new GenericTextButton.OutlineStyle());
         
         urheber = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
         Table buttons = new Table();
@@ -133,6 +134,8 @@ public class AddTerminDialog extends Popup{
         contentTable.row();
         contentTable.add().grow();
         
+        contentTable.pack();
+        
         addButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -149,7 +152,7 @@ public class AddTerminDialog extends Popup{
                 request.duration = parseMinutes(leistungen.get(0).duration.getSelected());
                 request.start = date.calendar.getTime();
                 request.friseurId = friseur.getSelected().id;
-                request.kundenId = 0;
+                request.kundenId = row1.getSelected().id;
                 request.serviceId = leistungen.get(0).leistung.getSelected().id;
                 ERE.client.sendTCP(request);
                 hide();

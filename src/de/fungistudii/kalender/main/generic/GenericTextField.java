@@ -18,12 +18,12 @@ public class GenericTextField extends TextField{
  
     private static final class TFStyle extends TextField.TextFieldStyle{
         public TFStyle() {
-            super.disabledBackground = ERE.assets.createNinePatchDrawable("generic/textfield", 13);
-            super.background = ERE.assets.createNinePatchDrawable("generic/textfield", 13);
+            super.disabledBackground = ERE.assets.createNinePatchDrawable("generic/rounded", 13);
+            super.background = ERE.assets.createNinePatchDrawable("generic/rounded", 13);
             super.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.cursor.setMinWidth(1);
             super.selection = ERE.assets.createDrawable("generic/textfield_selection");
-            super.focusedBackground = ERE.assets.createNinePatchDrawable("generic/textfield_check", 13);
+            super.focusedBackground = ERE.assets.createNinePatchDrawable("generic/rounded_check", 13);
             super.font = ERE.assets.fonts.createFont("roboto", 16, Fonts.LIGHT);
             super.fontColor = Color.BLACK;
         }

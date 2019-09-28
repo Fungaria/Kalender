@@ -15,7 +15,7 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class DateNavigationWiget extends Table {
+public class DatePickerPopup extends Table {
 
     private DatePicker navigation;
     private final Vector2 screenPosition = new Vector2();
@@ -25,8 +25,8 @@ public class DateNavigationWiget extends Table {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
 
-    public DateNavigationWiget(DateButton parent) {
-        super.setBackground(ERE.assets.createNinePatchDrawable("generic/dropdown_list", 10));
+    public DatePickerPopup(DateButton parent) {
+        super.setBackground(ERE.assets.createNinePatchDrawable("generic/square", 10));
         navigation = new DatePicker((date) -> {
             hide();
             parent.calendar.setTime(date);

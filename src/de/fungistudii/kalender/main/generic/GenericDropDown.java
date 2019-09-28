@@ -18,7 +18,7 @@ import de.fungistudii.kalender.util.NinePatchIconDrawable;
 public class GenericDropDown<T> extends SelectBox<T> {
 
     public GenericDropDown(T... list) {
-        this("generic/dropdown", "generic/dropdown_selected", list);
+        this("generic/rounded", "generic/rounded_check", list);
     }
     
     public GenericDropDown(String bg, String bgOpen, T[] list) {
@@ -42,7 +42,7 @@ public class GenericDropDown<T> extends SelectBox<T> {
             super.fontColor = Color.BLACK;
             super.listStyle = new List.ListStyle(font, ERE.assets.grey5, ERE.assets.grey4, new DrawableSolid(ERE.assets.grey2));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
-            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/dropdown_list", 15);
+            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
         }
     }
 }

@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -41,6 +42,12 @@ public class SearchField<T> extends TextField implements Disableable {
     
     private ListFilter<T> filter;
 
+    private Consumer<T> listener = new Consumer<T>() {
+        @Override
+        public void accept(T t) {
+        }
+    };
+    
     public SearchField(SFStyle style, ListFilter<T> filter) {
         super("", style.textFieldStyle);
         this.filter = filter;
@@ -61,6 +68,10 @@ public class SearchField<T> extends TextField implements Disableable {
                 }
             }
         });
+    }
+    
+    public void setListener(Consumer<T> consumer){
+        this.listener = consumer;
     }
     
     public void setItems(ArrayList<T> items){
@@ -143,7 +154,7 @@ public class SearchField<T> extends TextField implements Disableable {
             hideListener = new InputListener() {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Actor target = event.getTarget();
-                    System.out.println(list.getSelected());
+                    selectBox.listener.accept(list.getSelected());
                     if (isAscendantOf(target)) {
                         return false;
                     }
@@ -333,4 +344,8 @@ public class SearchField<T> extends TextField implements Disableable {
     static public interface ListFilter<T>{
         public boolean test(String input, T test);
     }
+//    
+//    static public interface ListCallback<T>{
+//        public void select(T);
+//    }
 }

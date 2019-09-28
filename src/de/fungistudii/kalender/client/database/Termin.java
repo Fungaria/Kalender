@@ -19,7 +19,7 @@ public class Termin {
     public int dauer;
     public int service;
     public int friseur;
-    @XmlElement(name = "start", required = true) 
+    @XmlElement(name = "erstellt", required = true) 
     @XmlJavaTypeAdapter(DateAdapter.class)
     public Date erstellt;
     public int urheber;
