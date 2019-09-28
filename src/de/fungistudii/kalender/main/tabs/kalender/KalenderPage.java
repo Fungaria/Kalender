@@ -6,14 +6,14 @@
 package de.fungistudii.kalender.main.tabs.kalender;
 
 import de.fungistudii.kalender.main.tabs.kalender.side.SidePanel;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.Kalender;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import de.fungistudii.kalender.Cons;
 import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.DateHeader;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.TestContainer;
+import de.fungistudii.kalender.util.AnimationStack;
 import de.fungistudii.kalender.util.DrawableSolid;
 import java.util.Calendar;
 import java.util.Date;
@@ -31,7 +31,7 @@ public class KalenderPage extends TabPage {
     public Calendar calendar = Calendar.getInstance();
     private Date currentDate = new Date();
 
-    private Kalender kalender;
+    private KalenderTable kalender;
     
     public KalenderPage() {
         contentTable = new Table();
@@ -43,7 +43,7 @@ public class KalenderPage extends TabPage {
             updateDate(after?1:-1);
         });
         
-        kalender = new Kalender(calendar);
+        kalender = new KalenderTable(calendar);
         
         dateHeader = new DateHeader(this);
 
@@ -64,7 +64,7 @@ public class KalenderPage extends TabPage {
         kalender.updateCurrentTable();
     }
     
-    public Kalender getKalender(){
+    public KalenderTable getKalender(){
         return kalender;
     }
 

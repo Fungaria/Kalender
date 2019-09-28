@@ -1,4 +1,4 @@
-package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
+package de.fungistudii.kalender.util;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -7,11 +7,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
  *
  * @author sreis
  */
-public class TestContainer extends Stack{
+public class AnimationStack extends Stack{
     
     private Table actor;
     
-    public TestContainer(Table actor) {
+    public AnimationStack(Table actor) {
         super(actor);
         this.actor = actor;
     }
@@ -26,10 +26,15 @@ public class TestContainer extends Stack{
     public float getWidth() {
         return actor.getWidth();
     }
+
+    @Override
+    public float getHeight() {
+        return actor.getHeight();
+    }
     
     @Override
     public void validate() {
-        super.validate(); //To change body of generated methods, choose Tools | Templates.
+        super.validate();
         actor.validate();
     }
 }

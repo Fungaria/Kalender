@@ -28,7 +28,7 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class Innerlander extends Table{
+public class KalenderGrid extends Table{
     
     public final int startTime = 8;
 
@@ -52,7 +52,7 @@ public class Innerlander extends Table{
     private ContextMenu backgroundContext;
     private ContextMenu terminContext;
     
-    public Innerlander(Date date) {
+    public KalenderGrid(Date date) {
         calendar = Calendar.getInstance();
         calendar.setTime(date);
         calendar.set(Calendar.MINUTE, 0);

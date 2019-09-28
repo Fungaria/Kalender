@@ -13,16 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Cullable;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 
-/** A group that scrolls a child widget using scrollbars and/or mouse or touch dragging.
- * <p>
- * The widget is sized to its preferred size. If the widget's preferred width or height is less than the size of this scroll pane,
- * it is set to the size of this scroll pane. Scrollbars appear when the widget is larger than the scroll pane.
- * <p>
- * The scroll pane's preferred size is that of the child widget. At this size, the child widget will not need to scroll, so the
- * scroll pane is typically sized by ignoring the preferred size in one or both directions.
- * @author mzechner
- * @author Nathan Sweet */
-public class VerticalScrollPane extends WidgetGroup {
+/**
+ * mimics the movement of a scrollpane, either in vertical or horizontal direction. Boi
+ * @author sreis
+ */
+public class ScrollPaneFollower extends WidgetGroup {
 	private Actor widget;
 
 	private final Rectangle widgetAreaBounds = new Rectangle();
@@ -40,7 +35,7 @@ public class VerticalScrollPane extends WidgetGroup {
         private ScrollPane parent;
         
 	/** @param widget May be null. */
-	public VerticalScrollPane (Actor widget) {
+	public ScrollPaneFollower (Actor widget) {
 		setActor(widget);
 		setSize(150, 150);
 	}
