@@ -14,6 +14,7 @@ import java.util.Date;
 public class NetworkData {
 
     public static class LoginRequest {
+
         public String username;
         //encryption is for n00bs i think
         public String password;
@@ -26,6 +27,7 @@ public class NetworkData {
     }
 
     public static class TerminRequest {
+
         public int kundenId;
         public Date start;
         public int duration;
@@ -33,8 +35,16 @@ public class NetworkData {
         public int friseurId;
         public int urheber;
     }
-    
-    public static class StornoRequest{
+
+    public static class StornoRequest {
+
         public int id;
+    }
+
+    public static class BlockRequest {
+        public Date start;
+        public int duration;
+        public int friseur;
+        public String msg;
     }
 }

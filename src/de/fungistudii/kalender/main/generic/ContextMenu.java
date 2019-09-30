@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.NinePatchSolid;
@@ -27,7 +28,7 @@ import java.util.Map;
  */
 public class ContextMenu extends Table {
 
-    private HashMap<String, Action> content;
+    protected HashMap<String, Runnable> content;
 
     private Actor parent;
 
@@ -39,10 +40,25 @@ public class ContextMenu extends Table {
             show(x, y);
         }
     };
+    
+    public ContextMenu(Actor parent, String[] titles, Runnable[] runnables){
+        content = new HashMap<>();
+        this.parent = parent;
+        for (int i = 0; i < titles.length; i++) {
+            content.put(titles[i], runnables[i]);
+        }
+        
+        init();
+    }
 
     public ContextMenu(Actor parent, HashMap<String, Runnable> content) {
         this.parent = parent;
+        this.content = content;
 
+        init();
+    }
+
+    protected void init(){
         TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
         style.up = new NinePatchSolid(Color.WHITE);
         style.over = new NinePatchSolid(ERE.assets.grey2);
@@ -62,11 +78,9 @@ public class ContextMenu extends Table {
             button.getLabelCell().padLeft(15);
             row();
         }
-
+        
         super.setBackground(ERE.assets.createNinePatchDrawable("generic/context_bg", 7));
-
         parent.addListener(openListener);
-
         ERE.mainScreen.stage.addCaptureListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (open) {
@@ -88,7 +102,7 @@ public class ContextMenu extends Table {
             }
         });
     }
-
+    
     private static final Vector2 tmpVec = new Vector2();
 
     public void setShowOnRightClick(boolean show) {

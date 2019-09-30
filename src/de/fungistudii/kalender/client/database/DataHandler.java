@@ -22,7 +22,7 @@ public class DataHandler {
 
     public DataRoot root;
     private JAXBContext context;
-    
+
     public void load() {
         try {
             context = JAXBContext.newInstance(DataRoot.class);
@@ -35,18 +35,18 @@ public class DataHandler {
         }
     }
 
-    public void writeFile() throws JAXBException {
-        Marshaller m = context.createMarshaller();
-        m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        m.marshal(root, new File(XML_LOCATION));
+    public void writeFile() {
+        try {
+            Marshaller m = context.createMarshaller();
+            m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
+            m.marshal(root, new File(XML_LOCATION));
+        } catch (JAXBException ex) {
+            Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public void setData(DataRoot dataRoot) {
         this.root = dataRoot;
-        try {
-            writeFile();
-        } catch (JAXBException ex) {
-            Logger.getLogger(DataHandler.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        writeFile();
     }
 }

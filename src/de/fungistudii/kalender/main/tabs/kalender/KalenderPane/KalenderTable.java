@@ -4,6 +4,7 @@ import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -34,7 +35,7 @@ public class KalenderTable extends Table {
 
     private final SpriteDrawable timeFiller = ERE.assets.createDrawable("kalender/grid/time");
 
-    private ContextMenu backgroundContext;
+    private BGContext backgroundContext;
     private ContextMenu terminContext;
 
     private KalenderGrid old;
@@ -42,6 +43,10 @@ public class KalenderTable extends Table {
     private ScrollPane pane;
 
     private AnimationStack container;
+
+    int startRow;
+    int col;
+    boolean dragging;
 
     public KalenderTable(Calendar calendar) {
         old = new KalenderGrid(calendar.getTime());
@@ -75,23 +80,9 @@ public class KalenderTable extends Table {
         p2.setZIndex(1000);
         p1.setZIndex(1000);
 
-        HashMap<String, Runnable> actions = new HashMap<>();
-        actions.put("Termin erstellen", () -> {
-            ERE.mainScreen.kalender.panel.openDialog();
-        });
-        actions.put("Blockierung hinzufügen", () -> {
-        });
-        backgroundContext = new ContextMenu(this, actions);
-        backgroundContext.setShowOnRightClick(false);
-
-        super.addListener(new ClickListener(Input.Buttons.RIGHT) {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (event.getTarget() instanceof BackgroundElement) {
-                    backgroundContext.show(x, y);
-                }
-            }
-        });
+        addListener(desktopListener);
+        
+        backgroundContext = new BGContext();
     }
 
     @Override
@@ -117,7 +108,7 @@ public class KalenderTable extends Table {
         if (direction == 0) {
             return;
         }
-
+        
         nu.clearActions();
         old.clearActions();
 
@@ -138,6 +129,114 @@ public class KalenderTable extends Table {
         return old.getSelectedElement();
     }
 
+    public int getSelectedDuration(){
+        return old.getselectedDuration();
+    }
+    
+    private ClickListener desktopListener = new ClickListener() {
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            Actor hit = hit(x, y, true);
+            pane.cancel();
+            if (hit instanceof BackgroundElement && ((BackgroundElement) hit).isChecked()) {
+                return true;
+            }
+            dragging = true;
+            old.buttons.uncheckAll();
+            old.buttons.setMaxCheckCount(100);
+            if (hit instanceof BackgroundElement) {
+                startRow = ((BackgroundElement) hit).getRow();
+                col = ((BackgroundElement) hit).getColumn();
+            }
+            return true;
+        }
+
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            old.buttons.setMaxCheckCount(1);
+        }
+
+        @Override
+        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+            dragging = false;
+        }
+        
+
+        @Override
+        public void touchDragged(InputEvent event, float x, float y, int pointer) {
+            if(!dragging)
+                return;
+            Actor hit = hit(x, y, true);
+            if (hit instanceof BackgroundElement) {
+                for (GridElement element : old.columns[col].elements) {
+                    int currentRow = ((BackgroundElement) hit).getRow();
+                    int min = Math.min(currentRow, startRow);
+                    int max = Math.max(currentRow, startRow);
+                    if (element.getRow() >= min && element.getRow() <= max) {
+                        ((Button) element).setChecked(true);
+                    } else {
+                        ((Button) element).setChecked(false);
+                    }
+                }
+            }
+        }
+    };
+
+    private ClickListener mobileListener = new ClickListener() {
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            Actor hit = hit(x, y, true);
+            if ((hit instanceof Button && ((Button) hit).isChecked()) || (hit.getParent() instanceof Button && ((Button) hit.getParent()).isChecked())) {
+                pane.cancelTouchFocus();
+                pane.cancel();
+                old.buttons.setMaxCheckCount(100);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            super.clicked(event, x, y); //To change body of generated methods, choose Tools | Templates.
+            old.buttons.setMaxCheckCount(1);
+        }
+
+        @Override
+        public void touchDragged(InputEvent event, float x, float y, int pointer) {
+            Actor hit = hit(x, y, true);
+
+            if (hit instanceof Button) {
+                ((Button) hit).setChecked(true);
+            } else if (hit.getParent() instanceof Button) {
+                ((Button) hit.getParent()).setChecked(true);
+            }
+        }
+
+    };
+
+    private class BGContext extends ContextMenu {
+
+        public BGContext() {
+            super(KalenderTable.this, new String[]{
+            "Termin erstellen", "Blockierung hinzufügen"
+            }, new Runnable[]{()->{
+                ERE.mainScreen.kalender.addTermin();
+            },()->{
+                ERE.mainScreen.kalender.addBlockierung();
+            }});
+            setShowOnRightClick(false);
+
+            KalenderTable.super.addListener(new ClickListener(Input.Buttons.RIGHT) {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if (event.getTarget() instanceof BackgroundElement) {
+                        show(x, y);
+                    }
+                }
+            });
+        }
+    }
+
     private class TimeColumn extends Table {
 
         private final TextButton.TextButtonStyle dateStyle = new TextButton.TextButtonStyle(timeFiller, timeFiller, timeFiller, ERE.assets.fonts.createFont("robotoCondensed", 14));
@@ -155,7 +254,7 @@ public class KalenderTable extends Table {
     }
 
     private class NamesHeader extends Table {
-        
+
         private final String[] names;
         private Label[] labels;
         private final Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 17), ERE.assets.grey4);

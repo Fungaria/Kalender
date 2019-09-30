@@ -25,7 +25,7 @@ import java.util.HashMap;
  *
  * @author sreis
  */
-public class TerminElement extends Button {
+public class TerminElement extends Button implements GridElement{
 
     private Label nameLabel;
     private Label leistungLabel;
@@ -38,6 +38,10 @@ public class TerminElement extends Button {
 
     private static final Calendar calendar = Calendar.getInstance();
 
+    private int row;
+    private int column;
+    private int span;
+    
     public TerminElement(Termin termin, Actor parent) {
         super(createButtonStyle(termin.id));
         this.termin = termin;
@@ -94,5 +98,30 @@ public class TerminElement extends Button {
         result.down = new NinePatchSolid(color.fromHsv(params));
         result.checked = new NinePatchSolid(color.fromHsv(params));
         return result;
+    }
+
+    public int getColumn() {
+        return column;
+    }
+
+    public void setColumn(int column) {
+        this.column = column;
+    }
+
+    public int getSpan() {
+        return span;
+    }
+
+    public void setSpan(int span) {
+        this.span = span;
+    }
+
+    public void setRow(int row){
+        this.row = row;
+    }
+    
+    @Override
+    public int getRow() {
+        return row;
     }
 }

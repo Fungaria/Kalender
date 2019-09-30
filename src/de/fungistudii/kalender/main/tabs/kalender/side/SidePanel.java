@@ -30,8 +30,6 @@ public class SidePanel extends Container {
     
     private Table content;
     
-    private final AddTerminDialog dialog;
-    
     public SidePanel(DatePicker.DateSelectCallback callback) {
         super.setBackground(new DrawableSolid(ERE.assets.grey1));
         super.top();
@@ -40,7 +38,6 @@ public class SidePanel extends Container {
         content = new Table();
         navigation = new DatePicker(callback);
         terminHinzufügen = new GenericTextButton("Termin hinzufugen", new GenericTextButton.FilledStyle());
-        dialog = new AddTerminDialog();
         
         content.add(navigation).fillX().height(Value.percentWidth(1.2f, this)).minWidth(0);
         content.row();
@@ -53,22 +50,8 @@ public class SidePanel extends Container {
         
         terminHinzufügen.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                openDialog();
+                ERE.mainScreen.kalender.addTermin();
             }
         });
-    }
-    
-    public void openDialog(){
-        Button selectedElement = ERE.mainScreen.kalender.getKalender().getSelectedElement();
-        
-        System.out.println(selectedElement);
-        
-        dialog.show(ERE.mainScreen.stage, navigation.getDate());
-        if(selectedElement instanceof BackgroundElement){
-            BackgroundElement e = (BackgroundElement)selectedElement;
-            dialog.friseur.setSelectedIndex(e.column);
-            dialog.timeHours.setSelectedIndex(e.row/4);
-            dialog.timeMins.setSelectedIndex(e.row%4);
-        }
     }
 }
