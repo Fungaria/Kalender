@@ -33,7 +33,7 @@ public class LeistungTable extends Container{
 
         table.add(leistung).growX().minHeight(0);
         table.add(duration).minHeight(0).fill().width(Value.percentWidth(0.2f, this));
-        table.add(delete).fill().minHeight(0).width(Value.percentWidth(0.1f, this));
+        table.add(delete).fill().minHeight(0).width(Value.percentWidth(0.08f, this));
         
         super.setActor(table);
     }

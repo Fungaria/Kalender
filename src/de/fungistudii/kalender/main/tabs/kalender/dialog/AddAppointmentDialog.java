@@ -39,7 +39,7 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class AddTerminDialog extends Popup{
+public class AddAppointmentDialog extends Popup{
     
     VerticalGroup leistungsGroup;
     
@@ -53,7 +53,7 @@ public class AddTerminDialog extends Popup{
     
     private ArrayList<LeistungTable> leistungen = new ArrayList<>();
     
-    public AddTerminDialog() {
+    public AddAppointmentDialog() {
         super();
         popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
         super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
@@ -65,6 +65,7 @@ public class AddTerminDialog extends Popup{
         date = new DateButton();
         timeHours = new GenericDropDown<>(null, "generic/rounded", "generic/rounded_check", new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
         timeMins = new GenericDropDown<>(null, "generic/rounded", "generic/rounded_check", new String[]{"00", "15", "30", "45"});
+        
         friseur = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
         
         SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");

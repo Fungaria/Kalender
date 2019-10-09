@@ -1,17 +1,15 @@
-package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
+package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
-import de.fungistudii.kalender.util.NinePatchSolid;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -20,7 +18,7 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class DateHeader extends Table{
+public class DateNavigator extends KalenderTable.Navigator{
     
     private ImageButton next;
     private ImageButton previous;
@@ -28,13 +26,10 @@ public class DateHeader extends Table{
     
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
     
-    private KalenderPage parent;
     
-    public DateHeader(KalenderPage parent) {
+    public DateNavigator() {
         super();
-        super.setBackground(ERE.assets.createNinePatchDrawable("generic/rounded", 7));
-        
-        this.parent = parent;
+        super.setBackground(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 7, ERE.assets.grey1));
         
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
         nextStyle.up = ERE.assets.createDrawable("kalender/navigation/arrow_up");
@@ -60,16 +55,14 @@ public class DateHeader extends Table{
         
         next.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                parent.calendar.add(Calendar.DATE, 1);
-                parent.updateDate(1);
-                parent.panel.navigation.setDate(parent.calendar.getTime());
+                ERE.mainScreen.kalender.calendar.add(Calendar.DATE, 1);
+                ERE.mainScreen.kalender.updateDate(1);
             }
         });
         previous.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                parent.calendar.add(Calendar.DATE, -1);
-                parent.updateDate(-1);
-                parent.panel.navigation.setDate(parent.calendar.getTime());
+                ERE.mainScreen.kalender.calendar.add(Calendar.DATE, -1);
+                ERE.mainScreen.kalender.updateDate(-1);
             }
         });
     }

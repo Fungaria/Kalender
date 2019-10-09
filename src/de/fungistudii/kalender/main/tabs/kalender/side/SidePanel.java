@@ -15,7 +15,7 @@ import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.main.tabs.kalender.DatePicker;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
-import de.fungistudii.kalender.main.tabs.kalender.dialog.AddTerminDialog;
+import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.util.DrawableSolid;
 import java.util.Date;
 

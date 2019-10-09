@@ -138,11 +138,6 @@ public class DaysGrid extends Table {
         public Date getDay() {
             return day;
         }
-
-        @Override
-        public void draw(Batch batch, float parentAlpha) {
-            super.draw(batch, parentAlpha);
-        }
     }
 
     private static class HardStyle extends TextButton.TextButtonStyle {

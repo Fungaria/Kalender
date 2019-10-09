@@ -36,23 +36,16 @@ public class MainScreen extends ScreenAdapter {
     public KundenPage kunden;
     public ProduktePage produkte;
     
-    private static final boolean printfps = false;
+    private boolean printfps = false;
 
+    private final ContextMenuManager contextManager;
+    
     public MainScreen() {
-        
         root = new Table();
         this.viewport = new ScreenViewport();
         stage = new Stage(viewport);
         
-        if(printfps){
-            Timer t = new Timer();
-            t.scheduleAtFixedRate(new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.println(fps);
-                }
-            }, 0, 1000);
-        }
+        contextManager = new ContextMenuManager();
     }
 
     @Override
@@ -84,6 +77,8 @@ public class MainScreen extends ScreenAdapter {
 
         setTab(kalender);
         
+        contextManager.init();
+        
         Gdx.app.postRunnable(() ->{
             resize(Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight());
         });
@@ -111,6 +106,7 @@ public class MainScreen extends ScreenAdapter {
     }
     
     float fps = 0;
+    float timer = 0;
     boolean debug;
 
     @Override
@@ -122,9 +118,16 @@ public class MainScreen extends ScreenAdapter {
         stage.draw();
         
         fps = 1/delta;
-        
+        timer += fps;
+        if(printfps && timer>0.5f){
+            System.out.println(fps);
+            timer = 0;
+        }
+            
         if(Gdx.input.isKeyJustPressed(Keys.F1))
             stage.setDebugAll(debug = !debug);
+        if(Gdx.input.isKeyJustPressed(Keys.F2))
+            printfps = !printfps;
     }
 
     @Override

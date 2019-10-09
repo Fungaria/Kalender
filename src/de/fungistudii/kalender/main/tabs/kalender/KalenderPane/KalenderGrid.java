@@ -20,6 +20,7 @@ import de.fungistudii.kalender.client.database.Termin;
 import de.fungistudii.kalender.main.generic.ContextMenu;
 import de.fungistudii.kalender.main.tabs.kalender.DatePicker;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -27,8 +28,8 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class KalenderGrid extends Table{
-    
+public abstract class KalenderGrid extends Table {
+
     public final int startTime = 8;
 
     private final int NUM_ROWS = 16, NUM_COLS;
@@ -41,16 +42,16 @@ public class KalenderGrid extends Table{
     private final SpriteDrawable topFiller = ERE.assets.createDrawable("kalender/grid/filler_top");
     private final SpriteDrawable bottomFiller = ERE.assets.createDrawable("kalender/grid/filler_bottom");
 
-    private Calendar calendar;
-    private Date start;
+    protected Calendar calendar;
+    protected Date start;
 
-    final ButtonGroup<Button> buttons = new ButtonGroup<>();
+    final ButtonGroup<GridElement> buttons = new ButtonGroup<>();
 
     private DatePicker.DateSelectCallback callback;
 
     private ContextMenu backgroundContext;
     private ContextMenu terminContext;
-    
+
     public KalenderGrid(Date date) {
         calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -58,91 +59,87 @@ public class KalenderGrid extends Table{
         calendar.set(Calendar.MINUTE, 0);
         calendar.set(Calendar.HOUR_OF_DAY, startTime);
         this.start = calendar.getTime();
-        
+
         buttons.setMinCheckCount(0);
-        
+
         NUM_COLS = ERE.data.root.friseure.size();
         columns = new MitarbeiterColumn[NUM_COLS];
+    }
+
+    protected void init(){
+        for (int i = 0; i < NUM_COLS; i++) {
+            columns[i] = createMitarbeiterColumn(i, start);
+        }
 
         for (int i = 0; i < NUM_COLS; i++) {
-            columns[i] = new MitarbeiterColumn(i);
-        }
-        
-        for (int i = 0; i < NUM_COLS; i++) {
-            add(columns[i]).grow().uniform();
+            add(columns[i]).grow().uniform().minWidth(0);
             columns[i].setZIndex(1);
             if (i < NUM_COLS - 1) {
                 Table filler = new FillerColumn();
-                add(filler).minWidth(10).maxWidth(20);
+                add(filler).width(10);
                 filler.setZIndex(0);
             }
         }
     }
     
-    public Button getSelectedElement(){
-//        for (MitarbeiterColumn column : columns) {
-//            
-//        }
-        return buttons.getChecked();
+    public Button getSelectedElement() {
+        GridElement lowest = buttons.getChecked();
+        for (GridElement button : buttons.getAllChecked()) {
+            if(button.getRow() < lowest.getRow())
+                lowest = button;
+        }
+        return lowest;
     }
-    
-    public int getselectedDuration(){
+
+    public int getSelectedDuration() {
         return buttons.getAllChecked().size;
     }
-    
-    public void reloadTable(){
-        for (int i = 0; i < NUM_COLS; i++) {
-            reloadColumn(i);
-        }
-    }
-    
-    public void reloadColumn(int i){
-        Cell<Table> cell = getCell(columns[i]);
-        cell.clearActor();
-        cell.setActor(new MitarbeiterColumn(i));
-    }
+
+    protected abstract MitarbeiterColumn createMitarbeiterColumn(int column, Date date);
     
     public class MitarbeiterColumn extends Table {
-        private final SimpleDateFormat compareDayFormat = new SimpleDateFormat("yyyyMMdd");
-
         public Array<GridElement> elements = new Array<>();
-        
-        public MitarbeiterColumn(int column) {
-            calendar.setTime(start);
-            Termin[] termine = ERE.data.root.termine.stream().filter((termin) -> (termin.friseur == column && compareDayFormat.format(calendar.getTime()).equals(compareDayFormat.format(termin.start)))).toArray(Termin[]::new);
-            Blockierung[] blockierungen = ERE.data.root.blockierungen.stream().filter((blockierung) -> (blockierung.friseur == column && compareDayFormat.format(calendar.getTime()).equals(compareDayFormat.format(blockierung.start)))).toArray(Blockierung[]::new);
+
+        public MitarbeiterColumn(int column, Termin[] termine, Blockierung[] blockierungen, Date startTime) {
+            calendar.setTime(startTime);
+            calendar.add(Calendar.SECOND, -1);
+            
             int nxtTermin = 0;
             int nxtBlock = 0;
 
             for (int row = 0; row < NUM_ROWS * 4; row++) {
                 calendar.add(Calendar.MINUTE, 15);
+                GridElement element = null;
                 if (nxtTermin < termine.length && termine[nxtTermin].start.before(calendar.getTime())) {
-                    TerminElement element = new TerminElement(termine[nxtTermin], this);
+                    element = new TerminElement(termine[nxtTermin], row, column);
                     int cells = termine[nxtTermin].dauer / 15;
                     super.add(element).height(Value.percentHeight(cells, super.getCells().get(0).getActor())).grow();
                     row += cells - 1;
-                    buttons.add(element);
-                    elements.add(element);
-                    nxtTermin++; 
-                } else if(nxtBlock < blockierungen.length && blockierungen[nxtBlock].start.before(calendar.getTime())){
-                    BlockierungElement element = new BlockierungElement(blockierungen[nxtBlock], this);
+                    calendar.add(Calendar.MINUTE, 15*(cells-1));
+                    nxtTermin++;
+                } else if (nxtBlock < blockierungen.length && blockierungen[nxtBlock].start.before(calendar.getTime())) {
+                    element = new BlockierungElement(blockierungen[nxtBlock], row, column);
                     int cells = blockierungen[nxtBlock].dauer;
                     super.add(element).height(Value.percentHeight(cells, super.getCells().get(0).getActor())).grow();
                     row += cells - 1;
-                    buttons.add(element);
-                    elements.add(element);
+                    calendar.add(Calendar.MINUTE, 15*(cells-1));
                     nxtBlock++;
-                }else {
-                    BackgroundElement element = new BackgroundElement(row, column, row % 4 == 0);
+                } else {
+                    element = new BackgroundElement(row, column, row % 4 == 0);
                     super.add(element).grow().minSize(0);
-                    buttons.add(element);
-                    elements.add(element);
+                }
+                buttons.add(element);
+                elements.add(element);
+                
+                for (GridElement b : elements) {
+                    if(b instanceof BlockierungElement)
+                        b.setZIndex(100);
                 }
                 super.row();
             }
 
             super.setClip(true);
-            calendar.setTime(start);
+            calendar.setTime(startTime);
         }
     }
 

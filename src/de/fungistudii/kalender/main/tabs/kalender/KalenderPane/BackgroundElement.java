@@ -1,16 +1,13 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import static de.fungistudii.kalender.Main.ERE;
-import java.util.Date;
 
 /**
  *
  * @author sreis
  */
-public class BackgroundElement extends ImageButton implements GridElement {
+public class BackgroundElement extends GridElement {
 
     public final int row;
     public final int column;
@@ -19,15 +16,6 @@ public class BackgroundElement extends ImageButton implements GridElement {
         super(top ? new TopStyle() : new BottomStyle());
         this.row = row;
         this.column = col;
-        
-        addListener(new ClickListener() {
-            public void clicked(InputEvent event, float x, float y) {
-                if (isDisabled()) {
-                    return;
-                }
-                setChecked(true);
-            }
-        });
     }
 
     @Override
@@ -45,7 +33,7 @@ public class BackgroundElement extends ImageButton implements GridElement {
         return 1;
     }
 
-    private static final class TopStyle extends ImageButtonStyle {
+    private static final class TopStyle extends ButtonStyle {
 
         public TopStyle() {
             super.up = ERE.assets.createDrawable("kalender/grid/element_top");
@@ -55,7 +43,7 @@ public class BackgroundElement extends ImageButton implements GridElement {
         }
     }
 
-    private static final class BottomStyle extends ImageButtonStyle {
+    private static final class BottomStyle extends ButtonStyle {
 
         public BottomStyle() {
             super.up = ERE.assets.createDrawable("kalender/grid/element_bottom");

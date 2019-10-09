@@ -1,31 +1,25 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Kunde;
 import de.fungistudii.kalender.client.database.Service;
 import de.fungistudii.kalender.client.database.Termin;
-import de.fungistudii.kalender.main.generic.ConfirmationDialog;
-import de.fungistudii.kalender.main.generic.ContextMenu;
 import static de.fungistudii.kalender.util.Fonts.LIGHT;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
 
 /**
  *
  * @author sreis
  */
-public class TerminElement extends Button implements GridElement{
+public class TerminElement extends GridElement{
 
     private Label nameLabel;
     private Label leistungLabel;
@@ -42,22 +36,12 @@ public class TerminElement extends Button implements GridElement{
     private int column;
     private int span;
     
-    public TerminElement(Termin termin, Actor parent) {
+    public TerminElement(Termin termin, int row, int column) {
         super(createButtonStyle(termin.id));
         this.termin = termin;
+        this.row = row;
+        this.column = column;
 
-        final ConfirmationDialog dialog = new ConfirmationDialog("Bestätigen", "Sind sie sicher das sie den ausgewählten Termin löschen möchten?");
-        dialog.addConfirmCallback(() -> {
-            NetworkData.StornoRequest request = new NetworkData.StornoRequest();
-            request.id = termin.id;
-            ERE.client.sendTCP(request);
-        });
-        
-        HashMap<String, Runnable> actions = new HashMap<>();
-        actions.put("Termin stornieren", ()->{dialog.show(getStage());});
-        actions.put("Termin bearbeiten", ()->{});
-        new ContextMenu(this, actions);
-        
         Kunde kunde = ERE.data.root.kunden.get(termin.kundenid);
         Service service = ERE.data.root.services.get(termin.service);
         String startTime = timeFormat.format(termin.start);
@@ -73,7 +57,7 @@ public class TerminElement extends Button implements GridElement{
         this.timeLabel = new Label(startTime+" - "+endTime, timeStyle);
 
         super.align(Align.topLeft);
-        super.defaults().space(Value.percentWidth(0.02f, parent));
+        super.defaults().space(Value.percentWidth(0.02f, this));
         super.padTop(15);
         super.padLeft(15);
 
@@ -82,7 +66,7 @@ public class TerminElement extends Button implements GridElement{
         super.add(leistungLabel).fillY().left();
         super.row();
         super.add(timeLabel).expand().bottom().right().padRight(10).padBottom(10);
-        
+//        
         super.setClip(true);
     }
     
@@ -96,10 +80,14 @@ public class TerminElement extends Button implements GridElement{
         result.over = new NinePatchSolid(color.fromHsv(params));
         params[2] = 0.9f;
         result.down = new NinePatchSolid(color.fromHsv(params));
-        result.checked = new NinePatchSolid(color.fromHsv(params));
+        result.checked = result.down;
         return result;
     }
 
+    public Termin getTermin(){
+        return termin;
+    }
+    
     public int getColumn() {
         return column;
     }

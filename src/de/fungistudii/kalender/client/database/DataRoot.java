@@ -11,7 +11,7 @@ public class DataRoot {
 
     @XmlElementWrapper(name = "termine")
     @XmlElement(name = "termin")
-    public final ArrayList<Termin> termine = new ArrayList<Termin>();
+    public final ArrayList<Termin> appointments = new ArrayList<Termin>();
     
     @XmlElementWrapper(name = "blockierungen")
     @XmlElement(name = "blockierung")
@@ -31,6 +31,6 @@ public class DataRoot {
     
     @Override
     public String toString() {
-        return termine.toString()+"\n"+kunden.toString();
+        return appointments.toString()+"\n"+kunden.toString();
     }
 }

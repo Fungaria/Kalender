@@ -72,7 +72,7 @@
             </struct>
         </struct>
         <key>shapePadding</key>
-        <uint>3</uint>
+        <uint>8</uint>
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
@@ -199,6 +199,35 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">raw_img/employes/add.png</key>
+            <key type="filename">raw_img/generic/rounded.png</key>
+            <key type="filename">raw_img/generic/rounded_check.png</key>
+            <key type="filename">raw_img/generic/square.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>13,13,26,26</rect>
+                <key>scale9Paddings</key>
+                <rect>13,13,26,26</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">raw_img/employes/edit.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,12,23,23</rect>
+                <key>scale9Paddings</key>
+                <rect>12,12,23,23</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">raw_img/generic/arrow_down.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -212,20 +241,16 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">raw_img/generic/dropdown.png</key>
-            <key type="filename">raw_img/generic/dropdown_list.png</key>
-            <key type="filename">raw_img/generic/dropdown_selected.png</key>
-            <key type="filename">raw_img/generic/textfield.png</key>
-            <key type="filename">raw_img/generic/textfield_check.png</key>
+            <key type="filename">raw_img/generic/context_bg.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>13,13,26,26</rect>
+                <rect>14,8,28,16</rect>
                 <key>scale9Paddings</key>
-                <rect>13,13,26,26</rect>
+                <rect>14,8,28,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -240,6 +265,33 @@
                 <rect>15,15,31,30</rect>
                 <key>scale9Paddings</key>
                 <rect>15,15,31,30</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">raw_img/generic/rounded_filled.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>25,25,50,50</rect>
+                <key>scale9Paddings</key>
+                <rect>25,25,50,50</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">raw_img/generic/rounded_filled_green.png</key>
+            <key type="filename">raw_img/generic/rounded_red.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>8,8,17,17</rect>
+                <key>scale9Paddings</key>
+                <rect>8,8,17,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -292,6 +344,19 @@
                 <rect>14,14,29,29</rect>
                 <key>scale9Paddings</key>
                 <rect>14,14,29,29</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">raw_img/generic/vertical_separator.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>2,20,4,40</rect>
+                <key>scale9Paddings</key>
+                <rect>2,20,4,40</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -352,22 +417,27 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">raw_img/kalender/dialog/vertical_separator.png</key>
+            <key type="filename">raw_img/kalender/grid/block_bg.png</key>
+            <key type="filename">raw_img/kalender/grid/block_bg_check.png</key>
+            <key type="filename">raw_img/kalender/grid/block_bg_over.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>2,20,4,40</rect>
+                <rect>150,150,300,300</rect>
                 <key>scale9Paddings</key>
-                <rect>2,20,4,40</rect>
+                <rect>150,150,300,300</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">raw_img/kalender/grid/element_block_bottom.png</key>
+            <key type="filename">raw_img/kalender/grid/element_block_top.png</key>
             <key type="filename">raw_img/kalender/grid/element_bottom.png</key>
             <key type="filename">raw_img/kalender/grid/element_bottom_check.png</key>
             <key type="filename">raw_img/kalender/grid/element_bottom_hover.png</key>
+            <key type="filename">raw_img/kalender/grid/element_empty.png</key>
             <key type="filename">raw_img/kalender/grid/element_top.png</key>
             <key type="filename">raw_img/kalender/grid/element_top_check.png</key>
             <key type="filename">raw_img/kalender/grid/element_top_hover.png</key>

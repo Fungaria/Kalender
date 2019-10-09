@@ -26,6 +26,7 @@ public class Assets {
     public final Color grey3 = new Color(130f/255f, 130f/255f, 130f/255f, 1);
     public final Color grey4 = new Color(160f/255f, 160f/255f, 160f/255f, 1);
     public final Color grey5 = new Color(53f/255f, 53f/255f, 53f/255f, 1);
+    
     public final Color darkRed = new Color(204/255f, 43/255f, 43/255f, 1);
 
     public final Fonts fonts;
@@ -48,10 +49,27 @@ public class Assets {
         return res;
     }
     
+    public NinePatchDrawable createNinePatchDrawable(String name, int l, int r, int t, int b, Color color){
+        TextureRegion region = atlas.findRegion(name);
+        
+        if(region == null)
+            throw new RuntimeException("Texture " + name +" not found!");
+
+        NinePatch ninePatch = new NinePatch(region, l, r, t, b);
+        ninePatch.setColor(color);
+        NinePatchDrawable res = new NinePatchDrawable(ninePatch);
+        res.getPatch().scale(0.5f, 0.5f);
+        return res;
+    }
+    
+    public NinePatchDrawable createNinePatchDrawable(String name, int pad, Color color){
+        return createNinePatchDrawable(name, pad, pad, pad, pad, color);
+    }
+    
     public NinePatchDrawable createNinePatchDrawable(String name, int pad){
         return createNinePatchDrawable(name, pad, pad, pad, pad);
     }
-
+    
     public SpriteDrawable createDrawable(String name) {
         TextureRegion region = atlas.findRegion(name);
         

@@ -5,16 +5,18 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Blockierung;
+import de.fungistudii.kalender.util.CompositeDrawable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -22,7 +24,7 @@ import java.util.Calendar;
  *
  * @author sreis
  */
-public class BlockierungElement extends Button implements GridElement{
+public class BlockierungElement extends GridElement {
 
     private Label msg;
 
@@ -31,65 +33,91 @@ public class BlockierungElement extends Button implements GridElement{
     private int row;
     private int column;
     private int span;
-    
+
     private static final Calendar calendar = Calendar.getInstance();
-    
+
     private Image[] img;
+
+    private Blockierung blockierung;
+
+    private static final float[][] colors = new float[][]{{237, 0.09f, 1}, {208, 0.12f, 1}, {300, 0.08f, 1}};
+
+    private BlockDrawable image;
+
+    private final Drawable top = ERE.assets.createDrawable("kalender/grid/element_block_top");
+    private final Drawable bottom = ERE.assets.createDrawable("kalender/grid/element_block_bottom");
+    private final SpriteDrawable cUp = ERE.assets.createDrawable("kalender/grid/block_bg");
+    private final SpriteDrawable cOver = ERE.assets.createDrawable("kalender/grid/block_bg_over");
+    private final SpriteDrawable cCheck = ERE.assets.createDrawable("kalender/grid/block_bg_check");
     
-    private final SpriteDrawable top = ERE.assets.createDrawable("kalender/grid/element_top_block");
-    private final SpriteDrawable bottom = ERE.assets.createDrawable("kalender/grid/element_bottom_block");
-    private final SpriteDrawable topOver = ERE.assets.createDrawable("kalender/grid/element_top_block_over");
-    private final SpriteDrawable bottomOver = ERE.assets.createDrawable("kalender/grid/element_bottom_block_over");
-    private final SpriteDrawable topCheck = ERE.assets.createDrawable("kalender/grid/element_top_block_check");
-    private final SpriteDrawable bottomCheck = ERE.assets.createDrawable("kalender/grid/element_bottom_block_check");
-    public BlockierungElement(Blockierung blockierung, Actor parent) {
-        super(new ButtonStyle(null, null, null));
+    public BlockierungElement(Blockierung blockierung, int row, int column) {
+        super(new ButtonStyle());
 
         calendar.setTime(blockierung.start);
-        int minutes = calendar.get(Calendar.MINUTE)/15;
-        
-        img = new Image[blockierung.dauer];
-        
-        ImageButton.ImageButtonStyle topStyle = new ImageButton.ImageButtonStyle();
-        topStyle.up = top;
-        topStyle.over = topOver;
-        topStyle.checked = topCheck;
-        
-        ImageButton.ImageButtonStyle bottomStyle = new ImageButton.ImageButtonStyle();
-        bottomStyle.up = bottom;
-        bottomStyle.over = bottomOver;
-        bottomStyle.checked = bottomCheck;
-        
+        int minutes = calendar.get(Calendar.MINUTE) / 15;
+
+
+        image = new BlockDrawable();
+        image.setBackground(cUp);
+
         for (int i = 0; i < blockierung.dauer; i++) {
-            ImageButton img = new ImageButton((i % 4)== 4-minutes ? topStyle : bottomStyle);
-            super.add(img).grow();
-            super.row();
+            if (i % 4 == ((4 - minutes) % 4)) {
+                image.addDrawable(top);
+            } else {
+                image.addDrawable(bottom);
+            }
         }
-        
-        addListener(new ClickListener(){
+        super.add(new Image(image)).grow();
+
+        this.blockierung = blockierung;
+
+        this.row = row;
+        this.column = column;
+
+        super.setClip(true);
+
+        super.addListener(new ClickListener() {
             @Override
             public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                for (Actor actor : getChildren()) {
-                    ((Button) actor).getClickListener().enter(event, x, y, -1, actor);
-                }
+                image.setBackground(cOver);
             }
 
             @Override
             public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                for (Actor actor : getChildren()) {
-                    ((Button) actor).getClickListener().exit(event, x, y, -1, actor);
-                }
+                image.setBackground(cUp);
+            }
+
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                image.setBackground(cCheck);
             }
         });
     }
 
-    @Override
-    public void act(float delta) {
-        for (Actor actor : getChildren()) {
-            ((Button) actor).setChecked(isChecked());
+    /**
+     * Updates the Image with the appropriate Drawable from the style before it
+     * is drawn.
+     */
+    protected void updateImage() {
+        SpriteDrawable drawable = null;
+        if (isPressed()) {
+            drawable = cCheck;
+        } else if (isChecked()) {
+            drawable = cCheck;
+        } else if (isOver()) {
+            drawable = cOver;
+        } else{
+            drawable = cUp;
         }
+        this.image.setBackground(drawable);
     }
-    
+
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        updateImage();
+        super.draw(batch, parentAlpha); //To change body of generated methods, choose Tools | Templates.
+    }
+
     public int getColumn() {
         return column;
     }
@@ -106,12 +134,31 @@ public class BlockierungElement extends Button implements GridElement{
         this.span = span;
     }
 
-    public void setRow(int row){
+    public void setRow(int row) {
         this.row = row;
     }
-    
+
     @Override
     public int getRow() {
         return row;
+    }
+
+    public Blockierung getBlockierung() {
+        return blockierung;
+    }
+
+    private static class BlockDrawable extends CompositeDrawable {
+
+        private SpriteDrawable background;
+
+        public void setBackground(SpriteDrawable drawable) {
+            this.background = drawable;
+        }
+
+        @Override
+        public void draw(Batch batch, float x, float y, float width, float height) {
+            background.draw(batch, x, y, background.getSprite().getWidth() / 2, 0, background.getSprite().getWidth(), background.getSprite().getHeight(), 1, 1, 45);
+            super.draw(batch, x, y, width, height);
+        }
     }
 }

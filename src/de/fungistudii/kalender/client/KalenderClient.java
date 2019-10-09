@@ -10,7 +10,7 @@ import de.fungistudii.kalender.client.NetworkData.*;
 import de.fungistudii.kalender.client.database.Blockierung;
 import de.fungistudii.kalender.client.database.Service;
 import de.fungistudii.kalender.client.listeners.BlockListener;
-import de.fungistudii.kalender.client.listeners.StornoListener;
+import de.fungistudii.kalender.client.listeners.DatabaseListener;
 import de.fungistudii.kalender.client.listeners.TerminListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ public class KalenderClient extends Client{
     public void registerClasses(){
         Kryo k = getKryo();
 
+        k.register(ArrayList.class);
         k.register(DataRoot.class);
         k.register(Date.class);
         k.register(Kunde.class);
@@ -47,19 +48,19 @@ public class KalenderClient extends Client{
         k.register(Service.class);
         k.register(Termin.class);
         k.register(Blockierung.class);
-        k.register(ArrayList.class);
         k.register(LoginRequest.class);
         k.register(LoginResponse.class);
         k.register(TerminRequest.class);
         k.register(StornoRequest.class);
         k.register(BlockRequest.class);
+        k.register(RemoveBlockRequest.class);
     }
     
     public void registerListeners(){
         super.addListener(new DataListener());
         super.addListener(new LoginListener());
         super.addListener(new TerminListener());
-        super.addListener(new StornoListener());
         super.addListener(new BlockListener());
+        super.addListener(new DatabaseListener());
     }
 }

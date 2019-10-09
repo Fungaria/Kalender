@@ -37,7 +37,10 @@ public class NetworkData {
     }
 
     public static class StornoRequest {
-
+        public int id;
+    }
+    
+    public static class RemoveBlockRequest {
         public int id;
     }
 

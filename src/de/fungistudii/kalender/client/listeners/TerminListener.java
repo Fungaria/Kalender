@@ -20,32 +20,35 @@ public class TerminListener extends Listener {
     @Override
     public void received(Connection connection, Object object) {
         if (object instanceof Termin) {
-            Gdx.app.postRunnable(() -> {
-                writeTerminToDatabase((Termin) object);
-                addTerminToGUI();
-            });
+            addAppointment((Termin) object);
+            updateGUI();
+        } else if (object instanceof NetworkData.StornoRequest) {
+            deleteTermin(((NetworkData.StornoRequest) object).id);
+            updateGUI();
         }
     }
 
-    private void addTerminToGUI() {
-        ERE.mainScreen.kalender.updateCurrentTable();
+    private void updateGUI() {
+        Gdx.app.postRunnable(() -> {
+            ERE.mainScreen.kalender.updateCurrentTable();
+        });
     }
 
-    private void writeTerminToDatabase(Termin termin) {
-        ERE.data.root.termine.add(termin);
-        ERE.data.root.termine.sort(comparator);
+    private void deleteTermin(int id) {
+        ERE.data.root.appointments.removeIf((t) -> t.id == id);
         ERE.data.writeFile();
     }
 
-    private final Comparator<Termin> comparator = new Comparator<Termin>() {
-        @Override
-        public int compare(Termin o1, Termin o2) {
-            if (o1.start.before(o2.start)) {
+    private void addAppointment(Termin termin) {
+        ERE.data.root.appointments.add(termin);
+        ERE.data.root.appointments.sort((termin1, termin2) -> {
+            if (termin1.start.before(termin2.start)) {
                 return -1;
-            } else if (o1.start.after(o2.start)) {
+            } else if (termin1.start.after(termin2.start)) {
                 return 1;
             }
             return 0;
-        }
-    };
+        });
+        ERE.data.writeFile();
+    }
 }
