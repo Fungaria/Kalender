@@ -23,7 +23,7 @@ public class ContextMenuManager {
         
         ContextMenu<BackgroundElement> bg = new ContextMenu<>(BackgroundElement.class,
             new ContextMenu.ContextEntry<>("Termin hinzufügen", (a) -> ERE.mainScreen.kalender.addTermin()),
-            new ContextMenu.ContextEntry<>("Blockierung hinzufügen", (a) -> ERE.mainScreen.kalender.addBlockierung())
+            new ContextMenu.ContextEntry<>("Blockierung hinzufügen", (a) -> ERE.mainScreen.kalender.blockDialog.show())
         );
         
         ContextMenu<BlockierungElement> blockierung = new ContextMenu<>(BlockierungElement.class,

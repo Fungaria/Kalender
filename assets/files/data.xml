@@ -5,7 +5,6 @@
         <item kundenid="0" start="2019-10-11 10:15:00" dauer="60" service="0" friseur="0" erstellt="2019-10-11 19:19:20" urheber="0" id="2"/>
         <item kundenid="0" start="2019-10-13 11:00:00" dauer="240" service="0" friseur="2" erstellt="2019-10-13 15:48:49" urheber="0" id="3"/>
         <item kundenid="0" start="2019-10-13 12:00:00" dauer="180" service="0" friseur="4" erstellt="2019-10-13 15:50:58" urheber="0" id="4"/>
-        <item kundenid="0" start="2019-10-13 17:00:00" dauer="60" service="0" friseur="5" erstellt="2019-10-13 15:51:46" urheber="0" id="5"/>
         <item kundenid="0" start="2019-10-13 17:00:00" dauer="120" service="0" friseur="2" erstellt="2019-10-13 15:52:42" urheber="0" id="7"/>
         <item kundenid="0" start="2019-10-13 16:45:00" dauer="180" service="0" friseur="3" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
     </termine>
@@ -26,8 +25,8 @@
     <friseure>
         <item name="Meryem" id="0">
             <vacations>
-                <item start="2019-10-15 11:28:00" end="2019-10-31 11:28:00" id="0"/>
-                <item start="2019-10-01 11:28:00" end="2019-10-08 11:28:00" id="1"/>
+                <item start="2019-10-25 00:52:00" end="2019-10-29 00:52:00" id="0"/>
+                <item start="2019-10-02 01:34:00" end="2019-10-11 00:52:00" id="1"/>
             </vacations>
         </item>
         <item name="Nena" id="1">

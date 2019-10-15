@@ -22,6 +22,7 @@ import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import de.fungistudii.kalender.main.tabs.TabPage;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.AddBlockDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockierungElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
@@ -46,8 +47,9 @@ public class KalenderPage extends TabPage {
     public Calendar calendar = Calendar.getInstance();
     private Date currentDate = new Date();
 
-    public final AddAppointmentDialog addAppointment;
-    public final StornoDialog stornoDialog;
+    public final AddAppointmentDialog addAppointment = new AddAppointmentDialog();
+    public final StornoDialog stornoDialog = new StornoDialog();
+    public final AddBlockDialog blockDialog = new AddBlockDialog();
 
     public final DayTable dayTable;
     public final WeekTable weekTable;
@@ -60,9 +62,6 @@ public class KalenderPage extends TabPage {
     
     public KalenderPage() {
         contentTable = new Table();
-
-        addAppointment = new AddAppointmentDialog();
-        stornoDialog = new StornoDialog();
 
         sidePanel = new SidePanel((Date date, int direction) -> {
             if(weekView){
@@ -145,19 +144,6 @@ public class KalenderPage extends TabPage {
             addAppointment.timeHours.setSelectedIndex(e.getStart().getHours());
             addAppointment.timeMins.setSelectedIndex(e.getStart().getMinutes()/15);
         }
-    }
-
-    public void addBlockierung() {
-        GridElement selectedElement = (GridElement)ERE.mainScreen.kalender.getKalender().getSelectedElement();
-        int duration = ERE.mainScreen.kalender.getKalender().getSelectedDuration();
-
-        NetworkData.BlockRequest request = new NetworkData.BlockRequest();
-        request.duration = duration;
-        request.start = selectedElement.getStart();
-        request.friseur = ((GridElement) selectedElement).getFriseur();
-        request.msg = "";
-
-        ERE.client.sendTCP(request);
     }
 
     @Override

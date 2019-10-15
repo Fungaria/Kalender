@@ -8,9 +8,13 @@ package de.fungistudii.kalender.main.generic;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import static de.fungistudii.kalender.main.generic.DatePicker.defaultHoverBehavior;
@@ -35,8 +39,6 @@ public class DaysGrid extends Table {
 
     DayButton[] dayButtons = new DayButton[42];
 
-    private final HardStyle hardStyle = new HardStyle();
-    private final SoftStyle softStyle = new SoftStyle();
 
     private Array<DatePicker.DateSelectCallback> callbacks;
     private SelectBehavior selectBehavior = defaultSelectBehavior;
@@ -130,17 +132,35 @@ public class DaysGrid extends Table {
         updateButtons();
     }
 
-    public class DayButton extends TextButton {
+    public class DayButton extends Table {
 
         private Date day;
         public final int index;
         public final int dayofweek;
+        
+        private final Label label;
+        
+        private final Drawable def = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
+        private final Drawable hovered = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.grey2);
+        private Drawable drawable;
 
+        private boolean checked;
+        
+        private ClickListener clickListener;
+        
         public DayButton(int index, int dayofweek) {
-            super("", new HardStyle());
+            super();
+            
+            label = new Label("", hardStyle);
+            
+            setBackground(def);
+            add(label).grow();
+            setSize(getPrefWidth(), getPrefHeight());
+            setTouchable(Touchable.enabled);
+            
             this.index = index;
             this.dayofweek = dayofweek;
-            super.addListener(new ClickListener() {
+            super.addListener(clickListener = new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
                     if(DateUtil.compareDay(day, selectedDate)==0)
@@ -154,15 +174,39 @@ public class DaysGrid extends Table {
 
                 @Override
                 public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
+                    super.enter(event, x, y, pointer, fromActor);
                     hoverBehavior.select(dayButtons, day);
                 }
             });
         }
 
+        @Override
+        public void act(float delta) {
+            if(clickListener.isOver() && !checked)
+                setBackground(hovered);
+            else
+                setBackground(drawable);
+            super.act(delta);
+        }
+        
+        public void check(Drawable drawable){
+            this.drawable = drawable;
+            this.checked = true;
+        }
+        
+        public void uncheck(){
+            this.drawable = def;
+            this.checked = false;
+        }
+        
+        public void setStyle(Label.LabelStyle style){
+            label.setStyle(style);
+        }
+        
         public void setDate(Date day) {
             this.day = day;
             calendar.setTime(day);
-            setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
+            label.setText(calendar.get(Calendar.DAY_OF_MONTH) + "");
         }
 
         public Date getDay() {
@@ -175,27 +219,6 @@ public class DaysGrid extends Table {
         public void select(DayButton[] buttons, Date date);
     }
 
-    private static class HardStyle extends TextButton.TextButtonStyle {
-
-        public HardStyle() {
-            super.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
-            super.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.grey2);
-            super.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.mediumGreen);
-            super.checked = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.mediumGreen);
-            super.font = ERE.assets.fonts.createFont("robotoCondensed", 14);
-            super.fontColor = ERE.assets.grey5;
-        }
-    }
-
-    private static class SoftStyle extends TextButton.TextButtonStyle {
-
-        public SoftStyle() {
-            super.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
-            super.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.grey2);
-            super.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.mediumGreen);
-            super.checked = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.mediumGreen);
-            super.font = ERE.assets.fonts.createFont("robotoCondensed", 14);
-            super.fontColor = ERE.assets.grey4;
-        }
-    }
+    private final Label.LabelStyle hardStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
+    private final Label.LabelStyle softStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey4);
 }

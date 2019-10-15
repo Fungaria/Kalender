@@ -22,7 +22,7 @@ public class BlockierungElement extends BlockActor {
     private Blockierung blockierung;
 
     public BlockierungElement(Blockierung blockierung) {
-        super(blockierung.start, blockierung.duration, blockierung.friseur);
+        super(blockierung.start, blockierung.duration, blockierung.friseur, blockierung.msg);
         this.blockierung = blockierung;
 
     }

@@ -48,7 +48,7 @@ public class BlockActor extends GridElement {
     private final int duration;
     private final Date start;
     
-    public BlockActor(Date start, int duration, int friseur) {
+    public BlockActor(Date start, int duration, int friseur, String msg) {
         super(new ButtonStyle());
 
         this.start = start;
@@ -69,7 +69,7 @@ public class BlockActor extends GridElement {
             }
         }
         Image image = new Image(drawable);
-        Label label = new Label("Urlaub", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), Color.BLACK));
+        Label label = new Label(msg, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), Color.BLACK));
         label.setAlignment(Align.topLeft);
         Container container = new Container(label);
         container.padTop(10);

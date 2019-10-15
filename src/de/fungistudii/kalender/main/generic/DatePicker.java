@@ -6,6 +6,7 @@
 package de.fungistudii.kalender.main.generic;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -226,8 +227,10 @@ public class DatePicker extends Table {
         @Override
         public void select(DaysGrid.DayButton[] buttons, Date date) {
             for (DayButton button : buttons) {
-                button.getStyle().checked = drawable;
-                button.setChecked(DateUtil.compareDay(button.getDay(), date) == 0);
+                if(DateUtil.compareDay(button.getDay(), date) == 0)
+                    button.check(drawable);
+                else
+                    button.uncheck();
             }
         }
     };
@@ -239,25 +242,24 @@ public class DatePicker extends Table {
     };
 
     public static class WeekSelectBehavior implements SelectBehavior {
-
-        private final NinePatchSolid solid = new NinePatchSolid(ERE.assets.lightGreen);
+        private final NinePatchSolid solid = new NinePatchSolid(ERE.assets.lightGreen, 10);
         private final Drawable left = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 10, ERE.assets.mediumGreen);
         private final Drawable right = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 10, ERE.assets.mediumGreen);
+        private final Drawable def = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
 
         @Override
         public void select(DaysGrid.DayButton[] buttons, Date date) {
             for (DayButton button : buttons) {
                 if (DateUtil.compareWeek(date, button.getDay()) == 0) {
-                    button.setChecked(true);
                     if(DateUtil.getDayOfWeek(button.getDay()) == Calendar.MONDAY){
-                        button.getStyle().checked = left;
+                        button.check(left);
                     }else if(DateUtil.getDayOfWeek(button.getDay()) == Calendar.SUNDAY){
-                        button.getStyle().checked = right;
+                        button.check(right);
                     }else{
-                        button.getStyle().checked = solid;
+                        button.check(solid);
                     }
                 } else {
-                    button.setChecked(false);
+                    button.uncheck();
                 }
             }
         }

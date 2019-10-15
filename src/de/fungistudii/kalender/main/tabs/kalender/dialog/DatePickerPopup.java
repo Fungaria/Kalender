@@ -30,6 +30,7 @@ public class DatePickerPopup extends Table {
             hide();
             callback.dateSelected(date, dir);
         });
+        
         super.add(navigation).grow().pad(20).height(Value.percentWidth(1, this));
         
         ERE.mainScreen.stage.addCaptureListener(new InputListener() {

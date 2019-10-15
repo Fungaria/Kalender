@@ -4,26 +4,17 @@ import de.fungistudii.kalender.util.ScrollPaneFollower;
 import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Disposable;
-import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.value.ValueUtil;
@@ -66,10 +57,8 @@ public abstract class KalenderTable extends Table {
         this.navigator = navigator;
 
         old = createGrid(date);
-        nu = createGrid(date);
 
         container = new AnimationStack(old);
-        container.add(nu);
 
         pane = new ScrollPane(container);
         pane.setOverscroll(false, true);
@@ -166,8 +155,13 @@ public abstract class KalenderTable extends Table {
         n.invalidate();
     }
 
+    @Override
+    public void act(float delta) {
+        super.act(delta); //To change body of generated methods, choose Tools | Templates.
+    }
+    
     public void updateCurrentTable() {
-        container.removeActor(old);
+        old.remove();
         old = createGrid(currentDate);
         container.setMainActor(old);
     }
@@ -181,17 +175,22 @@ public abstract class KalenderTable extends Table {
             return;
         }
 
+        if(nu != null){
+            nu.skipIn();
+            old.skipOut();
+            old = nu;
+            nu = null;
+        }
+        
         nu = createGrid(date);
         nu.elementHeight.setValue(old.elementHeight.getValue());
         container.setMainActor(nu);
         nu.setVisible(false);
 
-        nu.clearActions();
-        old.clearActions();
-
+                
         Gdx.app.postRunnable(() -> {
-            nu.animateIn(direction, old.getWidth(), (c) -> old=c);
-            old.animateOut(direction);
+            nu.animateIn(direction>0, old.getWidth(), (c) -> {old=c;nu=null;});
+            old.animateOut(direction>0);
         });
     }
 

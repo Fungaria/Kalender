@@ -6,6 +6,7 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
@@ -139,6 +140,33 @@ public abstract class KalenderGrid extends Table implements Disposable {
         }
     }
 
+    public void animateIn(boolean direction, float width, Consumer<KalenderGrid> consumer) {
+        setVisible(true);
+        setPosition((direction?1:-1) * width, 0);
+        addAction(Actions.sequence(Actions.moveTo(0, 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.run(() -> {
+            consumer.accept(this);
+        })));
+    }
+
+    public void animateOut(boolean direction) {
+        setPosition(0, 0);
+        addAction(Actions.sequence(Actions.moveBy((direction?-1:1) * getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.hide(), Actions.run(() -> {
+            remove();
+            dispose();
+        })));
+    }
+    
+    public void skipOut(){
+        clearActions();
+        remove();
+        dispose();
+    }
+    
+    public void skipIn(){
+        clearActions();
+        setPosition(0, 0);
+    }
+    
     public class MitarbeiterColumn extends Table {
 
         public Array<GridElement> elements = new Array<>();
@@ -199,22 +227,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
             elements.clear();
         }
     }
-
-    public void animateIn(int direction, float width, Consumer<KalenderGrid> consumer) {
-        setVisible(true);
-        setPosition(direction * width, 0);
-        addAction(Actions.sequence(Actions.moveBy(-direction * width, 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.run(() -> {
-            consumer.accept(this);
-        })));
-    }
-
-    public void animateOut(int direction) {
-        setPosition(0, 0);
-        addAction(Actions.sequence(Actions.moveBy(-direction * getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.hide(), Actions.run(() -> {
-            remove();
-            dispose();
-        })));
-    }
+ 
 
     public class FillerColumn extends Table {
 

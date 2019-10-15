@@ -177,14 +177,11 @@ public class VacationElement extends Table {
                 int c2 = DateUtil.compareDay(button.getDay(), end);
 
                 if (c1 == 0 && (begin.before(end) || !isBegin)) {
-                    button.getStyle().checked = l;
-                    button.setChecked(true);
+                    button.check(l);
                 } else if (c2 == 0 && (begin.before(end) || isBegin)) {
-                    button.getStyle().checked = r;
-                    button.setChecked(true);
+                    button.check(r);
                 } else if (c1 > 0 && c2 < 0) {
-                    button.setChecked(true);
-                    button.getStyle().checked = c;
+                    button.check(c);
                 }
             }
         }
@@ -199,11 +196,10 @@ public class VacationElement extends Table {
 
         public void updateSelection(DaysGrid.DayButton[] buttons){
             for (DaysGrid.DayButton button : buttons) {
-                button.setChecked(false);
+                button.uncheck();
             }
 
             Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == 0)).findFirst().get();
-
             selectRange(buttons, beginDate, endDate, leftGreen, solidGreen, rightGreen);
             
             for (Vacation v : friseur.vacations.values()) {
