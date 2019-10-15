@@ -34,6 +34,7 @@ public class TabPane extends Table {
     private final TabButton produkte;
     private final TabButton mitarbeiter;
     private final TabButton kunden;
+    private final TabButton services;
     private final Image filler;
     
     public TabPane() {
@@ -45,12 +46,14 @@ public class TabPane extends Table {
         kunden = new TabButton("Kunden");
         mitarbeiter = new TabButton("Mitarbeiter");
         produkte = new TabButton("Produkte");
+        services = new TabButton("Services");
         filler = new Image(ERE.assets.createNinePatchDrawable("tabs/button_up", 3));
         
         tabs.add(kalender);
         tabs.add(kunden);
         tabs.add(mitarbeiter);
         tabs.add(produkte);
+        tabs.add(services);
         
         kalender.addListener(new ClickListener() {
             @Override
@@ -79,6 +82,13 @@ public class TabPane extends Table {
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 ERE.mainScreen.setTab(ERE.mainScreen.produkte);
+            }
+        });
+        services.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                ERE.mainScreen.setTab(ERE.mainScreen.service);
             }
         });
 

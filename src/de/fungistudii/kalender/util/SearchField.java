@@ -23,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
@@ -74,7 +75,7 @@ public class SearchField<T> extends TextField implements Disableable {
         this.listener = consumer;
     }
     
-    public void setItems(ArrayList<T> items){
+    public void setItems(Collection<T> items){
         this.itemsAll.clear();
         this.itemsAll.addAll(items);
     }
@@ -154,8 +155,8 @@ public class SearchField<T> extends TextField implements Disableable {
             hideListener = new InputListener() {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Actor target = event.getTarget();
-                    selectBox.listener.accept(list.getSelected());
                     if (isAscendantOf(target)) {
+                        selectBox.listener.accept(list.getSelected());
                         return false;
                     }
                     hide();

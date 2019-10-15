@@ -1,36 +1,41 @@
 package de.fungistudii.kalender.client.database;
 
-import java.util.ArrayList;
+import de.fungistudii.kalender.client.database.adapters.BlockAdapter;
+import de.fungistudii.kalender.client.database.adapters.ClientAdapter;
+import de.fungistudii.kalender.client.database.adapters.ServiceAdapter;
+import de.fungistudii.kalender.client.database.adapters.TerminAdapter;
+import de.fungistudii.kalender.client.database.adapters.WorkerAdapter;
+import java.util.HashMap;
 
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-@XmlRootElement(namespace = "de.saufgenossen.ehre")
+@XmlRootElement(namespace = "de.fungistudii.kalender")
 public class DataRoot {
 
-    @XmlElementWrapper(name = "termine")
-    @XmlElement(name = "termin")
-    public final ArrayList<Termin> appointments = new ArrayList<Termin>();
-    
-    @XmlElementWrapper(name = "blockierungen")
-    @XmlElement(name = "blockierung")
-    public final ArrayList<Blockierung> blockierungen = new ArrayList<Blockierung>();
+    @XmlElement(name = "termine")
+    @XmlJavaTypeAdapter(TerminAdapter.class)
+    public final HashMap<Integer, Termin> appointments = new HashMap<>();
 
-    @XmlElementWrapper(name = "kunden")
-    @XmlElement(name = "kunde")
-    public final ArrayList<Kunde> kunden = new ArrayList<Kunde>();
-    
-    @XmlElementWrapper(name = "friseure")
-    @XmlElement(name = "friseur")
-    public final ArrayList<Friseur> friseure = new ArrayList<Friseur>();
-    
-    @XmlElementWrapper(name = "services")
-    @XmlElement(name = "service")
-    public final ArrayList<Service> services = new ArrayList<Service>();
-    
+    @XmlElement(name = "blockierungen")
+    @XmlJavaTypeAdapter(BlockAdapter.class)
+    public final HashMap<Integer, Blockierung> blockierungen = new HashMap<>();
+
+    @XmlElement(name = "kunden")
+    @XmlJavaTypeAdapter(ClientAdapter.class)
+    public final HashMap<Integer, Kunde> kunden = new HashMap<>();
+
+    @XmlElement(name = "friseure")
+    @XmlJavaTypeAdapter(WorkerAdapter.class)
+    public final HashMap<Integer, Friseur> friseure = new HashMap<>();
+
+    @XmlElement(name = "services")
+    @XmlJavaTypeAdapter(ServiceAdapter.class)
+    public final HashMap<Integer, Service> services = new HashMap<>();
+
     @Override
     public String toString() {
-        return appointments.toString()+"\n"+kunden.toString();
+        return appointments.toString() + "\n" + kunden.toString();
     }
 }

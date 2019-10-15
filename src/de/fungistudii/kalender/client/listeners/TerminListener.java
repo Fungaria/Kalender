@@ -35,20 +35,12 @@ public class TerminListener extends Listener {
     }
 
     private void deleteTermin(int id) {
-        ERE.data.root.appointments.removeIf((t) -> t.id == id);
+        ERE.data.root.appointments.remove(id);
         ERE.data.writeFile();
     }
 
     private void addAppointment(Termin termin) {
-        ERE.data.root.appointments.add(termin);
-        ERE.data.root.appointments.sort((termin1, termin2) -> {
-            if (termin1.start.before(termin2.start)) {
-                return -1;
-            } else if (termin1.start.after(termin2.start)) {
-                return 1;
-            }
-            return 0;
-        });
+        ERE.data.root.appointments.put(termin.id, termin);
         ERE.data.writeFile();
     }
 }

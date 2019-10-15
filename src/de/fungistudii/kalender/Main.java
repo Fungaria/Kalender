@@ -11,8 +11,6 @@ import de.fungistudii.kalender.util.Assets;
 import de.fungistudii.kalender.client.KalenderClient;
 import de.fungistudii.kalender.main.MainScreen;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import de.fungistudii.kalender.account.ConnectScreen;
 import de.fungistudii.kalender.client.database.DataHandler;
 

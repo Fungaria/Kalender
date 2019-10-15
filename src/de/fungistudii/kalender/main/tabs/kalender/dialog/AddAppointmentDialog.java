@@ -20,17 +20,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
 import de.fungistudii.kalender.client.NetworkData.TerminRequest;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
-import de.fungistudii.kalender.main.generic.GenericTextField;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Popup;
-import de.fungistudii.kalender.util.SearchField;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -53,6 +49,8 @@ public class AddAppointmentDialog extends Popup{
     
     private ArrayList<LeistungTable> leistungen = new ArrayList<>();
     
+    private Calendar calendar = Calendar.getInstance();
+    
     public AddAppointmentDialog() {
         super();
         popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
@@ -63,10 +61,12 @@ public class AddAppointmentDialog extends Popup{
         row1 = new KundenRow();
         
         date = new DateButton();
-        timeHours = new GenericDropDown<>(null, "generic/rounded", "generic/rounded_check", new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
-        timeMins = new GenericDropDown<>(null, "generic/rounded", "generic/rounded_check", new String[]{"00", "15", "30", "45"});
+        NinePatchDrawable rounded = ERE.assets.createNinePatchDrawable("generic/rounded", 10);
+        NinePatchDrawable roundedCheck = ERE.assets.createNinePatchDrawable("generic/rounded_check", 10);
+        timeHours = new GenericDropDown<>(null, rounded, roundedCheck, new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
+        timeMins = new GenericDropDown<>(null, rounded, roundedCheck, new String[]{"00", "15", "30", "45"});
         
-        friseur = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
+        friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
         
         SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");
         
@@ -100,7 +100,7 @@ public class AddAppointmentDialog extends Popup{
         TextButton ok = new GenericTextButton("Bestätigen", new GenericTextButton.OutlineStyle());
         TextButton cancel = new TextButton("Abbrechen", new GenericTextButton.OutlineStyle());
         
-        urheber = new GenericDropDown<>(ERE.data.root.friseure.stream().toArray(Friseur[]::new));
+        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
         Table buttons = new Table();
         buttons.defaults().spaceLeft(Value.percentWidth(0.01f, this));
         buttons.add(urheber).width(Value.percentWidth(0.3f, contentTable)).left();
@@ -147,11 +147,13 @@ public class AddAppointmentDialog extends Popup{
         ok.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                date.calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeHours.getSelected()));
-                date.calendar.set(Calendar.MINUTE, Integer.parseInt(timeMins.getSelected()));
+                calendar.setTime(date.getDate());
+                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeHours.getSelected()));
+                calendar.set(Calendar.MINUTE, Integer.parseInt(timeMins.getSelected()));
+                calendar.set(Calendar.SECOND, 0);
                 TerminRequest request = new TerminRequest();
                 request.duration = parseMinutes(leistungen.get(0).duration.getSelected());
-                request.start = date.calendar.getTime();
+                request.start = calendar.getTime();
                 request.friseurId = friseur.getSelected().id;
                 request.kundenId = row1.getSelected().id;
                 request.serviceId = leistungen.get(0).leistung.getSelected().id;

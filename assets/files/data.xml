@@ -1,162 +1,59 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<ns2:dataRoot xmlns:ns2="de.saufgenossen.ehre">
+<ns2:dataRoot xmlns:ns2="de.fungistudii.kalender">
     <termine>
-        <termin>
-            <id>1</id>
-            <kundenid>0</kundenid>
-            <start>2019-09-12 08:00:15</start>
-            <dauer>60</dauer>
-            <service>0</service>
-            <friseur>0</friseur>
-            <erstellt>2019-09-28 18:21:25</erstellt>
-            <urheber>0</urheber>
-        </termin>
-        <termin>
-            <id>2</id>
-            <kundenid>0</kundenid>
-            <start>2019-10-08 10:30:08</start>
-            <dauer>180</dauer>
-            <service>0</service>
-            <friseur>2</friseur>
-            <erstellt>2019-10-08 12:57:48</erstellt>
-            <urheber>0</urheber>
-        </termin>
-        <termin>
-            <id>3</id>
-            <kundenid>0</kundenid>
-            <start>2019-10-11 11:00:08</start>
-            <dauer>120</dauer>
-            <service>0</service>
-            <friseur>2</friseur>
-            <erstellt>2019-10-08 12:58:39</erstellt>
-            <urheber>0</urheber>
-        </termin>
-        <termin>
-            <id>4</id>
-            <kundenid>0</kundenid>
-            <start>2019-10-09 09:00:09</start>
-            <dauer>60</dauer>
-            <service>0</service>
-            <friseur>2</friseur>
-            <erstellt>2019-10-08 22:09:22</erstellt>
-            <urheber>0</urheber>
-        </termin>
-        <termin>
-            <id>5</id>
-            <kundenid>0</kundenid>
-            <start>2019-10-10 10:00:09</start>
-            <dauer>60</dauer>
-            <service>0</service>
-            <friseur>2</friseur>
-            <erstellt>2019-10-08 22:09:27</erstellt>
-            <urheber>0</urheber>
-        </termin>
+        <item kundenid="0" start="2019-09-12 10:30:00" dauer="60" service="0" friseur="0" erstellt="2019-09-28 18:30:00" urheber="0" id="1"/>
+        <item kundenid="0" start="2019-10-11 10:15:00" dauer="60" service="0" friseur="0" erstellt="2019-10-11 19:19:20" urheber="0" id="2"/>
+        <item kundenid="0" start="2019-10-13 11:00:00" dauer="240" service="0" friseur="2" erstellt="2019-10-13 15:48:49" urheber="0" id="3"/>
+        <item kundenid="0" start="2019-10-13 12:00:00" dauer="180" service="0" friseur="4" erstellt="2019-10-13 15:50:58" urheber="0" id="4"/>
+        <item kundenid="0" start="2019-10-13 17:00:00" dauer="60" service="0" friseur="5" erstellt="2019-10-13 15:51:46" urheber="0" id="5"/>
+        <item kundenid="0" start="2019-10-13 11:15:00" dauer="180" service="0" friseur="1" erstellt="2019-10-13 15:52:01" urheber="0" id="6"/>
+        <item kundenid="0" start="2019-10-13 17:00:00" dauer="120" service="0" friseur="2" erstellt="2019-10-13 15:52:42" urheber="0" id="7"/>
+        <item kundenid="0" start="2019-10-13 16:45:00" dauer="180" service="0" friseur="3" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
     </termine>
     <blockierungen>
-        <blockierung>
-            <id>3</id>
-            <start>2019-10-02 09:00:00</start>
-            <dauer>3</dauer>
-            <friseur>5</friseur>
-            <msg></msg>
-        </blockierung>
-        <blockierung>
-            <id>5</id>
-            <start>2019-10-02 10:00:00</start>
-            <dauer>7</dauer>
-            <friseur>2</friseur>
-            <msg></msg>
-        </blockierung>
-        <blockierung>
-            <id>6</id>
-            <start>2019-10-03 10:15:00</start>
-            <dauer>9</dauer>
-            <friseur>3</friseur>
-            <msg></msg>
-        </blockierung>
-        <blockierung>
-            <id>10</id>
-            <start>2019-10-03 09:30:00</start>
-            <dauer>4</dauer>
-            <friseur>4</friseur>
-            <msg></msg>
-        </blockierung>
-        <blockierung>
-            <id>14</id>
-            <start>2019-10-11 14:00:00</start>
-            <dauer>4</dauer>
-            <friseur>2</friseur>
-            <msg></msg>
-        </blockierung>
+        <item start="2019-10-12 08:45:00" duration="13" friseur="4" msg="" id="1"/>
+        <item start="2019-10-10 08:00:00" duration="20" friseur="3" msg="" id="2"/>
+        <item start="2019-10-10 08:00:00" duration="46" friseur="4" msg="" id="3"/>
+        <item start="2019-10-13 10:00:00" duration="23" friseur="3" msg="" id="4"/>
+        <item start="2019-10-13 09:00:00" duration="6" friseur="1" msg="" id="5"/>
+        <item start="2019-10-13 09:45:00" duration="3" friseur="2" msg="" id="6"/>
+        <item start="2019-10-13 15:00:00" duration="16" friseur="4" msg="" id="7"/>
+        <item start="2019-10-13 20:00:00" duration="14" friseur="2" msg="" id="8"/>
+        <item start="2019-10-13 08:00:00" duration="56" friseur="0" msg="" id="9"/>
     </blockierungen>
     <kunden>
-        <kunde>
-            <name>Reiser</name>
-            <vorname>Peter</vorname>
-            <id>0</id>
-        </kunde>
-        <kunde>
-            <name>Hülß</name>
-            <vorname>Luis</vorname>
-            <id>0</id>
-        </kunde>
-        <kunde>
-            <name>Reiser</name>
-            <vorname>Samuel</vorname>
-            <id>0</id>
-        </kunde>
-        <kunde>
-            <name>Kuschfeld</name>
-            <vorname>Paul</vorname>
-            <id>0</id>
-        </kunde>
+        <item name="Reiser" vorname="Samuel" phone="45678" id="0"/>
     </kunden>
     <friseure>
-        <friseur>
-            <id>0</id>
-            <name>Meryem</name>
-        </friseur>
-        <friseur>
-            <id>1</id>
-            <name>Nena</name>
-        </friseur>
-        <friseur>
-            <id>2</id>
-            <name>Nicole</name>
-        </friseur>
-        <friseur>
-            <id>3</id>
-            <name>Barbara</name>
-        </friseur>
-        <friseur>
-            <id>4</id>
-            <name>Nardos</name>
-        </friseur>
-        <friseur>
-            <id>5</id>
-            <name>Linh</name>
-        </friseur>
-        <friseur>
-            <id>6</id>
-            <name>Nida</name>
-        </friseur>
+        <item name="Meryem" id="0">
+            <vacations>
+                <item start="2019-10-15 11:28:00" end="2019-10-31 11:28:00" id="0"/>
+                <item start="2019-10-01 11:28:00" end="2019-10-08 11:28:00" id="1"/>
+            </vacations>
+        </item>
+        <item name="Nena" id="1">
+            <vacations/>
+        </item>
+        <item name="Barbara" id="2">
+            <vacations/>
+        </item>
+        <item name="Linh" id="3">
+            <vacations/>
+        </item>
+        <item name="Nida" id="4">
+            <vacations/>
+        </item>
+        <item name="Linh" id="5">
+            <vacations/>
+        </item>
+        <item name="Nardos" id="6">
+            <vacations/>
+        </item>
     </friseure>
     <services>
-        <service>
-            <id>0</id>
-            <name>Schnitt und Styling (Damen)</name>
-        </service>
-        <service>
-            <id>1</id>
-            <name>Schnitt und Styling (Herren)</name>
-        </service>
-        <service>
-            <id>2</id>
-            <name>Ansatzfarbe</name>
-        </service>
-        <service>
-            <id>2</id>
-            <name>Handmassage</name>
-        </service>
+        <item name="Schnitt und Styling (Damen)" id="0"/>
+        <item name="Schnitt und Styling (Herren)" id="1"/>
+        <item name="Ansatzfarbe" id="2"/>
+        <item name="Handmassage" id="3"/>
     </services>
 </ns2:dataRoot>

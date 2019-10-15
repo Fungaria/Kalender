@@ -5,9 +5,8 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.dialog;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -15,7 +14,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import static de.fungistudii.kalender.util.Fonts.LIGHT;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  *
@@ -25,13 +25,16 @@ public class DateButton extends TextButton {
 
     public final DatePickerPopup navigator;
 
-    public final Calendar calendar = Calendar.getInstance();
-
     private InputListener hideListener;
+    private final Vector2 screenPosition = new Vector2();
+    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
 
     public DateButton() {
         super("", new DateButtonStyle());
-        navigator = new DatePickerPopup(this);
+        navigator = new DatePickerPopup((date, dir) ->{
+            setChecked(false);
+            getLabel().setText(dateFormat.format(date));
+        });
         super.getLabelCell().left();
         super.getLabel().setAlignment(Align.left);
         super.addListener(new ClickListener() {
@@ -41,33 +44,15 @@ public class DateButton extends TextButton {
                 if (navigator.isOpen()) {
                     navigator.hide();
                 } else {
-                    navigator.show();
+                    localToStageCoordinates(screenPosition.set(0, 0));
+                    navigator.show(screenPosition.x, screenPosition.y, getWidth());
                 }
             }
         });
-
-        ERE.mainScreen.stage.addCaptureListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Actor target = event.getTarget();
-                if (isAscendantOf(target)) {
-                    return false;
-                }
-                setChecked(false);
-                navigator.hide();
-                return false;
-            }
-
-            public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.ESCAPE:
-                        setChecked(false);
-                        navigator.hide();
-                        event.stop();
-                        return true;
-                }
-                return false;
-            }
-        });
+    }
+    
+    public Date getDate(){
+        return navigator.navigation.getDate();
     }
 
     private static class DateButtonStyle extends TextButtonStyle {

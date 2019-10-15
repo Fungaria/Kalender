@@ -1,10 +1,9 @@
 package de.fungistudii.kalender.client.database;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.xml.bind.JAXBContext;
@@ -48,5 +47,13 @@ public class DataHandler {
     public void setData(DataRoot dataRoot) {
         this.root = dataRoot;
         writeFile();
+    }
+
+    public static int nextId(HashMap<Integer, ? extends Object> map) {
+        int maxId = 0;
+        for (int i : map.keySet()) {
+            maxId = Math.max(i, maxId);
+        }
+        return maxId + 1;
     }
 }

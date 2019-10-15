@@ -15,23 +15,27 @@ public class MitarbeiterPage extends TabPage{
     
     private Table contentTable;
     
+    private VacationTable vacations;
+    
     public MitarbeiterPage() {
         contentTable = new Table();
-
         contentTable.defaults().space(10);
         contentTable.setBackground(new DrawableSolid(Color.WHITE));
 
-        contentTable.add(new Vacation()).width(300).top();
+        vacations =new VacationTable();
+        
+        contentTable.add(vacations).top().width(Value.percentWidth(0.3f, contentTable));
         contentTable.add(new Image()).grow().uniform();
-        contentTable.add(new Services()).width(300);
+        contentTable.add(new Services());
         contentTable.add(new Image()).grow().uniform();
-        contentTable.add(new WorkTimes()).width(300);
+        contentTable.add(new WorkTimes());
         
         add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.02f, this));
     }
     
     @Override
     public void show(){
+        vacations.reload();
     }
 
     @Override

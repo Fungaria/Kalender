@@ -18,11 +18,17 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 public class NinePatchSolid extends NinePatchDrawable{
 
     public NinePatchSolid(Color color) {
-        super(new NinePatch(createTexture(color), 2, 2, 2, 2));
+        super(new NinePatch(createTexture(color, 5), 1, 1, 1, 1));
+        super.setMinSize(0, 0);
     }
     
-    private static final Texture createTexture(Color color){
-        Pixmap bgPixmap = new Pixmap(100,100, Pixmap.Format.RGB565);
+    public NinePatchSolid(Color color, int pad) {
+        super(new NinePatch(createTexture(color, pad*3), pad, pad, pad, pad));
+        super.setMinSize(0, 0);
+    }
+    
+    private static final Texture createTexture(Color color, int size){
+        Pixmap bgPixmap = new Pixmap(size,size, Pixmap.Format.RGB565);
         bgPixmap.setColor(color);
         bgPixmap.fill();
         return new Texture(bgPixmap);

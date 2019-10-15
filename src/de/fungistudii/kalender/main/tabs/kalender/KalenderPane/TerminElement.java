@@ -1,8 +1,8 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.Align;
@@ -12,8 +12,10 @@ import de.fungistudii.kalender.client.database.Service;
 import de.fungistudii.kalender.client.database.Termin;
 import static de.fungistudii.kalender.util.Fonts.LIGHT;
 import de.fungistudii.kalender.util.NinePatchSolid;
+import de.fungistudii.kalender.util.value.ValueUtil;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 /**
  *
@@ -25,6 +27,9 @@ public class TerminElement extends GridElement{
     private Label leistungLabel;
     private Label timeLabel;
 
+    private Cell leistCell;
+    private Cell timeCell;
+    
     private Termin termin;
 
     private static final float[][] colors = new float[][]{{237, 0.09f, 1}, {208, 0.12f, 1}, {300, 0.08f, 1}};
@@ -32,15 +37,9 @@ public class TerminElement extends GridElement{
 
     private static final Calendar calendar = Calendar.getInstance();
 
-    private int row;
-    private int column;
-    private int span;
-    
-    public TerminElement(Termin termin, int row, int column) {
+    public TerminElement(Termin termin) {
         super(createButtonStyle(termin.id));
         this.termin = termin;
-        this.row = row;
-        this.column = column;
 
         Kunde kunde = ERE.data.root.kunden.get(termin.kundenid);
         Service service = ERE.data.root.services.get(termin.service);
@@ -58,16 +57,36 @@ public class TerminElement extends GridElement{
 
         super.align(Align.topLeft);
         super.defaults().space(Value.percentWidth(0.02f, this));
-        super.padTop(15);
+        super.padTop(ValueUtil.percentMinHeight(0.06f, this, 20));
         super.padLeft(15);
+        
+        nameLabel.setTouchable(Touchable.disabled);
+        leistungLabel.setTouchable(Touchable.disabled);
+        timeLabel.setTouchable(Touchable.disabled);
 
         super.add(nameLabel).fillY().top().left();
         super.row();
-        super.add(leistungLabel).fillY().left();
+        leistCell = super.add(leistungLabel).fillY().left();
         super.row();
-        super.add(timeLabel).expand().bottom().right().padRight(10).padBottom(10);
-//        
+        timeCell = super.add(timeLabel).expand().bottom().right().padRight(10).padBottom(10);
+        
         super.setClip(true);
+    }
+
+    @Override
+    public void layout() {
+        super.layout();
+        if(getHeight() < 80 && leistCell.getActor()!=null){
+            leistungLabel.remove();
+        }else if(getHeight() < 40 && timeCell.getActor()!=null){
+            timeLabel.remove();
+        }else if(getHeight() > 80){
+            if(leistCell.getActor() == null)
+                leistCell.setActor(leistungLabel);
+            if(timeCell.getActor() == null)
+                timeCell.setActor(timeLabel);
+        }
+        super.layout();
     }
     
     private static ButtonStyle createButtonStyle(int id) {
@@ -87,29 +106,19 @@ public class TerminElement extends GridElement{
     public Termin getTermin(){
         return termin;
     }
-    
-    public int getColumn() {
-        return column;
-    }
 
-    public void setColumn(int column) {
-        this.column = column;
-    }
-
-    public int getSpan() {
-        return span;
-    }
-
-    public void setSpan(int span) {
-        this.span = span;
-    }
-
-    public void setRow(int row){
-        this.row = row;
-    }
-    
     @Override
-    public int getRow() {
-        return row;
+    public Date getStart() {
+        return termin.start;
+    }
+
+    @Override
+    public int getFriseur() {
+        return termin.friseur;
+    }
+
+    @Override
+    public int getSpan() {
+        return termin.dauer;
     }
 }

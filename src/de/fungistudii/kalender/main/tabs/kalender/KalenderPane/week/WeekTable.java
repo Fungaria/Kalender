@@ -24,6 +24,7 @@ public class WeekTable extends KalenderTable{
     
     public void setFriseur(int workerId){
         this.workerId = workerId;
+        ((WeekNavigator)super.navigator).setWorker(workerId);
     }
 
     @Override

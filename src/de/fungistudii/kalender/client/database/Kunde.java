@@ -5,6 +5,8 @@
  */
 package de.fungistudii.kalender.client.database;
 
+import de.fungistudii.kalender.client.database.adapters.MapElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -12,14 +14,16 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author sreis
  */
 @XmlRootElement(name = "kunde")
-public class Kunde {
+public class Kunde extends MapElement{
+    @XmlAttribute
     public String name;
+    @XmlAttribute
     public String vorname;
-    public int id;
+    @XmlAttribute
     public String phone;
 
     @Override
     public String toString() {
-        return vorname+" "+name;
+        return vorname + " " + name;
     }
 }

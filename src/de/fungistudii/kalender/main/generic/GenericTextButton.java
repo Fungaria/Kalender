@@ -29,9 +29,9 @@ public class GenericTextButton extends TextButton{
     
     public static class FilledStyle extends TextButtonStyle{
         public FilledStyle() {
-            super.up = ERE.assets.createNinePatchDrawable("generic/menu_button_up", 13);
-            super.down = ERE.assets.createNinePatchDrawable("generic/menu_button_over", 13);
-            super.over = ERE.assets.createNinePatchDrawable("generic/menu_button_over", 13);
+            super.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.mediumGreen);
+            super.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.darkGreen);
+            super.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.darkGreen);
             super.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.MEDIUM);
             super.fontColor = Color.WHITE;
         }

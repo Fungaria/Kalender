@@ -22,7 +22,7 @@ public class NameSearchField extends SearchField<Kunde>{
     public NameSearchField() {
         super(new test(), (String s, Kunde k) -> (k.name.startsWith(s) || (k.vorname+" "+k.name).startsWith(s)));
         super.setMessageText("Enter name");
-        super.setItems(ERE.data.root.kunden);
+        super.setItems(ERE.data.root.kunden.values());
     }
     
     private static final class test extends SFStyle {

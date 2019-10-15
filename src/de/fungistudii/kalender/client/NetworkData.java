@@ -50,4 +50,15 @@ public class NetworkData {
         public int friseur;
         public String msg;
     }
+    
+    public static class VacationRequest {
+        public int workerId;
+        public Date start;
+        public Date end;
+        public int id;
+    }
+    public static class RemoveVacationRequest {
+        public int workerId;
+        public int id;
+    }
 }

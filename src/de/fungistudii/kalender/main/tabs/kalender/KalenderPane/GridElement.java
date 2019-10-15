@@ -3,6 +3,7 @@ package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import java.util.Date;
 
 /**
  *
@@ -24,7 +25,7 @@ public abstract class GridElement extends Button{
         });
     }
 
-    public abstract int getRow();
-    public abstract int getColumn();
+    public abstract Date getStart();
+    public abstract int getFriseur();
     public abstract int getSpan();
 }

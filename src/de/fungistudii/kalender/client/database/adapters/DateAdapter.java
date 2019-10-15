@@ -1,4 +1,4 @@
-package de.fungistudii.kalender.client.database;
+package de.fungistudii.kalender.client.database.adapters;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

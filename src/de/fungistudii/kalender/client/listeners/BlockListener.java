@@ -31,20 +31,12 @@ public class BlockListener extends Listener{
     }
     
     public void addBlock(Blockierung block){
-        ERE.data.root.blockierungen.add(block);
-        ERE.data.root.blockierungen.sort((block1, block2) -> {
-            if (block1.start.before(block2.start)) {
-                return -1;
-            } else if (block1.start.after(block2.start)) {
-                return 1;
-            }
-            return 0;
-        });
+        ERE.data.root.blockierungen.put(block.id, block);
         ERE.data.writeFile();
     }
     
     public void removeBlock(int id){
-        ERE.data.root.blockierungen.removeIf((t) -> t.id == id);
+        ERE.data.root.blockierungen.remove(id);
         ERE.data.writeFile();
     }
 }

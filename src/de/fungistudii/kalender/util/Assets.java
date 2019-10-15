@@ -4,16 +4,13 @@ package de.fungistudii.kalender.util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import java.util.HashMap;
 
 /**
  *
@@ -28,10 +25,16 @@ public class Assets {
     public final Color grey5 = new Color(53f/255f, 53f/255f, 53f/255f, 1);
     
     public final Color darkRed = new Color(204/255f, 43/255f, 43/255f, 1);
+    public final Color lightRed = new Color(238/255f, 31/255f, 32/255f, 1);
+    
+    public final Color lightGreen = new Color(218/255f, 241/255f, 184/255f, 1);
+    public final Color mediumGreen = new Color(115/255f, 215/255f, 0/255f, 1);
+    public final Color darkGreen = new Color(104/255f, 193/255f, 0/255f, 1);
 
     public final Fonts fonts;
     
     private final TextureAtlas atlas;
+    
     
     public Assets() {
         fonts = new Fonts();
@@ -68,6 +71,17 @@ public class Assets {
     
     public NinePatchDrawable createNinePatchDrawable(String name, int pad){
         return createNinePatchDrawable(name, pad, pad, pad, pad);
+    }
+    
+    public SpriteDrawable createDrawable(String name, Color color) {
+        TextureRegion region = atlas.findRegion(name);
+        
+        if(region == null)
+            throw new RuntimeException("Texture " + name +" not found!");
+        
+        Sprite sprite = new Sprite(region);
+        sprite.setColor(color);
+        return new SpriteDrawable(sprite);
     }
     
     public SpriteDrawable createDrawable(String name) {

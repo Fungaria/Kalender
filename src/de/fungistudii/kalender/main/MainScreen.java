@@ -15,6 +15,7 @@ import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
 import de.fungistudii.kalender.main.tabs.kunden.KundenPage;
 import de.fungistudii.kalender.main.tabs.mitarbeiter.MitarbeiterPage;
 import de.fungistudii.kalender.main.tabs.produkte.ProduktePage;
+import de.fungistudii.kalender.main.tabs.servies.ServicePage;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -35,6 +36,7 @@ public class MainScreen extends ScreenAdapter {
     public MitarbeiterPage mitarbeiter;
     public KundenPage kunden;
     public ProduktePage produkte;
+    public ServicePage service;
     
     private boolean printfps = false;
 
@@ -67,6 +69,7 @@ public class MainScreen extends ScreenAdapter {
         kalender = new KalenderPage();
         mitarbeiter = new MitarbeiterPage();
         produkte = new ProduktePage();
+        service = new ServicePage();
         kunden = new KundenPage();
 
         root.row();

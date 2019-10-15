@@ -13,7 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
-import de.fungistudii.kalender.main.tabs.kalender.DatePicker;
+import de.fungistudii.kalender.main.generic.DatePicker;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.util.DrawableSolid;

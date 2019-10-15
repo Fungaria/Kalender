@@ -6,6 +6,7 @@ package de.fungistudii.kalender;
  */
 public class Cons {
     public static final float calendarTransitionTime = 0.3f;
+    public static final float datePickerTransitionTime = 0.3f;
     
     public static final float sideBarPercentWidth = 0.15f;
     public static final float tabPanePercentHeight = 0.15f;

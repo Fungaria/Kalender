@@ -9,12 +9,12 @@ import de.fungistudii.kalender.client.database.Termin;
 import de.fungistudii.kalender.client.NetworkData.*;
 import de.fungistudii.kalender.client.database.Blockierung;
 import de.fungistudii.kalender.client.database.Service;
-import de.fungistudii.kalender.client.listeners.BlockListener;
-import de.fungistudii.kalender.client.listeners.DatabaseListener;
-import de.fungistudii.kalender.client.listeners.TerminListener;
+import de.fungistudii.kalender.client.database.Vacation;
+import de.fungistudii.kalender.client.listeners.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 /**
  *
@@ -41,10 +41,13 @@ public class KalenderClient extends Client{
         Kryo k = getKryo();
 
         k.register(ArrayList.class);
+        k.register(HashMap.class);
+        k.register(HashMap.Entry.class);
         k.register(DataRoot.class);
         k.register(Date.class);
         k.register(Kunde.class);
         k.register(Friseur.class);
+        k.register(Vacation.class);
         k.register(Service.class);
         k.register(Termin.class);
         k.register(Blockierung.class);
@@ -53,6 +56,8 @@ public class KalenderClient extends Client{
         k.register(TerminRequest.class);
         k.register(StornoRequest.class);
         k.register(BlockRequest.class);
+        k.register(VacationRequest.class);
+        k.register(RemoveVacationRequest.class);
         k.register(RemoveBlockRequest.class);
     }
     
@@ -62,5 +67,6 @@ public class KalenderClient extends Client{
         super.addListener(new TerminListener());
         super.addListener(new BlockListener());
         super.addListener(new DatabaseListener());
+        super.addListener(new VacationListener());
     }
 }

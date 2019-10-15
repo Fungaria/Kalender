@@ -4,24 +4,30 @@
  * and open the template in the editor.
  */
 package de.fungistudii.kalender.client.database;
+import de.fungistudii.kalender.client.database.adapters.DateAdapter;
+import de.fungistudii.kalender.client.database.adapters.MapElement;
 import java.util.Date;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "termin")
-public class Termin {
-    public int id;
+public class Termin extends MapElement{
+    @XmlAttribute
     public int kundenid;
-    @XmlElement(name = "start", required = true) 
+    @XmlAttribute
     @XmlJavaTypeAdapter(DateAdapter.class)
     public Date start;
+    @XmlAttribute
     public int dauer;
+    @XmlAttribute
     public int service;
+    @XmlAttribute
     public int friseur;
-    @XmlElement(name = "erstellt", required = true) 
+    @XmlAttribute
     @XmlJavaTypeAdapter(DateAdapter.class)
     public Date erstellt;
+    @XmlAttribute
     public int urheber;
 
     @Override

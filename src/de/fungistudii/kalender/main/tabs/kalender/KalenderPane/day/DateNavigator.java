@@ -4,12 +4,14 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
+import de.fungistudii.kalender.util.NinePatchSolid;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,36 +24,45 @@ public class DateNavigator extends KalenderTable.Navigator{
     
     private ImageButton next;
     private ImageButton previous;
-    private Label dateLabel;
+    private TextButton dateLabel;
     
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
     
     
     public DateNavigator() {
         super();
-        super.setBackground(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 7, ERE.assets.grey1));
         
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
-        nextStyle.up = ERE.assets.createDrawable("kalender/navigation/arrow_up");
-        
+        nextStyle.imageUp = ERE.assets.createDrawable("kalender/navigation/arrow_up");
+        nextStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey1);
+        nextStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey2);
+        nextStyle.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey2);
+
         ImageButton.ImageButtonStyle prevStyle = new ImageButton.ImageButtonStyle();
         SpriteDrawable d = ERE.assets.createDrawable("kalender/navigation/arrow_up");
         d.getSprite().flip(true, false);
-        prevStyle.up = d;
+        prevStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey1);
+        prevStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey2);
+        prevStyle.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey2);
+        prevStyle.imageUp = d;
         
-        Label.LabelStyle labelStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 14), Color.BLACK);
+        TextButton.TextButtonStyle labelStyle = new TextButton.TextButtonStyle();
+        labelStyle.up = new NinePatchSolid(ERE.assets.grey1);
+        labelStyle.over = new NinePatchSolid(ERE.assets.grey2);
+        labelStyle.down = new NinePatchSolid(ERE.assets.grey2);
+        labelStyle.font = ERE.assets.fonts.createFont("roboto", 14);
+        labelStyle.fontColor = Color.BLACK;
+        
         
         next = new ImageButton(nextStyle);
         previous = new ImageButton(prevStyle);
-        dateLabel = new Label("", labelStyle);
+        dateLabel = new TextButton("", labelStyle);
         
-        super.defaults().space(10);
+        super.add(previous).minSize(0).maxWidth(Value.percentHeight(1, this));
+        super.add(dateLabel).grow().minHeight(0);
+        super.add(next).minSize(0).maxWidth(Value.percentHeight(1, this));
         
-        super.add(previous).size(Value.percentHeight(0.4f, this));
-        super.add(dateLabel).grow();
-        super.add(next).size(Value.percentHeight(0.4f, this));
-        
-        dateLabel.setAlignment(Align.center);
+        dateLabel.getLabel().setAlignment(Align.center);
         
         next.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {

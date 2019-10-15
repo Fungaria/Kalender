@@ -23,8 +23,13 @@ public class LeistungTable extends Container{
     public LeistungTable() {
         Table table = new Table();
         
-        leistung = new GenericDropDown<>("kalender/dialog/leistung", "kalender/dialog/leistung_open", ERE.data.root.services.stream().toArray(Service[]::new));
-        duration = new GenericDropDown<>("kalender/dialog/duration", "kalender/dialog/duration_open", new String[]{"1:00", "2:00", "3:00", "4:00"});
+        NinePatchDrawable leistungBg= ERE.assets.createNinePatchDrawable("kalender/dialog/leistung", 10);
+        NinePatchDrawable leistungOpenBg = ERE.assets.createNinePatchDrawable("kalender/dialog/leistung_open", 10);
+        NinePatchDrawable durationBg= ERE.assets.createNinePatchDrawable("kalender/dialog/duration", 10);
+        NinePatchDrawable durationOpenBg = ERE.assets.createNinePatchDrawable("kalender/dialog/duration_open", 10);
+        
+        leistung = new GenericDropDown<>(leistungBg, leistungOpenBg, ERE.data.root.services.values().stream().toArray(Service[]::new));
+        duration = new GenericDropDown<>(leistungBg, leistungOpenBg, new String[]{"1:00", "2:00", "3:00", "4:00"});
 
         NinePatchDrawable thrashBg = ERE.assets.createNinePatchDrawable("kalender/dialog/thrash_bg", 10);
         SpriteDrawable thrashIcon = ERE.assets.createDrawable("generic/thrash");

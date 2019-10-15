@@ -1,7 +1,7 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import static de.fungistudii.kalender.Main.ERE;
+import java.util.Date;
 
 /**
  *
@@ -9,23 +9,23 @@ import static de.fungistudii.kalender.Main.ERE;
  */
 public class BackgroundElement extends GridElement {
 
-    public final int row;
-    public final int column;
+    public final Date date;
+    public final int friseur;
     
-    public BackgroundElement(int row, int col, boolean top) {
+    public BackgroundElement(Date date, int friseur, boolean top) {
         super(top ? new TopStyle() : new BottomStyle());
-        this.row = row;
-        this.column = col;
+        this.date = date;
+        this.friseur = friseur;
     }
 
     @Override
-    public int getRow() {
-        return row;
+    public Date getStart() {
+        return date;
     }
 
     @Override
-    public int getColumn() {
-        return column;
+    public int getFriseur() {
+        return friseur;
     }
 
     @Override
@@ -36,20 +36,20 @@ public class BackgroundElement extends GridElement {
     private static final class TopStyle extends ButtonStyle {
 
         public TopStyle() {
-            super.up = ERE.assets.createDrawable("kalender/grid/element_top");
-            super.down = ERE.assets.createDrawable("kalender/grid/element_top_check");
-            super.over = ERE.assets.createDrawable("kalender/grid/element_top_hover");
-            super.checked = ERE.assets.createDrawable("kalender/grid/element_top_check");
+            super.up = ERE.assets.createNinePatchDrawable("kalender/grid/element_top", 2);
+            super.down = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_check", 2);
+            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_hover", 2);
+            super.checked = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_check", 2);
         }
     }
 
     private static final class BottomStyle extends ButtonStyle {
 
         public BottomStyle() {
-            super.up = ERE.assets.createDrawable("kalender/grid/element_bottom");
-            super.down = ERE.assets.createDrawable("kalender/grid/element_bottom_check");
-            super.over = ERE.assets.createDrawable("kalender/grid/element_bottom_hover");
-            super.checked = ERE.assets.createDrawable("kalender/grid/element_bottom_check");
+            super.up = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom", 2);
+            super.down = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_check", 2);
+            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_hover", 2);
+            super.checked = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_check", 2);
         }
     }
 }
