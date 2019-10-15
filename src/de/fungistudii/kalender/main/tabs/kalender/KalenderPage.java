@@ -9,11 +9,14 @@ import com.badlogic.gdx.Gdx;
 import de.fungistudii.kalender.main.tabs.kalender.side.SidePanel;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.utils.Disposable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
@@ -93,7 +96,7 @@ public class KalenderPage extends TabPage {
 
         updateDate(0);
     }
-    
+
     public void toWeekView(int workerId){
         weekView = true;
         sidePanel.navigation.setSelectBehavior(new DatePicker.WeekSelectBehavior());
@@ -163,6 +166,7 @@ public class KalenderPage extends TabPage {
 
     @Override
     public void hide() {
+        System.out.println("");
     }
 
     @Override

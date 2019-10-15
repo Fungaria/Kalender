@@ -5,32 +5,37 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
+import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Scaling;
+import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Blockierung;
 import de.fungistudii.kalender.client.database.Termin;
 import de.fungistudii.kalender.main.generic.ContextMenu;
 import de.fungistudii.kalender.main.generic.DatePicker;
+import static de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.pool;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import de.fungistudii.kalender.util.value.VariableValue;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.function.Consumer;
 
 /**
  *
  * @author sreis
  */
-public abstract class KalenderGrid extends Table {
+public abstract class KalenderGrid extends Table implements Disposable {
 
     public final int startTime = 8;
 
@@ -115,7 +120,24 @@ public abstract class KalenderGrid extends Table {
         return buttons.getAllChecked().size;
     }
 
+    @Override
+    public void dispose() {
+        for (MitarbeiterColumn column : columns) {
+            column.dispose();
+        }
+    }
+
     protected abstract MitarbeiterColumn createMitarbeiterColumn(int column, Date date);
+
+    void selectRange(int col, Date min, Date max) {
+        for (GridElement element : columns[col].elements) {
+            if (!element.getStart().before(min) && !element.getStart().after(max)) {
+                ((Button) element).setChecked(true);
+            } else {
+                ((Button) element).setChecked(false);
+            }
+        }
+    }
 
     public class MitarbeiterColumn extends Table {
 
@@ -144,7 +166,7 @@ public abstract class KalenderGrid extends Table {
                     calendar.add(Calendar.MINUTE, 15 * (cells - 1));
                     nxtBlock++;
                 } else {
-                    element = new BackgroundElement(calendar.getTime(), friseur, row % 4 == 0);
+                    element = pool.obtain(calendar.getTime(), friseur, row % 4 == 0);
                     super.add(element).growX().minSize(0).height(elementHeight).top();
                 }
                 buttons.add(element);
@@ -166,6 +188,32 @@ public abstract class KalenderGrid extends Table {
                 }
             }
         }
+
+        private void dispose() {
+            for (GridElement element : elements) {
+                element.dispose();
+                if (element instanceof BackgroundElement) {
+                    pool.free((BackgroundElement) element);
+                }
+            }
+            elements.clear();
+        }
+    }
+
+    public void animateIn(int direction, float width, Consumer<KalenderGrid> consumer) {
+        setVisible(true);
+        setPosition(direction * width, 0);
+        addAction(Actions.sequence(Actions.moveBy(-direction * width, 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.run(() -> {
+            consumer.accept(this);
+        })));
+    }
+
+    public void animateOut(int direction) {
+        setPosition(0, 0);
+        addAction(Actions.sequence(Actions.moveBy(-direction * getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.hide(), Actions.run(() -> {
+            remove();
+            dispose();
+        })));
     }
 
     public class FillerColumn extends Table {
@@ -181,8 +229,9 @@ public abstract class KalenderGrid extends Table {
     }
 
     public class VacationColumn extends MitarbeiterColumn {
+
         public VacationColumn(int friseur) {
-            super(friseur, new Termin[0], new Blockierung[]{new Blockierung(start, NUM_ROWS*4, friseur, "Urlaub")}, start);
+            super(friseur, new Termin[0], new Blockierung[]{new Blockierung(start, NUM_ROWS * 4, friseur, "Urlaub")}, start);
         }
     }
 }

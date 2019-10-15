@@ -6,7 +6,6 @@
         <item kundenid="0" start="2019-10-13 11:00:00" dauer="240" service="0" friseur="2" erstellt="2019-10-13 15:48:49" urheber="0" id="3"/>
         <item kundenid="0" start="2019-10-13 12:00:00" dauer="180" service="0" friseur="4" erstellt="2019-10-13 15:50:58" urheber="0" id="4"/>
         <item kundenid="0" start="2019-10-13 17:00:00" dauer="60" service="0" friseur="5" erstellt="2019-10-13 15:51:46" urheber="0" id="5"/>
-        <item kundenid="0" start="2019-10-13 11:15:00" dauer="180" service="0" friseur="1" erstellt="2019-10-13 15:52:01" urheber="0" id="6"/>
         <item kundenid="0" start="2019-10-13 17:00:00" dauer="120" service="0" friseur="2" erstellt="2019-10-13 15:52:42" urheber="0" id="7"/>
         <item kundenid="0" start="2019-10-13 16:45:00" dauer="180" service="0" friseur="3" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
     </termine>

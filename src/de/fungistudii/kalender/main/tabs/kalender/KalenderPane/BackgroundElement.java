@@ -1,5 +1,6 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
+import com.badlogic.gdx.utils.Pool;
 import static de.fungistudii.kalender.Main.ERE;
 import java.util.Date;
 
@@ -7,15 +8,21 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class BackgroundElement extends GridElement {
+public class BackgroundElement extends GridElement implements Pool.Poolable{
 
-    public final Date date;
-    public final int friseur;
+    public Date date;
+    public int friseur;
     
-    public BackgroundElement(Date date, int friseur, boolean top) {
-        super(top ? new TopStyle() : new BottomStyle());
+    private static TopStyle topStyle = new TopStyle();
+    private static BottomStyle bottomStyle = new BottomStyle();
+    
+    public BackgroundElement() {
+    }
+    
+    public void init(Date date, int friseur, boolean top){
         this.date = date;
         this.friseur = friseur;
+        setStyle(top?topStyle:bottomStyle);
     }
 
     @Override
@@ -33,6 +40,12 @@ public class BackgroundElement extends GridElement {
         return 1;
     }
 
+    @Override
+    public void reset() {
+        super.reset(); //To change body of generated methods, choose Tools | Templates.
+        super.dispose();
+    }
+    
     private static final class TopStyle extends ButtonStyle {
 
         public TopStyle() {

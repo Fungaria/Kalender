@@ -89,9 +89,9 @@ public class DaysGrid extends Table {
         for (int i = 0; i < 42; i++) {
             dayButtons[i].setDate(calendar.getTime());
             if (calendar.get(Calendar.MONTH) == currentMonth) {
-                dayButtons[i].setStyle(new HardStyle());
+                dayButtons[i].setStyle(hardStyle);
             } else {
-                dayButtons[i].setStyle(new SoftStyle());
+                dayButtons[i].setStyle(softStyle);
             }
             calendar.add(Calendar.DATE, 1);
         }

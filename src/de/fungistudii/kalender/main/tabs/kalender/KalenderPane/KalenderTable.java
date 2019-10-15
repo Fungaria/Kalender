@@ -5,6 +5,7 @@ import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
@@ -21,6 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
+import com.badlogic.gdx.utils.Disposable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.DateUtil;
@@ -56,7 +58,10 @@ public abstract class KalenderTable extends Table {
     
     private float elementHeight = 24;
 
+    public static BGPool pool;
+    
     public KalenderTable(Date date, Header header, Navigator navigator) {
+        pool = new BGPool();
         this.header = header;
         this.navigator = navigator;
 
@@ -165,7 +170,6 @@ public abstract class KalenderTable extends Table {
         container.removeActor(old);
         old = createGrid(currentDate);
         container.setMainActor(old);
-        nu.setVisible(false);
     }
 
     public void switchDate(Date date, int direction) {
@@ -186,14 +190,8 @@ public abstract class KalenderTable extends Table {
         old.clearActions();
 
         Gdx.app.postRunnable(() -> {
-            nu.setVisible(true);
-            nu.setPosition(direction * old.getWidth(), 0);
-            old.setPosition(0, 0);
-            old.addAction(Actions.sequence(Actions.moveBy(-direction * old.getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.hide(), Actions.run(() -> {
-                container.removeActor(old);
-                old = nu;
-            })));
-            nu.addAction(Actions.moveBy(-direction * nu.getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2));
+            nu.animateIn(direction, old.getWidth(), (c) -> old=c);
+            old.animateOut(direction);
         });
     }
 
@@ -249,6 +247,7 @@ public abstract class KalenderTable extends Table {
                 Date currentRow = ((GridElement) hit).getStart();
                 Date min = DateUtil.min(currentRow, startRow);
                 Date max = DateUtil.max(currentRow, startRow);
+                old.selectRange(col, min, max);
             }
         }
     };

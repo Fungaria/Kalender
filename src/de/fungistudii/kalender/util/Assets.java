@@ -35,7 +35,6 @@ public class Assets {
     
     private final TextureAtlas atlas;
     
-    
     public Assets() {
         fonts = new Fonts();
         atlas = new TextureAtlas(Gdx.files.internal("img/sprites.pack"));

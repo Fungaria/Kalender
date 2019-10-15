@@ -32,16 +32,26 @@ public class ContextMenu<T extends Actor> extends Table {
     private ClickListener openListener = new ClickListener(Buttons.RIGHT) {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            Actor hit = ERE.mainScreen.stage.hit(x, y, false);
-            if(hit.getClass().equals(type)){
-                currentContext = (T) hit;
-                show(x, y);
-            }else if(hit.getParent().getClass().equals(type)){
-                currentContext = (T) hit.getParent();
+            Actor hit = ERE.mainScreen.stage.hit(x, y, true);
+            currentContext = getType(hit);
+            if(currentContext != null){
                 show(x, y);
             }
         }
     };
+    
+    private T getType(Actor actor){
+        Actor current = actor;
+        for (int i = 0; i < 4; i++) {
+            if(current == null)
+                return null;
+            else if(current.getClass().equals(type))
+                return (T)current;
+            else
+                current = current.getParent();
+        }
+        return null;
+    }
 
     
     public ContextMenu(Class type, ContextEntry<T>... entries) {
