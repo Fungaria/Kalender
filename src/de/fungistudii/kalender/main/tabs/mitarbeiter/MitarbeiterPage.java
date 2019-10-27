@@ -17,6 +17,8 @@ public class MitarbeiterPage extends TabPage{
     
     private VacationTable vacations;
     
+    private WorkerHeader header;
+    
     public MitarbeiterPage() {
         contentTable = new Table();
         contentTable.defaults().space(10);
@@ -24,6 +26,10 @@ public class MitarbeiterPage extends TabPage{
 
         vacations =new VacationTable();
         
+        header = new WorkerHeader();
+        
+        contentTable.add(header).colspan(5);
+        contentTable.row();
         contentTable.add(vacations).top().width(Value.percentWidth(0.3f, contentTable));
         contentTable.add(new Image()).grow().uniform();
         contentTable.add(new Services());
@@ -44,5 +50,9 @@ public class MitarbeiterPage extends TabPage{
 
     @Override
     public void resize(int width, int height) {
+    }
+
+    public void updateContent() {
+        vacations.reload();
     }
 }

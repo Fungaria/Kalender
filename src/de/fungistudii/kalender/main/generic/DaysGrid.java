@@ -153,10 +153,10 @@ public class DaysGrid extends Table {
             
             label = new Label("", hardStyle);
             
-            setBackground(def);
-            add(label).grow();
-            setSize(getPrefWidth(), getPrefHeight());
-            setTouchable(Touchable.enabled);
+            super.setBackground(def);
+            super.add(label).grow();
+            super.setSize(getPrefWidth(), getPrefHeight());
+            super.setTouchable(Touchable.enabled);
             
             this.index = index;
             this.dayofweek = dayofweek;

@@ -19,15 +19,15 @@ public class TitledWidget extends Table{
         super();
         this.actor = actor;
         this.label = new Label(title, new LStyle());
-        super.add(label).left().grow();
+        super.add(label).left().grow().padBottom(10).minSize(0);
         super.row();
-        super.add(actor).left().grow();
+        super.add(actor).left().grow().minSize(0);
     }
 
     private static final class LStyle extends Label.LabelStyle{
         public LStyle() {
-            super.font = ERE.assets.fonts.createFont("roboto", 12);
-            super.fontColor = ERE.assets.grey3;
+            super.font = ERE.assets.fonts.createFont("roboto", 13);
+            super.fontColor = ERE.assets.grey4;
         }
     }
 }

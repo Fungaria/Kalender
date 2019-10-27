@@ -97,7 +97,7 @@ public class TabPane extends Table {
         ButtonGroup bg = new ButtonGroup();
         for (Button tab : tabs) {
             bg.add(tab);
-            super.add(tab).prefWidth(Value.percentWidth(Cons.tabButtonWidth, this)).growY().minSize(0);
+            super.add(tab).prefWidth(Value.percentWidth(Cons.tabButtonWidth, this)).growY().minSize(0).fill();
         }
         super.add(filler).grow();
     }

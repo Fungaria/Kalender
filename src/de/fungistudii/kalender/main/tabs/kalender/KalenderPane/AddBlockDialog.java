@@ -46,9 +46,4 @@ public class AddBlockDialog extends GenericDialog {
             ERE.client.sendTCP(request);
         });
     }
-
-
-    public Popup show() {
-        return super.show(ERE.mainScreen.stage);
-    }
 }

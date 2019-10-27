@@ -31,11 +31,11 @@ public class VacationTable extends Table {
 
         super.defaults().space(10);
 
-        add(title);
-        row();
-        add(group).grow();
-        row();
-        add(new AddButton()).growX();
+        super.add(title);
+        super.row();
+        super.add(group).grow();
+        super.row();
+        super.add(new AddButton()).growX();
 
         group.space(10);
         group.grow();
@@ -43,27 +43,15 @@ public class VacationTable extends Table {
         reload();
     }
 
-    public void addVacation(Vacation vacation) {
-        group.addActor(new VacationElement(vacation));
-        group.invalidate();
-    }
-
-    void reload() {
+     void reload() {
         group.clear();
         Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == workerId)).findFirst().get();
         for (Vacation vacation : friseur.vacations.values()) {
-            addVacation(vacation);
+            group.addActor(new VacationElement(vacation));
+            group.invalidate();
         }
     }
 
-    private void createVacation(Vacation vacation){
-        NetworkData.VacationRequest request = new NetworkData.VacationRequest();
-        request.start = vacation.start;
-        request.end = vacation.end;
-        request.workerId = workerId;
-        ERE.client.sendTCP(request);
-    }
-    
     private class AddButton extends ImageButton {
         public AddButton() {
             super(new ImageButtonStyle(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 6, 6, 6, 6, ERE.assets.grey1), null, null, ERE.assets.createDrawable("employes/add"), null, null));
@@ -72,12 +60,9 @@ public class VacationTable extends Table {
             super.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    Vacation vacation = new Vacation();
-                    vacation.start = new Date();
-                    vacation.end = new Date();
-                    vacation.id = DataHandler.nextId(ERE.data.root.friseure.get(workerId).vacations);
-                    addVacation(vacation);
-                    createVacation(vacation);
+                    NetworkData.CreateVacationRequest request = new NetworkData.CreateVacationRequest();
+                    request.workerId = workerId;
+                    ERE.client.sendTCP(request);
                 }
             });
         }

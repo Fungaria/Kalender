@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-/**
+/** 
  *
  * @author sreis
  */
@@ -20,7 +20,31 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 public class Service extends MapElement{
     @XmlAttribute
     public String name;
+    
+    @XmlAttribute
+    public int category;
+    
+    @XmlAttribute
+    public int duration;
+    
+    @XmlAttribute
+    public int einwirkZeit;
+    
+    @XmlAttribute
+    public int price;
 
+    public Service() {
+    }
+
+    public Service(int id, String name, int category, int duration, int einwirkZeit, int price) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.duration = duration;
+        this.einwirkZeit = einwirkZeit;
+        this.price = price;
+    }
+    
     @Override
     public String toString() {
         return name;

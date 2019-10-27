@@ -68,25 +68,27 @@ public class VacationElement extends Table {
         Image separator1 = new Image(separator);
         Image separator2 = new Image(separator);
 
-        final RangeSelectBehavior sh = new RangeSelectBehavior(vacation.start, vacation.end);
+        final RangeSelectBehavior sh = new RangeSelectBehavior(vacation.id, vacation.start, vacation.end);
         navigator = new DatePickerPopup((date, dir) -> {
             if (sh.isSelectBegin()) {
                 vonLabel.setRightText(dateFormat.format(date));
             } else {
                 bisLabel.setRightText(dateFormat.format(date));
             }
-            requestVacation(sh.beginDate, sh.endDate);
+            requestVacation(sh.getBeginDate(), sh.getEndDate());
         });
         navigator.navigation.setSelectBehavior(sh);
         navigator.navigation.setHoverBehavior(sh);
         sh.updateSelection(navigator.navigation.getDateButtons());
 
 
-        add(von).grow().minSize(0).uniform();
-        add(separator1).width(1).pad(5, -1, 5, -1);
-        add(bis).grow().minSize(0).uniform()    ;
-        add(separator2).width(1).pad(5, -1, 5, -1);
-        add(delete).minSize(0).maxWidth(Value.percentHeight(1.2f, this));
+        super.add(von).grow().minSize(0).uniform();
+        super.add(separator1).width(1).pad(5, -1, 5, -1);
+        super.add(bis).grow().minSize(0).uniform()    ;
+        super.add(separator2).width(1).pad(5, -1, 5, -1);
+        super.add(delete).minSize(0).maxWidth(Value.percentHeight(1.2f, this));
+        separator1.setZIndex(100);
+        separator2.setZIndex(100);
 
         von.addListener(new ClickListener() {
             @Override
@@ -95,6 +97,7 @@ public class VacationElement extends Table {
                 sh.setSelectBegin(true);
                 sh.updateSelection(navigator.navigation.getDateButtons());
                 showNavigator(x, y);
+                navigator.navigation.setDate(sh.getBeginDate()); 
             }
         });
         bis.addListener(new ClickListener() {
@@ -104,11 +107,10 @@ public class VacationElement extends Table {
                 sh.setSelectBegin(false);
                 sh.updateSelection(navigator.navigation.getDateButtons());
                 showNavigator(x, y);
+                navigator.navigation.setDate(sh.getEndDate());
             }
         });
 
-        separator1.setZIndex(100);
-        separator2.setZIndex(100);
 
         delete.addListener(new ClickListener() {
             @Override
@@ -126,7 +128,7 @@ public class VacationElement extends Table {
     }
 
     private void requestVacation(Date start, Date end) {
-        NetworkData.VacationRequest request = new NetworkData.VacationRequest();
+        NetworkData.EditVacationRequest request = new NetworkData.EditVacationRequest();
         request.start = start;
         request.end = end;
         request.workerId = 0;
@@ -147,76 +149,4 @@ public class VacationElement extends Table {
     public float getPrefHeight() {
         return 50;
     }
-
-    private class RangeSelectBehavior implements DaysGrid.SelectBehavior {
-
-        private final Drawable leftRed = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 10, ERE.assets.lightRed);
-        private final Drawable rightRed = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 10, ERE.assets.lightRed);
-        private final NinePatchSolid solidRed = new NinePatchSolid(ERE.assets.lightRed, 10);
-        private final NinePatchSolid solidGreen = new NinePatchSolid(ERE.assets.lightGreen, 10);
-        private final Drawable leftGreen = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 10, ERE.assets.mediumGreen);
-        private final Drawable rightGreen = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 10, ERE.assets.mediumGreen);
-
-        private Date beginDate;
-        private Date endDate;
-
-        private boolean isBegin = true;
-
-        public RangeSelectBehavior() {
-        }
-
-        public RangeSelectBehavior(Date begin, Date end) {
-            this();
-            this.beginDate = begin;
-            this.endDate = end;
-        }
-
-        public void selectRange(DaysGrid.DayButton[] buttons, Date begin, Date end, Drawable l, Drawable c, Drawable r) {
-            for (DaysGrid.DayButton button : buttons) {
-                int c1 = DateUtil.compareDay(button.getDay(), begin);
-                int c2 = DateUtil.compareDay(button.getDay(), end);
-
-                if (c1 == 0 && (begin.before(end) || !isBegin)) {
-                    button.check(l);
-                } else if (c2 == 0 && (begin.before(end) || isBegin)) {
-                    button.check(r);
-                } else if (c1 > 0 && c2 < 0) {
-                    button.check(c);
-                }
-            }
-        }
-
-        public void setSelectBegin(boolean begin) {
-            this.isBegin = begin;
-        }
-
-        public boolean isSelectBegin() {
-            return isBegin;
-        }
-
-        public void updateSelection(DaysGrid.DayButton[] buttons){
-            for (DaysGrid.DayButton button : buttons) {
-                button.uncheck();
-            }
-
-            Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == 0)).findFirst().get();
-            selectRange(buttons, beginDate, endDate, leftGreen, solidGreen, rightGreen);
-            
-            for (Vacation v : friseur.vacations.values()) {
-                if (v.id != vacation.id) {
-                    selectRange(buttons, v.start, v.end, leftRed, solidRed, rightRed);
-                }
-            }
-        }
-        
-        @Override
-        public void select(DaysGrid.DayButton[] buttons, Date date) {
-            if (isBegin) {
-                beginDate = date;
-            } else {
-                endDate = date;
-            }
-            updateSelection(buttons);
-        }
-    };
 }

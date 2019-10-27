@@ -42,6 +42,7 @@ public class AnimationStack extends Stack{
     public float getPrefHeight() {
         return getHeight();
     }
+
     @Override
     public float getHeight() {
         if(useWidth)

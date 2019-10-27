@@ -1,333 +1,340 @@
 sprites.png
-size: 922, 1282
+size: 944, 1268
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 employes/add
   rotate: false
-  xy: 4, 133
+  xy: 861, 67
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 employes/edit
   rotate: false
-  xy: 786, 72
+  xy: 689, 67
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
 generic/arrow_down
   rotate: false
-  xy: 394, 133
+  xy: 263, 126
   size: 72, 72
   orig: 72, 72
   offset: 0, 0
   index: -1
 generic/context_bg
   rotate: false
-  xy: 630, 72
+  xy: 539, 67
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: -1
+generic/cross
+  rotate: false
+  xy: 508, 224
+  size: 111, 111
+  orig: 111, 111
+  offset: 0, 0
+  index: -1
 generic/rounded
   rotate: false
-  xy: 842, 72
+  xy: 802, 67
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 generic/rounded_check
   rotate: false
-  xy: 65, 133
+  xy: 743, 67
   size: 51, 51
   orig: 51, 51
   offset: 0, 0
   index: -1
 generic/rounded_filled
   rotate: false
-  xy: 559, 133
+  xy: 505, 126
   size: 73, 73
   orig: 73, 73
   offset: 0, 0
   index: -1
 generic/rounded_filled_left
   rotate: false
-  xy: 642, 133
+  xy: 424, 126
   size: 73, 73
   orig: 73, 73
   offset: 0, 0
   index: -1
 generic/rounded_filled_right
   rotate: false
-  xy: 476, 133
+  xy: 343, 126
   size: 73, 73
   orig: 73, 73
   offset: 0, 0
   index: -1
 generic/rounded_red
   rotate: false
-  xy: 695, 72
+  xy: 602, 67
   size: 33, 33
   orig: 33, 33
   offset: 0, 0
   index: -1
 generic/separator
   rotate: false
-  xy: 4, 4
+  xy: 3, 3
   size: 555, 2
   orig: 555, 2
   offset: 0, 0
   index: -1
 generic/square
   rotate: false
-  xy: 126, 133
+  xy: 3, 126
   size: 53, 53
   orig: 53, 53
   offset: 0, 0
   index: -1
 generic/textfield_cursor
   rotate: false
-  xy: 564, 72
+  xy: 477, 67
   size: 1, 25
   orig: 1, 25
   offset: 0, 0
   index: -1
 generic/textfield_selection
   rotate: false
-  xy: 575, 72
+  xy: 486, 67
   size: 45, 29
   orig: 45, 29
   offset: 0, 0
   index: -1
 generic/thrash
   rotate: false
-  xy: 738, 72
+  xy: 643, 67
   size: 38, 44
   orig: 38, 44
   offset: 0, 0
   index: -1
 generic/vertical_separator
   rotate: false
-  xy: 351, 233
+  xy: 168, 224
   size: 2, 100
   orig: 2, 100
   offset: 0, 0
   index: -1
 kalender/dialog/cancel_button
   rotate: false
-  xy: 324, 133
+  xy: 127, 126
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 kalender/dialog/duration
   rotate: false
-  xy: 93, 233
+  xy: 847, 126
   size: 79, 90
   orig: 79, 90
   offset: 0, 0
   index: -1
 kalender/dialog/duration_open
   rotate: false
-  xy: 182, 233
+  xy: 3, 224
   size: 79, 90
   orig: 79, 90
   offset: 0, 0
   index: -1
 kalender/dialog/leistung
   rotate: false
-  xy: 4, 233
+  xy: 760, 126
   size: 79, 90
   orig: 79, 90
   offset: 0, 0
   index: -1
 kalender/dialog/leistung_open
   rotate: false
-  xy: 814, 133
+  xy: 673, 126
   size: 79, 90
   orig: 79, 90
   offset: 0, 0
   index: -1
 kalender/dialog/ok_button
   rotate: false
-  xy: 254, 133
+  xy: 195, 126
   size: 60, 60
   orig: 60, 60
   offset: 0, 0
   index: -1
 kalender/dialog/plus
   rotate: false
-  xy: 189, 133
+  xy: 64, 126
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
 kalender/dialog/thrash_bg
   rotate: false
-  xy: 725, 133
+  xy: 586, 126
   size: 79, 90
   orig: 79, 90
   offset: 0, 0
   index: -1
 kalender/dialog/time_dots
   rotate: false
-  xy: 734, 4
+  xy: 729, 3
   size: 6, 18
   orig: 6, 18
   offset: 0, 0
   index: -1
 kalender/grid/block_bg_check_r
   rotate: false
-  xy: 4, 826
+  xy: 3, 813
   size: 452, 452
   orig: 452, 452
   offset: 0, 0
   index: -1
 kalender/grid/block_bg_over_r
   rotate: false
-  xy: 358, 364
+  xy: 353, 353
   size: 452, 452
   orig: 452, 452
   offset: 0, 0
   index: -1
 kalender/grid/block_bg_r
   rotate: false
-  xy: 466, 826
+  xy: 463, 813
   size: 452, 452
   orig: 452, 452
   offset: 0, 0
   index: -1
 kalender/grid/element_block_bottom
   rotate: false
-  xy: 750, 4
+  xy: 791, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_block_top
   rotate: false
-  xy: 244, 38
+  xy: 633, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_bottom
   rotate: false
-  xy: 404, 72
+  xy: 3, 67
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_bottom_check
   rotate: false
-  xy: 564, 38
+  xy: 319, 67
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_bottom_hover
   rotate: false
-  xy: 4, 72
+  xy: 161, 67
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_empty
   rotate: false
-  xy: 244, 72
+  xy: 743, 3
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_top
   rotate: false
-  xy: 724, 38
+  xy: 475, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_top_check
   rotate: false
-  xy: 404, 38
+  xy: 3, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_top_hover
   rotate: false
-  xy: 4, 38
+  xy: 239, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/filler_bottom
   rotate: false
-  xy: 164, 38
+  xy: 161, 35
   size: 70, 24
   orig: 70, 24
   offset: 0, 0
   index: -1
 kalender/grid/filler_top
   rotate: false
-  xy: 164, 72
+  xy: 397, 35
   size: 70, 24
   orig: 70, 24
   offset: 0, 0
   index: -1
 kalender/grid/time
   rotate: false
-  xy: 271, 233
+  xy: 90, 224
   size: 70, 96
   orig: 70, 96
   offset: 0, 0
   index: -1
 kalender/navigation/arrow_up
   rotate: false
-  xy: 216, 364
+  xy: 213, 353
   size: 132, 132
   orig: 132, 132
   offset: 0, 0
   index: -1
 kalender/navigation/separator
   rotate: false
-  xy: 569, 4
+  xy: 566, 3
   size: 155, 10
   orig: 155, 10
   offset: 0, 0
   index: -1
 tabs/blue
   rotate: false
-  xy: 363, 233
+  xy: 178, 224
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 tabs/button_down
   rotate: false
-  xy: 4, 364
+  xy: 3, 353
   size: 202, 121
   orig: 202, 121
   offset: 0, 0
   index: -1
 tabs/button_up
   rotate: false
-  xy: 699, 233
+  xy: 627, 224
   size: 202, 121
   orig: 202, 121
   offset: 0, 0
   index: -1
 tabs/green
   rotate: false
-  xy: 587, 233
+  xy: 398, 224
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 tabs/red
   rotate: false
-  xy: 475, 233
+  xy: 288, 224
   size: 102, 102
   orig: 102, 102
   offset: 0, 0

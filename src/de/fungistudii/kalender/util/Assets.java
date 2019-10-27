@@ -80,7 +80,8 @@ public class Assets {
         
         Sprite sprite = new Sprite(region);
         sprite.setColor(color);
-        return new SpriteDrawable(sprite);
+        SpriteDrawable drawable = new SpriteDrawable(sprite);
+        return drawable;
     }
     
     public SpriteDrawable createDrawable(String name) {

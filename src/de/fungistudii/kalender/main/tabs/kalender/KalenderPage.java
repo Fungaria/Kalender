@@ -41,7 +41,7 @@ import java.util.Date;
  */
 public class KalenderPage extends TabPage {
 
-    private Table contentTable;
+    private Container contentTable;
     public final SidePanel sidePanel;
 
     public Calendar calendar = Calendar.getInstance();
@@ -53,15 +53,12 @@ public class KalenderPage extends TabPage {
 
     public final DayTable dayTable;
     public final WeekTable weekTable;
-
     public KalenderTable currentTable;
     
-    private Cell<KalenderTable> cell;
-
     private boolean weekView = false;
     
     public KalenderPage() {
-        contentTable = new Table();
+        contentTable = new Container();
 
         sidePanel = new SidePanel((Date date, int direction) -> {
             if(weekView){
@@ -84,12 +81,9 @@ public class KalenderPage extends TabPage {
         weekTable = new WeekTable(calendar.getTime());
         currentTable = dayTable;
         
-        contentTable.defaults().space(Value.percentHeight(0.01f, this));
-
         contentTable.setBackground(new DrawableSolid(Color.WHITE));
-        contentTable.row();
-        cell = contentTable.add(currentTable).grow();
-
+        contentTable.setActor(currentTable);
+        
         add(sidePanel).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).minWidth(200).growY();
         add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.02f, this));
 
@@ -103,7 +97,7 @@ public class KalenderPage extends TabPage {
         currentTable = weekTable;
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         updateDate(0);
-        cell.setActor(currentTable); 
+        contentTable.setActor(currentTable); 
         currentTable.invalidateHierarchy();
         weekTable.setElementHeight(dayTable.getElementHeight());
     }
@@ -114,7 +108,7 @@ public class KalenderPage extends TabPage {
         currentTable = dayTable;
         calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
         updateDate(0);
-        cell.setActor(currentTable);
+        contentTable.setActor(currentTable);
         currentTable.invalidateHierarchy();
         dayTable.setElementHeight(weekTable.getElementHeight());
     }

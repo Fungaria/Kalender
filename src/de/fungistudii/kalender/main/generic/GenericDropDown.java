@@ -1,6 +1,8 @@
 package de.fungistudii.kalender.main.generic;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
@@ -28,6 +30,17 @@ public class GenericDropDown<T> extends SelectBox<T> {
     public GenericDropDown(Drawable icon, NinePatchDrawable bg, NinePatchDrawable bgOpen, T[] list) {
         super(new DDStyle(icon, bg, bgOpen));
         super.setItems(list);
+        if(getStyle().background != null){
+            super.getStyle().background.setLeftWidth(10);
+            super.getStyle().backgroundOpen.setLeftWidth(10);
+        }
+        super.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                getStage().setKeyboardFocus(GenericDropDown.this);
+                return false;
+            }
+        });
     }
 
     private static final class DDStyle extends SelectBoxStyle {

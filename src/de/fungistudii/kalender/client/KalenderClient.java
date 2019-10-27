@@ -9,6 +9,7 @@ import de.fungistudii.kalender.client.database.Termin;
 import de.fungistudii.kalender.client.NetworkData.*;
 import de.fungistudii.kalender.client.database.Blockierung;
 import de.fungistudii.kalender.client.database.Service;
+import de.fungistudii.kalender.client.database.ServiceCategory;
 import de.fungistudii.kalender.client.database.Vacation;
 import de.fungistudii.kalender.client.listeners.*;
 import java.io.IOException;
@@ -49,6 +50,7 @@ public class KalenderClient extends Client{
         k.register(Friseur.class);
         k.register(Vacation.class);
         k.register(Service.class);
+        k.register(ServiceCategory.class);
         k.register(Termin.class);
         k.register(Blockierung.class);
         k.register(LoginRequest.class);
@@ -56,9 +58,12 @@ public class KalenderClient extends Client{
         k.register(TerminRequest.class);
         k.register(StornoRequest.class);
         k.register(BlockRequest.class);
-        k.register(VacationRequest.class);
+        k.register(EditVacationRequest.class);
         k.register(RemoveVacationRequest.class);
+        k.register(CreateVacationRequest.class);
         k.register(RemoveBlockRequest.class);
+        k.register(CreateServiceRequest.class);
+        k.register(RemoveServiceRequest.class);
     }
     
     public void registerListeners(){
@@ -68,5 +73,6 @@ public class KalenderClient extends Client{
         super.addListener(new BlockListener());
         super.addListener(new DatabaseListener());
         super.addListener(new VacationListener());
+        super.addListener(new ServiceListener());
     }
 }

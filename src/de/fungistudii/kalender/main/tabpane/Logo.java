@@ -26,5 +26,6 @@ public class Logo extends TextButton{
         
         super.getLabel().setAlignment(Align.left);
         super.getLabel().setX(5);
+        super.getLabelCell().padLeft(5);
     }
 }

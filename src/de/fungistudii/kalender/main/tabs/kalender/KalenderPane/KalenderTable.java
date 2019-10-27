@@ -50,7 +50,7 @@ public abstract class KalenderTable extends Table {
     private float elementHeight = 24;
 
     public static BGPool pool;
-    
+
     public KalenderTable(Date date, Header header, Navigator navigator) {
         pool = new BGPool();
         this.header = header;
@@ -124,6 +124,11 @@ public abstract class KalenderTable extends Table {
         });
     }
 
+    @Override
+    public float getPrefWidth() {
+        return 2000;
+    }
+    
     public void setElementHeight(float elementHeight) {
         this.elementHeight = elementHeight;
         float min = getHeight() / (old.NUM_ROWS * 4);
@@ -216,10 +221,10 @@ public abstract class KalenderTable extends Table {
             if (hit instanceof GridElement && ((GridElement) hit).isChecked() && old.buttons.getAllChecked().size > 1) {
                 return true;
             }
-            dragging = true;
-            old.buttons.uncheckAll();
-            old.buttons.setMaxCheckCount(100);
             if (hit instanceof GridElement) {
+                dragging = true;
+                old.buttons.uncheckAll();
+                old.buttons.setMaxCheckCount(100);
                 startRow = ((GridElement) hit).getStart();
                 col = (((Table) hit.getParent().getParent()).getCell(hit.getParent()).getColumn()) / 2;
             }

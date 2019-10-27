@@ -5,6 +5,9 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -16,8 +19,6 @@ import de.fungistudii.kalender.main.tabs.kunden.KundenPage;
 import de.fungistudii.kalender.main.tabs.mitarbeiter.MitarbeiterPage;
 import de.fungistudii.kalender.main.tabs.produkte.ProduktePage;
 import de.fungistudii.kalender.main.tabs.servies.ServicePage;
-import java.util.Timer;
-import java.util.TimerTask;
 
 /**
  *
@@ -46,6 +47,16 @@ public class MainScreen extends ScreenAdapter {
         root = new Table();
         this.viewport = new ScreenViewport();
         stage = new Stage(viewport);
+        
+        stage.addListener(new InputListener(){
+            @Override
+            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                if(stage.getKeyboardFocus() == null || !stage.getKeyboardFocus().isAscendantOf(stage.hit(x, y, false))){
+                    stage.setKeyboardFocus(null);
+                }
+                return false;
+            }
+        });
         
         contextManager = new ContextMenuManager();
     }

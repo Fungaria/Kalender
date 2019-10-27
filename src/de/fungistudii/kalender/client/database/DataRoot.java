@@ -3,6 +3,7 @@ package de.fungistudii.kalender.client.database;
 import de.fungistudii.kalender.client.database.adapters.BlockAdapter;
 import de.fungistudii.kalender.client.database.adapters.ClientAdapter;
 import de.fungistudii.kalender.client.database.adapters.ServiceAdapter;
+import de.fungistudii.kalender.client.database.adapters.ServiceCategoryAdapter;
 import de.fungistudii.kalender.client.database.adapters.TerminAdapter;
 import de.fungistudii.kalender.client.database.adapters.WorkerAdapter;
 import java.util.HashMap;
@@ -33,6 +34,10 @@ public class DataRoot {
     @XmlElement(name = "services")
     @XmlJavaTypeAdapter(ServiceAdapter.class)
     public final HashMap<Integer, Service> services = new HashMap<>();
+
+    @XmlElement(name = "serviceCategories")
+    @XmlJavaTypeAdapter(ServiceCategoryAdapter.class)
+    public final HashMap<Integer, ServiceCategory> serviceCategories = new HashMap<>();
 
     @Override
     public String toString() {
