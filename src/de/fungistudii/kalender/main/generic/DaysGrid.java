@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
@@ -38,7 +39,6 @@ public class DaysGrid extends Table {
     private int currentMonth;
 
     DayButton[] dayButtons = new DayButton[42];
-
 
     private Array<DatePicker.DateSelectCallback> callbacks;
     private SelectBehavior selectBehavior = defaultSelectBehavior;
@@ -141,7 +141,7 @@ public class DaysGrid extends Table {
         private final Label label;
         
         private final Drawable def = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
-        private final Drawable hovered = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.grey2);
+        private final Drawable hovered = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.grey3);
         private Drawable drawable;
 
         private boolean checked;
@@ -219,6 +219,6 @@ public class DaysGrid extends Table {
         public void select(DayButton[] buttons, Date date);
     }
 
-    private final Label.LabelStyle hardStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
-    private final Label.LabelStyle softStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey4);
+    private final Label.LabelStyle hardStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey6);
+    private final Label.LabelStyle softStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
 }

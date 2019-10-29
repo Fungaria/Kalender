@@ -1,4 +1,4 @@
-/*
+ /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -25,6 +25,7 @@ import de.fungistudii.kalender.client.database.Friseur;
 import de.fungistudii.kalender.client.NetworkData.TerminRequest;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
+import de.fungistudii.kalender.main.generic.GenericTextField;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Popup;
 import java.util.ArrayList;
@@ -37,132 +38,124 @@ import java.util.Date;
  */
 public class AddAppointmentDialog extends Popup{
     
-    VerticalGroup leistungsGroup;
-    
-    private KundenRow row1;
-    
     private DateButton date;
-    public GenericDropDown<String> timeHours;
-    public GenericDropDown<String> timeMins;
     public GenericDropDown<Friseur> friseur;
     private GenericDropDown<Friseur> urheber;
-    
-    private ArrayList<LeistungTable> leistungen = new ArrayList<>();
+    private TimePicker timePicker; 
+    private ImageButton addButton;
+    private TextButton okButton;
+    private TextButton cancelButton;
+    private ServiceWidget serviceWidget;
+    private NameSearchField customerName;
+    private GenericTextField customerPhone;
     
     private Calendar calendar = Calendar.getInstance();
     
     public AddAppointmentDialog() {
-        super();
+        super("Termin Hinzufügen");
+        
         popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
+        popupContainer.prefWidth(600);
         super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
         
-        contentTable.pad(Value.percentWidth(0.023f, this));
-        
-        row1 = new KundenRow();
-        
         date = new DateButton();
-        NinePatchDrawable rounded = ERE.assets.createNinePatchDrawable("generic/rounded", 10);
-        NinePatchDrawable roundedCheck = ERE.assets.createNinePatchDrawable("generic/rounded_check", 10);
-        timeHours = new GenericDropDown<>(null, rounded, roundedCheck, new String[]{"08","09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20"});
-        timeMins = new GenericDropDown<>(null, rounded, roundedCheck, new String[]{"00", "15", "30", "45"});
-        
         friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        timePicker = new TimePicker();
+        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        addButton = new ImageButton(ERE.assets.createDrawable("kalender/dialog/plus"));
+        okButton = new GenericTextButton("Bestätigen", new GenericTextButton.FilledStyle());
+        cancelButton = new GenericTextButton("Abbrechen", new GenericTextButton.CancelStyle());
+        serviceWidget = new ServiceWidget(Value.percentHeight(1, friseur));
+        customerName = new NameSearchField();
+        customerPhone = new GenericTextField("Telefon");
+        Label serviceLabel = new Label("LEISTUNGEN", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey5));
+        Label urheberLabel = new Label("URHEBER", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey5));
         
-        SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");
-        
-        HorizontalGroup time = new HorizontalGroup();
-        time.space(5);
-        Image image = new Image(ERE.assets.createDrawable("kalender/dialog/time_dots"));
-        image.setScale(0.6f);
-        time.addActor(timeHours);
-        time.addActor(image);
-        time.addActor(timeMins);
+        Table row1 = new Table();
+        row1.defaults().space(Value.percentWidth(0.06f, this));
+        row1.add(new TitledWidget("NAME", customerName)).grow();
+        row1.add(new TitledWidget("TELEFON", customerPhone)).grow();
         
         Table row2 = new Table();
         row2.defaults().space(Value.percentWidth(0.06f, row2));
         row2.defaults().left();
         row2.add(new TitledWidget("DATE", date)).width(Value.percentWidth(0.4f, contentTable)).fill();
-        row2.add(new TitledWidget("TIME", time)).growX().fillY();
+        row2.add(new TitledWidget("TIME", timePicker)).growX().fillY();
         row2.add(new TitledWidget("FRISEUR", friseur)).growX().fillY();
         
-        leistungsGroup = new VerticalGroup();
-        leistungsGroup.left();
-        addLeistung();
+        Table row3 = new Table();
+        row3.add(serviceLabel).left().padBottom(10);
+        row3.add();
+        row3.row();
+        row3.add(serviceWidget).grow();
+        row3.add(addButton).bottom().left().height(Value.percentHeight(0.5f, friseur)).pad(Value.percentHeight(0.25f, friseur));
         
-        Label leistLabel = new Label("LEISTUNGEN", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey4));
-        Label urheberLabel = new Label("URHEBER", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey4));
-        SpriteDrawable plus = ERE.assets.createDrawable("kalender/dialog/plus");
-        ImageButton addButton = new ImageButton(new ImageButton.ImageButtonStyle(null, null, null, plus, plus, plus));
-        
-        Label title = new Label("Termin erstellen", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20), ERE.assets.grey4));
-        
-        NinePatchDrawable button_bg = ERE.assets.createNinePatchDrawable("generic/rounded", 10);
-        TextButton ok = new GenericTextButton("Bestätigen", new GenericTextButton.OutlineStyle());
-        TextButton cancel = new TextButton("Abbrechen", new GenericTextButton.OutlineStyle());
-        
-        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
-        Table buttons = new Table();
-        buttons.defaults().spaceLeft(Value.percentWidth(0.01f, this));
-        buttons.add(urheber).width(Value.percentWidth(0.3f, contentTable)).left();
-        buttons.add(new Image()).grow();
-        buttons.add(cancel);
-        buttons.add(ok);
+        Table row4 = new Table();
+        row4.defaults().space(10);
+        row4.add(urheber).width(Value.percentWidth(0.3f, contentTable)).left();
+        row4.add(new Image()).grow();
+        row4.add(cancelButton).height(40).width(Value.percentWidth(0.25f, contentTable));
+        row4.add(okButton).height(40).width(Value.percentWidth(0.25f, contentTable)).padRight(20);
         
         contentTable.defaults().space(10);
-        
         contentTable.left();
-        contentTable.add(title);
-        contentTable.row();
+        
+        SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");
+        
         contentTable.add(row1).grow().padTop(15);
         contentTable.row();
         contentTable.add(new Image(separator)).growX().height(1);
         contentTable.row();
+        //
         contentTable.add(row2).grow().padTop(15);
         contentTable.row();
         contentTable.add(new Image(separator)).growX().height(1);
         contentTable.row();
-        contentTable.add(leistLabel).left().padTop(15);
-        contentTable.row();
-        contentTable.add(leistungsGroup).growX();
-        contentTable.row();
-        contentTable.add(addButton).size(Value.percentHeight(0.5f, date));
+        //
+        contentTable.add(row3).grow().padTop(15);
         contentTable.row();
         contentTable.add(new Image(separator)).growX().height(1);
         contentTable.row();
+        //
         contentTable.add(urheberLabel).left().padTop(15);
         contentTable.row();
-        contentTable.add(buttons).grow().right();
+        contentTable.add(row4).grow().right();
         contentTable.row();
         contentTable.add().grow();
         
         contentTable.pack();
         
+        customerName.setListener((k) -> {
+            customerName.setText(k.toString());
+            customerPhone.setText(k.phone);
+        });
+        
         addButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                addLeistung();
+                serviceWidget.addService();
             }
         });
         
-        ok.addListener(new ClickListener(){
+        okButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 calendar.setTime(date.getDate());
-                calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(timeHours.getSelected()));
-                calendar.set(Calendar.MINUTE, Integer.parseInt(timeMins.getSelected()));
+                calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
+                calendar.set(Calendar.MINUTE, timePicker.getMinute());
                 calendar.set(Calendar.SECOND, 0);
                 TerminRequest request = new TerminRequest();
-                request.duration = parseMinutes(leistungen.get(0).duration.getSelected());
+                request.duration = 60;
                 request.start = calendar.getTime();
                 request.friseurId = friseur.getSelected().id;
-                request.kundenId = row1.getSelected().id;
-                request.serviceId = leistungen.get(0).leistung.getSelected().id;
+                request.kundenId = customerName.getId();
+                request.serviceId = 0;
                 ERE.client.sendTCP(request);
                 hide();
             }
         });
         
-        cancel.addListener(new ClickListener(){
+        cancelButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hide();
@@ -178,23 +171,5 @@ public class AddAppointmentDialog extends Popup{
     private static int parseMinutes(String input){
         String[] s = input.split(":");
         return Integer.parseInt(s[0])*60+Integer.parseInt(s[1]);
-    }
-    
-    private void addLeistung(){
-        LeistungTable leistung = new LeistungTable();
-        leistungen.add(leistung);
-        leistung.prefHeight(Value.percentHeight(1, date));
-        leistung.prefWidth(Value.percentWidth(0.7f, contentTable));
-        leistung.padBottom(Value.percentHeight(0.1f, date));
-        leistungsGroup.addActor(leistung);
-        leistung.delete.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if(leistungen.size()>1){
-                    leistungen.remove(leistung);
-                    leistung.remove();
-                }
-            }
-        });
     }
 }

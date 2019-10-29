@@ -41,21 +41,21 @@ public class WeekNavigator extends Navigator {
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
         nextStyle.imageUp = ERE.assets.createDrawable("kalender/navigation/arrow_up");
         nextStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey1);
-        nextStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey2);
+        nextStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey3);
 
         ImageButton.ImageButtonStyle prevStyle = new ImageButton.ImageButtonStyle();
         SpriteDrawable d = ERE.assets.createDrawable("kalender/navigation/arrow_up");
         d.getSprite().flip(true, false);
         prevStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey1);
-        prevStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey2);
+        prevStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey3);
         prevStyle.imageUp = d;
 
         SelectBox.SelectBoxStyle sbs = new SelectBox.SelectBoxStyle();
         sbs.background = new NinePatchSolid(ERE.assets.grey1);
-        sbs.backgroundOver = new NinePatchSolid(ERE.assets.grey2);
+        sbs.backgroundOver = new NinePatchSolid(ERE.assets.grey3);
         sbs.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
         sbs.fontColor = Color.BLACK;
-        sbs.listStyle = new List.ListStyle(sbs.font, ERE.assets.grey5, ERE.assets.grey4, new DrawableSolid(ERE.assets.grey2));
+        sbs.listStyle = new List.ListStyle(sbs.font, ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
         sbs.scrollStyle = new ScrollPane.ScrollPaneStyle();
         sbs.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
 

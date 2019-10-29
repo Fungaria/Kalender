@@ -27,44 +27,30 @@ import de.fungistudii.kalender.util.Popup;
  */
 public class GenericDialog extends Popup {
 
-    private TextButton okButton;
-    private TextButton cancelButton;
+    private final TextButton okButton;
+    private final TextButton cancelButton;
     
-    private Button closeButton;
-    
-    private Cell actorCell;
+    private final Cell actorCell;
     
     public GenericDialog(String title) {
-        super();
+        super(title);
         popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
-//        popupContainer.prefWidth(700);
         super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
-        
-        Label titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 18), Color.BLACK));
         
         okButton = new GenericTextButton("Bestätigen", new GenericTextButton.FilledStyle());
         cancelButton = new GenericTextButton("Abbrechen", new GenericTextButton.CancelStyle());
-        ImageButton.ImageButtonStyle closeStyle = new ImageButton.ImageButtonStyle();
-        closeStyle.imageUp = ERE.assets.createDrawable("generic/cross", ERE.assets.grey3);
-        closeStyle.imageOver = ERE.assets.createDrawable("generic/cross", ERE.assets.grey5);
-        closeButton = new ImageButton(closeStyle);
-        Image separator = new Image(ERE.assets.createDrawable("generic/separator"));
         
         super.contentTable.defaults().space(10);
         
-        Table group = new Table();
-        group.add(titleLabel).grow().padLeft(Value.percentHeight(1, titleLabel));
-        group.add(closeButton).size(Value.percentHeight(1, titleLabel)).padRight(20);
+        Table buttons = new Table();
+        buttons.defaults().space(10);
+        buttons.add(new Image()).grow();
+        buttons.add(cancelButton).height(40).width(Value.percentWidth(0.25f, contentTable));
+        buttons.add(okButton).height(40).width(Value.percentWidth(0.25f, contentTable));
         
-        super.contentTable.add(group).colspan(3).padTop(20).growX();
+        actorCell = super.contentTable.add().left().grow();
         super.contentTable.row();
-        super.contentTable.add(separator).grow().colspan(3).height(1);
-        super.contentTable.row();
-        actorCell = super.contentTable.add().colspan(3).pad(17).left().grow();
-        super.contentTable.row().padBottom(20);
-        super.contentTable.add(new Image()).grow();
-        super.contentTable.add(cancelButton).height(40).width(Value.percentWidth(0.25f, contentTable));
-        super.contentTable.add(okButton).height(40).width(Value.percentWidth(0.25f, contentTable)).padRight(20);
+        super.contentTable.add(buttons).grow();
         
         okButton.addListener(new ClickListener(){
             @Override
@@ -73,12 +59,6 @@ public class GenericDialog extends Popup {
             }
         });
         cancelButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                hide();
-            }
-        });
-        closeButton.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 hide();

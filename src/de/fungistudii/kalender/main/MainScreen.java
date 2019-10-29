@@ -88,6 +88,8 @@ public class MainScreen extends ScreenAdapter {
         root.row();
         root.add(contentTable).grow();
         root.top();
+        
+        root.setRound(true);
 
         setTab(kalender);
         

@@ -13,7 +13,6 @@ import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.main.generic.GenericDialog;
 import de.fungistudii.kalender.main.generic.GenericTextField;
 import de.fungistudii.kalender.util.Fonts;
-import de.fungistudii.kalender.util.Popup;
 
 /**
  *

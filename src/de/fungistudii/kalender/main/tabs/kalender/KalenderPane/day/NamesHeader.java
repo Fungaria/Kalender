@@ -26,9 +26,9 @@ public class NamesHeader extends Header {
         super.center();
         
         style.font = ERE.assets.fonts.createFont("roboto", 17);
-        style.fontColor = ERE.assets.grey4;
+        style.fontColor = ERE.assets.grey5;
         style.over = new NinePatchSolid(ERE.assets.grey1);
-        style.down = new NinePatchSolid(ERE.assets.grey2);
+        style.down = new NinePatchSolid(ERE.assets.grey3);
 
         this.labels = new TextButton[ERE.data.root.friseure.size()];
         for (int i = 0; i < 7; i++) {

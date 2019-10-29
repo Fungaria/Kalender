@@ -27,7 +27,7 @@ public class TitledWidget extends Table{
     private static final class LStyle extends Label.LabelStyle{
         public LStyle() {
             super.font = ERE.assets.fonts.createFont("roboto", 13);
-            super.fontColor = ERE.assets.grey4;
+            super.fontColor = ERE.assets.grey5;
         }
     }
 }

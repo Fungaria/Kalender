@@ -37,9 +37,9 @@ public class SearchField<T> extends TextField implements Disableable {
     private SFStyle style;
     static final Vector2 temp = new Vector2();
     private final ArrayList<T> itemsAll = new ArrayList();
-    final ArrayList<T> items = new ArrayList();
+    final Array<T> items = new Array();
     
-    private SelectBoxList list;
+    private SelectBoxList<T> list;
     
     private ListFilter<T> filter;
 
@@ -63,12 +63,16 @@ public class SearchField<T> extends TextField implements Disableable {
                     list.hide();
                 }else{
                     updateItems();
-                    if(!list.open && items.size() >0)
+                    if(!list.open && items.size>0)
                         list.show(getStage());
-                    list.setItems(items.toArray());
+                    list.setItems(items);
                 }
             }
         });
+    }
+    
+    public T getSelected(){
+        return list.list.getSelected();
     }
     
     public void setListener(Consumer<T> consumer){
@@ -189,7 +193,7 @@ public class SearchField<T> extends TextField implements Disableable {
 
             // Show the list above or below the select box, limited to a number of items and the available height in the stage.
             float itemHeight = list.getItemHeight();
-            float height = itemHeight * (maxListCount <= 0 ? selectBox.items.size() : Math.min(maxListCount, selectBox.items.size()));
+            float height = itemHeight * (maxListCount <= 0 ? selectBox.items.size : Math.min(maxListCount, selectBox.items.size));
             Drawable scrollPaneBackground = getStyle().background;
             if (scrollPaneBackground != null) {
                 height += scrollPaneBackground.getTopHeight() + scrollPaneBackground.getBottomHeight();
@@ -244,7 +248,7 @@ public class SearchField<T> extends TextField implements Disableable {
 
         private void updateHeight(Stage stage){
             float itemHeight = list.getItemHeight();
-            float height = itemHeight * (maxListCount <= 0 ? selectBox.items.size() : Math.min(maxListCount, selectBox.items.size()));
+            float height = itemHeight * (maxListCount <= 0 ? selectBox.items.size : Math.min(maxListCount, selectBox.items.size));
             Drawable scrollPaneBackground = getStyle().background;
             if (scrollPaneBackground != null) {
                 height += scrollPaneBackground.getTopHeight() + scrollPaneBackground.getBottomHeight();
@@ -275,8 +279,8 @@ public class SearchField<T> extends TextField implements Disableable {
             setHeight(height);
         }
         
-        public void setItems(T[] items){
-            if(items.length == 0){
+        public void setItems(Array<T> items){
+            if(items.size == 0){
                 hide();
             }else{
                 list.setItems(items);

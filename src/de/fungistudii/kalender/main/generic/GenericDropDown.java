@@ -23,6 +23,10 @@ public class GenericDropDown<T> extends SelectBox<T> {
         this(ERE.assets.createNinePatchDrawable("generic/rounded", 6), ERE.assets.createNinePatchDrawable("generic/rounded_check",6), list);
     }
     
+    public GenericDropDown(NinePatchDrawable bg, T[] list){
+        this(bg, bg, list);
+    }
+    
     public GenericDropDown(NinePatchDrawable bg, NinePatchDrawable bgOpen, T[] list) {
         this(ERE.assets.createDrawable("generic/arrow_down"), bg, bgOpen, list);
     }
@@ -53,7 +57,7 @@ public class GenericDropDown<T> extends SelectBox<T> {
             super.backgroundOpen = bgOpen;
             super.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
             super.fontColor = Color.BLACK;
-            super.listStyle = new List.ListStyle(font, ERE.assets.grey5, ERE.assets.grey4, new DrawableSolid(ERE.assets.grey2));
+            super.listStyle = new List.ListStyle(font, ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
             super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
         }

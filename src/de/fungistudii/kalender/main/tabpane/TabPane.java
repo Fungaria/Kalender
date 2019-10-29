@@ -92,6 +92,7 @@ public class TabPane extends Table {
             }
         });
 
+        super.setRound(true);
         super.align(Align.left);
         super.add(orplid).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY().minSize(0);
         ButtonGroup bg = new ButtonGroup();

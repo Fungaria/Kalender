@@ -1,6 +1,7 @@
 package de.fungistudii.kalender.main.tabs.mitarbeiter;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -22,20 +23,24 @@ public class VacationTable extends Table {
 
     private VerticalGroup group;
     
-    private int workerId = 0;
+    private int workerId;
     
-    public VacationTable() {
-        Label title = new Label("Urlaub", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.MEDIUM), ERE.assets.grey5));
+    public VacationTable(int mitarbeiterId) {
+        Label title = new Label("Urlaub", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey6));
 
+        this.workerId = mitarbeiterId;
+        
         group = new VerticalGroup();
 
         super.defaults().space(10);
 
         super.add(title);
         super.row();
-        super.add(group).grow();
+        super.add(group).growX().fillY();
         super.row();
         super.add(new AddButton()).growX();
+        super.row();
+        super.add(new Container()).grow();
 
         group.space(10);
         group.grow();
@@ -47,7 +52,7 @@ public class VacationTable extends Table {
         group.clear();
         Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == workerId)).findFirst().get();
         for (Vacation vacation : friseur.vacations.values()) {
-            group.addActor(new VacationElement(vacation));
+            group.addActor(new VacationElement(workerId, vacation));
             group.invalidate();
         }
     }

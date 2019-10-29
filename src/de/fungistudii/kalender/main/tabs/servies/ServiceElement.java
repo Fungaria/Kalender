@@ -29,9 +29,9 @@ public class ServiceElement extends Button{
         this.service = service;
         
         NinePatchDrawable up = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, ERE.assets.grey1);
-        NinePatchDrawable down = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, ERE.assets.grey2);
+        NinePatchDrawable down = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, ERE.assets.grey3);
         SpriteDrawable separator = ERE.assets.createDrawable("generic/vertical_separator");
-        Label.LabelStyle lStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 14), ERE.assets.grey5);
+        Label.LabelStyle lStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 14), ERE.assets.grey6);
         
         ButtonStyle bStyle = new ButtonStyle();
         bStyle.up = up;
@@ -40,7 +40,7 @@ public class ServiceElement extends Button{
         
         super.setTouchable(Touchable.enabled);
         
-        Button settings = new Button(ERE.assets.createDrawable("employes/edit", ERE.assets.grey3));
+        Button settings = new Button(ERE.assets.createDrawable("employes/edit", ERE.assets.grey4));
         
         super.addListener(new InputListener(){
             @Override
@@ -54,6 +54,8 @@ public class ServiceElement extends Button{
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ERE.mainScreen.service.dialog.show(service);
+                ERE.mainScreen.service.dialog.setTitle("Service Bearbeiten");
+                
             }
         });
         

@@ -181,7 +181,7 @@
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
-            <uint>1</uint>
+            <uint>0</uint>
             <key>trimThreshold</key>
             <uint>1</uint>
             <key>trimMargin</key>
@@ -200,8 +200,11 @@
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
             <key type="filename">raw_img/employes/add.png</key>
+            <key type="filename">raw_img/generic/middle.png</key>
             <key type="filename">raw_img/generic/rounded.png</key>
             <key type="filename">raw_img/generic/rounded_check.png</key>
+            <key type="filename">raw_img/generic/rounded_left.png</key>
+            <key type="filename">raw_img/generic/rounded_right.png</key>
             <key type="filename">raw_img/generic/square.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -251,6 +254,19 @@
                 <rect>14,8,28,16</rect>
                 <key>scale9Paddings</key>
                 <rect>14,8,28,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">raw_img/generic/cross.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>28,28,56,56</rect>
+                <key>scale9Paddings</key>
+                <rect>28,28,56,56</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -359,37 +375,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">raw_img/kalender/dialog/cancel_button.png</key>
-            <key type="filename">raw_img/kalender/dialog/ok_button.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>15,15,30,30</rect>
-                <key>scale9Paddings</key>
-                <rect>15,15,30,30</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">raw_img/kalender/dialog/duration.png</key>
-            <key type="filename">raw_img/kalender/dialog/duration_open.png</key>
-            <key type="filename">raw_img/kalender/dialog/leistung.png</key>
-            <key type="filename">raw_img/kalender/dialog/leistung_open.png</key>
-            <key type="filename">raw_img/kalender/dialog/thrash_bg.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>20,23,40,45</rect>
-                <key>scale9Paddings</key>
-                <rect>20,23,40,45</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">raw_img/kalender/dialog/plus.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -489,19 +474,6 @@
                 <rect>33,33,66,66</rect>
                 <key>scale9Paddings</key>
                 <rect>33,33,66,66</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">raw_img/kalender/navigation/separator.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>39,3,78,5</rect>
-                <key>scale9Paddings</key>
-                <rect>39,3,78,5</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

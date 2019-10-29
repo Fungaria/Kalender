@@ -1,10 +1,15 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Kunde;
@@ -49,24 +54,23 @@ public class TerminElement extends GridElement{
         calendar.add(Calendar.MINUTE, -termin.dauer);
 
         Label.LabelStyle nameStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), Color.BLACK);
-        Label.LabelStyle serviceStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 11), ERE.assets.grey5);
-        Label.LabelStyle timeStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 11, LIGHT), ERE.assets.grey5);
+        Label.LabelStyle serviceStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 11), ERE.assets.grey6);
+        Label.LabelStyle timeStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 11, LIGHT), ERE.assets.grey6);
         this.nameLabel = new Label(kunde.vorname+" "+kunde.name, nameStyle);
         this.leistungLabel = new Label(service.name, serviceStyle);
         this.timeLabel = new Label(startTime+" - "+endTime, timeStyle);
 
         super.align(Align.topLeft);
+        super.padTop(0);
         super.defaults().space(Value.percentWidth(0.02f, this));
-        super.padTop(ValueUtil.percentMinHeight(0.06f, this, 20));
-        super.padLeft(15);
         
         nameLabel.setTouchable(Touchable.disabled);
         leistungLabel.setTouchable(Touchable.disabled);
         timeLabel.setTouchable(Touchable.disabled);
 
-        super.add(nameLabel).fillY().top().left();
+        super.add(nameLabel).fillY().top().left().padTop(ValueUtil.percentMinHeight(0.06f, this, 20)).padLeft(15);
         super.row();
-        leistCell = super.add(leistungLabel).fillY().left();
+        leistCell = super.add(leistungLabel).fillY().left().padLeft(15);
         super.row();
         timeCell = super.add(timeLabel).expand().bottom().right().padRight(10).padBottom(10);
         
@@ -91,14 +95,14 @@ public class TerminElement extends GridElement{
     
     private static ButtonStyle createButtonStyle(int id) {
         ButtonStyle result = new ButtonStyle();
-        Color color = new Color();
+        Color color = new Color(1, 1, 1, 1);
         float[] params = colors[id % colors.length];
         params[2] = 1;
-        result.up = new NinePatchSolid(color.fromHsv(params));
+        result.up = new BGDrawable(color.fromHsv(params));
         params[2] = 0.96f;
-        result.over = new NinePatchSolid(color.fromHsv(params));
+        result.over = new BGDrawable(color.fromHsv(params));
         params[2] = 0.9f;
-        result.down = new NinePatchSolid(color.fromHsv(params));
+        result.down = new BGDrawable(color.fromHsv(params));
         result.checked = result.down;
         return result;
     }
@@ -120,5 +124,22 @@ public class TerminElement extends GridElement{
     @Override
     public int getSpan() {
         return termin.dauer;
+    }
+    
+    private static class BGDrawable extends NinePatchDrawable{
+
+        private Drawable separator;
+        
+        public BGDrawable(Color color) {
+            super(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, color));
+            super.getPatch().scale(2, 2);
+            separator = ERE.assets.createDrawable("generic/separator");
+        }
+
+        @Override
+        public void draw(Batch batch, float x, float y, float width, float height) {
+            super.draw(batch, x, y, width, height); //To change body of generated methods, choose Tools | Templates.
+//            separator.draw(batch, x, y+height-1, width, 1);
+        }
     }
 }

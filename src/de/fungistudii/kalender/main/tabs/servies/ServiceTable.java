@@ -41,7 +41,7 @@ public class ServiceTable extends Table{
     
     private class ServiceCategoryElement extends Table{
 
-        private final Label.LabelStyle lStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.MEDIUM), ERE.assets.grey5);
+        private final Label.LabelStyle lStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.MEDIUM), ERE.assets.grey6);
         
         public ServiceCategoryElement(ServiceCategory category) {
             Label titleLabel = new Label(category.name, lStyle);

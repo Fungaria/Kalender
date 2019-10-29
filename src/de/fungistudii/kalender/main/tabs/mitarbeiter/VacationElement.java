@@ -11,20 +11,17 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
-import de.fungistudii.kalender.client.database.Friseur;
 import de.fungistudii.kalender.client.database.Vacation;
-import de.fungistudii.kalender.main.generic.DaysGrid;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.DatePickerPopup;
-import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,9 +41,13 @@ public class VacationElement extends Table {
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("dd'. 'MMMMM' 'yyyy");
 
     private final Vacation vacation;
+    private final int workerId;
 
-    public VacationElement(Vacation vacation) {
+    int open;
+    
+    public VacationElement(int workerId, Vacation vacation) {
         this.vacation = vacation;
+        this.workerId = workerId;
 
         BitmapFont font = ERE.assets.fonts.createFont("roboto", 14);
         SpriteDrawable separator = ERE.assets.createDrawable("generic/vertical_separator");
@@ -54,21 +55,34 @@ public class VacationElement extends Table {
         ImageButton.ImageButtonStyle deleteStyle = new ImageButton.ImageButtonStyle();
         deleteStyle.imageUp = ERE.assets.createDrawable("generic/thrash");
         deleteStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 6, ERE.assets.grey1);
+        deleteStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 6, ERE.assets.grey2);
         ImageButton delete = new ImageButton(deleteStyle);
         delete.getImageCell().pad(5);
 
         von = new Button(ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey1));
-        TwoColorLabel vonLabel = new TwoColorLabel("Von: ", font, ERE.assets.grey4, dateFormat.format(vacation.start), font, Color.BLACK);
+        von.getStyle().over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey2);
+        von.getStyle().checked = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey3);
+        TwoColorLabel vonLabel = new TwoColorLabel("Von: ", font, ERE.assets.grey5, dateFormat.format(vacation.start), font, Color.BLACK);
         von.add(vonLabel).pad(0, 7, 0, 12);
 
         bis = new Button(new NinePatchSolid(ERE.assets.grey1));
-        TwoColorLabel bisLabel = new TwoColorLabel("Bis: ", font, ERE.assets.grey4, dateFormat.format(vacation.end), font, Color.BLACK);
+        bis.getStyle().over = new NinePatchSolid(ERE.assets.grey2);
+        bis.getStyle().checked = new NinePatchSolid(ERE.assets.grey3);
+        TwoColorLabel bisLabel = new TwoColorLabel("Bis: ", font, ERE.assets.grey5, dateFormat.format(vacation.end), font, Color.BLACK);
         bis.add(bisLabel).pad(0, 7, 0, 12);
 
         Image separator1 = new Image(separator);
         Image separator2 = new Image(separator);
 
-        final RangeSelectBehavior sh = new RangeSelectBehavior(vacation.id, vacation.start, vacation.end);
+        super.add(von).grow().minSize(0).uniform();
+        super.add(separator1).width(1).pad(5, -1, 5, -1);
+        super.add(bis).grow().minSize(0).uniform();
+        super.add(separator2).width(1).pad(5, -1, 5, -1);
+        super.add(delete).minSize(0).maxWidth(Value.percentHeight(1.2f, this));
+        separator1.setZIndex(100);
+        separator2.setZIndex(100);
+
+        final RangeSelectBehavior sh = new RangeSelectBehavior(workerId, vacation.id, vacation.start, vacation.end);
         navigator = new DatePickerPopup((date, dir) -> {
             if (sh.isSelectBegin()) {
                 vonLabel.setRightText(dateFormat.format(date));
@@ -80,37 +94,32 @@ public class VacationElement extends Table {
         navigator.navigation.setSelectBehavior(sh);
         navigator.navigation.setHoverBehavior(sh);
         sh.updateSelection(navigator.navigation.getDateButtons());
-
-
-        super.add(von).grow().minSize(0).uniform();
-        super.add(separator1).width(1).pad(5, -1, 5, -1);
-        super.add(bis).grow().minSize(0).uniform()    ;
-        super.add(separator2).width(1).pad(5, -1, 5, -1);
-        super.add(delete).minSize(0).maxWidth(Value.percentHeight(1.2f, this));
-        separator1.setZIndex(100);
-        separator2.setZIndex(100);
-
+        navigator.onHide = () -> {von.setChecked(false);bis.setChecked(false);};
+        
         von.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                navigator.openButton = von;
                 sh.setSelectBegin(true);
                 sh.updateSelection(navigator.navigation.getDateButtons());
+                von.localToStageCoordinates(tmpVec.set(0, 0));
                 showNavigator(x, y);
-                navigator.navigation.setDate(sh.getBeginDate()); 
+                navigator.navigation.setDate(sh.getBeginDate());
             }
         });
         bis.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                navigator.openButton = bis;
                 sh.setSelectBegin(false);
                 sh.updateSelection(navigator.navigation.getDateButtons());
+                bis.localToStageCoordinates(tmpVec.set(0, 0));
                 showNavigator(x, y);
                 navigator.navigation.setDate(sh.getEndDate());
             }
         });
-
 
         delete.addListener(new ClickListener() {
             @Override
@@ -131,18 +140,13 @@ public class VacationElement extends Table {
         NetworkData.EditVacationRequest request = new NetworkData.EditVacationRequest();
         request.start = start;
         request.end = end;
-        request.workerId = 0;
+        request.workerId = workerId;
         request.id = vacation.id;
         ERE.client.sendTCP(request);
     }
 
     private void showNavigator(float x, float y) {
-        if (navigator.isOpen()) {
-            navigator.hide();
-        } else {
-            von.localToStageCoordinates(tmpVec.set(0, 0));
-            navigator.show(tmpVec.x, tmpVec.y - 10, 250);
-        }
+        navigator.show(tmpVec.x, tmpVec.y - 10, 250);
     }
 
     @Override

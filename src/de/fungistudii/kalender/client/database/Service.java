@@ -5,12 +5,10 @@
  */
 package de.fungistudii.kalender.client.database;
 
+import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.adapters.MapElement;
-import de.fungistudii.kalender.client.database.adapters.VacationAdapter;
-import java.util.HashMap;
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /** 
  *
@@ -47,6 +45,6 @@ public class Service extends MapElement{
     
     @Override
     public String toString() {
-        return name;
+        return ERE.data.root.serviceCategories.get(category)+": "+name;
     }
 }

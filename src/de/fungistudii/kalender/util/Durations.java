@@ -6,6 +6,7 @@ package de.fungistudii.kalender.util;
  */
 public enum Durations {
 
+    d0("0:00", 0),
     d15("0:15", 15),
     d30("0:30", 30),
     d45("0:45", 45),
@@ -38,5 +39,9 @@ public enum Durations {
     @Override
     public String toString() {
         return name;
+    }
+    
+    public static Durations[] all(){
+        return new Durations[]{d15, d30, d45, d60, d75, d90, d105, d120, d135, d150, d165, d180};
     }
 }

@@ -21,7 +21,9 @@ public class DatePickerPopup extends Table {
 
     private boolean open;
 
-    private DatePicker.DateSelectCallback callback;
+    public Runnable onHide = ()->{};
+    
+    public Actor openButton;
     
     public DatePickerPopup(DatePicker.DateSelectCallback callback) {
         super.setBackground(ERE.assets.createNinePatchDrawable("generic/square", 7, ERE.assets.grey1));
@@ -31,7 +33,7 @@ public class DatePickerPopup extends Table {
             callback.dateSelected(date, dir);
         });
         
-        super.add(navigation).grow().pad(20).height(Value.percentWidth(1, this));
+        super.add(navigation).grow().pad(20);
         
         ERE.mainScreen.stage.addCaptureListener(new InputListener() {
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -41,7 +43,9 @@ public class DatePickerPopup extends Table {
                 }
                 if(open){
                     hide();
-                    event.cancel();
+                    if(openButton != null && openButton.isAscendantOf(target)){
+                        event.cancel();
+                    }
                 }
                 return true;
             }
@@ -64,6 +68,7 @@ public class DatePickerPopup extends Table {
 
     public void hide() {
         this.open = false;
+        onHide.run();
         super.remove();
     }
 
@@ -71,7 +76,7 @@ public class DatePickerPopup extends Table {
         this.open = true;
         ERE.mainScreen.stage.addActor(this);
         setWidth(width);
-        setHeight(width);
+        setHeight(width*1.1f);
         setX(x);
         setY(y - getHeight());
     }

@@ -60,20 +60,20 @@ public class DatePicker extends Table {
 
         this.callback = callback;
 
-        Drawable separator = ERE.assets.createDrawable("kalender/navigation/separator");
+        Drawable separator = ERE.assets.createDrawable("generic/vertical_separator");
 
         stack = new TestStack();
         stack.add(datesOld);
 
         super.add(monthHeader).growX().prefHeight(Value.percentWidth(0.8f / 8f, this));
         super.row();
-        super.add(new Image(separator)).growX();
+        super.add(new Image(separator)).growX().height(1).padTop(4).padBottom(2);
         super.row();
         super.add(weekLabel).growX().prefHeight(Value.percentWidth(0.8f / 7f, this));
         super.row();
-        super.add(new Image(separator)).growX();
+        super.add(new Image(separator)).growX().height(1).padTop(1).padBottom(1);
         super.row();
-        super.add(stack).growX().prefHeight(Value.percentWidth((6f / 7f), this));
+        super.add(stack).growX().height(Value.percentWidth((6f / 7f), this));
 
         monthHeader.setDate(datesOld.firstOfMonth());
         
@@ -167,7 +167,7 @@ public class DatePicker extends Table {
         private final SimpleDateFormat headerFormat = new SimpleDateFormat("MMMM' 'yyyy");
         
         public MonthHeader() {
-            label = new Label("Januar 2020", new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14, Fonts.BOLD), ERE.assets.grey5));
+            label = new Label("Januar 2020", new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14, Fonts.BOLD), ERE.assets.grey6));
 
             SpriteDrawable arrowf = ERE.assets.createDrawable("kalender/navigation/arrow_up");
             SpriteDrawable arrowb = ERE.assets.createDrawable("kalender/navigation/arrow_up");
@@ -203,7 +203,7 @@ public class DatePicker extends Table {
     private static class WeekLabel extends Table {
 
         public WeekLabel() {
-            Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
+            Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey6);
             add(createLabel("Mo", style)).uniform().expand();
             add(createLabel("Di", style)).uniform().expand();
             add(createLabel("Mi", style)).uniform().expand();

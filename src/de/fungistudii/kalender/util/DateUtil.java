@@ -55,4 +55,15 @@ public class DateUtil {
         calendar.setTime(date);
         return calendar.get(Calendar.DAY_OF_WEEK);
     }
+    
+    public static Date add(Date date, int type, int amount){
+        calendar.setTime(date);
+        calendar.add(type, amount);
+        return calendar.getTime();
+    }
+
+    public static int getHour(Date nuDate) {
+        calendar.setTime(nuDate);
+        return calendar.get(Calendar.HOUR_OF_DAY);
+    }
 }

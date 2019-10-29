@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
@@ -51,7 +52,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     private final Drawable bottomFiller = ERE.assets.createNinePatchDrawable("kalender/grid/filler_bottom", 2);
 
     protected Calendar calendar;
-    protected Date start;
+    public Date start;
 
     final ButtonGroup<GridElement> buttons = new ButtonGroup<>();
 
@@ -121,6 +122,13 @@ public abstract class KalenderGrid extends Table implements Disposable {
         return buttons.getAllChecked().size;
     }
 
+    public void updateColumn(int column){
+        Cell<MitarbeiterColumn> cell = getCell(columns[column]);
+        cell.clearActor();
+        columns[column] = createMitarbeiterColumn(column, start);
+        cell.setActor(columns[column]);
+    }
+    
     @Override
     public void dispose() {
         for (MitarbeiterColumn column : columns) {
@@ -186,7 +194,8 @@ public abstract class KalenderGrid extends Table implements Disposable {
                     row += cells - 1;
                     calendar.add(Calendar.MINUTE, 15 * (cells - 1));
                     nxtTermin++;
-                } else if (nxtBlock < blockierungen.length && DateUtil.compareTime(blockierungen[nxtBlock].start, calendar.getTime()) <= 0) {
+                } 
+                if (nxtBlock < blockierungen.length && DateUtil.compareTime(blockierungen[nxtBlock].start, calendar.getTime()) <= 0) {
                     element = new BlockierungElement(blockierungen[nxtBlock]);
                     int cells = blockierungen[nxtBlock].duration;
                     super.add(element).height(ValueUtil.percentValue(cells, elementHeight)).grow();

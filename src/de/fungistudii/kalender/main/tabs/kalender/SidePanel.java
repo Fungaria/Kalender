@@ -3,14 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package de.fungistudii.kalender.main.tabs.kalender.side;
+package de.fungistudii.kalender.main.tabs.kalender;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.main.generic.DatePicker;
@@ -38,8 +40,13 @@ public class SidePanel extends Container {
         content = new Table();
         navigation = new DatePicker(callback);
         terminHinzufügen = new GenericTextButton("Termin hinzufugen", new GenericTextButton.FilledStyle());
+        Drawable separator = ERE.assets.createDrawable("generic/vertical_separator");
         
-        content.add(navigation).fillX().height(Value.percentWidth(1.2f, this)).minWidth(0);
+        content.defaults().space(15);
+        
+        navigation.row();
+        navigation.add(new Image(separator)).height(1).growX();
+        content.add(navigation).fill().height(Value.percentWidth(1, this)).minWidth(0);
         content.row();
         content.add(terminHinzufügen).minSize(0).growX().prefHeight(Value.percentWidth(0.16f, this));
         content.row();

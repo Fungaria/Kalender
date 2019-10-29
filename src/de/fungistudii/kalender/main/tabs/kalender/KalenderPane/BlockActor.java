@@ -75,27 +75,10 @@ public class BlockActor extends GridElement {
         container.padTop(10);
         container.padLeft(15);
         container.top().left();
-        super.add(new Stack(image, container)).grow();
+        Stack stack =new Stack(image, container);
+        super.add(stack).grow();
 
-        container.setTouchable(Touchable.disabled);
-        
-        image.addListener(new ClickListener() {
-            @Override
-            public void enter(InputEvent event, float x, float y, int pointer, Actor fromActor) {
-                drawable.setBackground(cOver);
-            }
-
-            @Override
-            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                drawable.setBackground(cUp);
-            }
-
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                drawable.setBackground(cCheck);
-            }
-        });
-
+        stack.setTouchable(Touchable.disabled);
         super.setClip(true);
     }
 
@@ -123,6 +106,7 @@ public class BlockActor extends GridElement {
         super.draw(batch, parentAlpha); //To change body of generated methods, choose Tools | Templates.
     }
 
+    @Override
     public int getSpan() {
         return duration;
     }

@@ -35,6 +35,7 @@ public class DateButton extends TextButton {
             setChecked(false);
             getLabel().setText(dateFormat.format(date));
         });
+        getLabel().setText(dateFormat.format(navigator.navigation.getDate()));
         super.getLabelCell().left();
         super.getLabel().setAlignment(Align.left);
         super.addListener(new ClickListener() {

@@ -7,17 +7,22 @@
         <item kundenid="0" start="2019-10-13 17:00:00" dauer="120" service="0" friseur="2" erstellt="2019-10-13 15:52:42" urheber="0" id="7"/>
         <item kundenid="0" start="2019-10-13 16:45:00" dauer="180" service="0" friseur="3" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
         <item kundenid="0" start="2019-10-16 12:15:00" dauer="180" service="0" friseur="3" erstellt="2019-10-16 19:32:16" urheber="0" id="9"/>
+        <item kundenid="0" start="2019-10-27 10:00:00" dauer="60" service="0" friseur="2" erstellt="2019-10-27 16:12:58" urheber="0" id="10"/>
     </termine>
     <blockierungen>
         <item start="2019-10-12 08:45:00" duration="13" friseur="4" msg="" id="1"/>
         <item start="2019-10-10 08:00:00" duration="20" friseur="3" msg="" id="2"/>
         <item start="2019-10-10 08:00:00" duration="46" friseur="4" msg="" id="3"/>
-        <item start="2019-10-13 10:00:00" duration="23" friseur="3" msg="" id="4"/>
         <item start="2019-10-13 09:00:00" duration="6" friseur="1" msg="" id="5"/>
         <item start="2019-10-13 15:00:00" duration="16" friseur="4" msg="" id="7"/>
         <item start="2019-10-13 20:00:00" duration="14" friseur="2" msg="" id="8"/>
         <item start="2019-10-13 08:00:00" duration="56" friseur="0" msg="" id="9"/>
         <item start="2019-10-13 09:15:00" duration="15" friseur="5" msg="Mittag" id="10"/>
+        <item start="2019-11-02 08:15:00" duration="17" friseur="2" msg="Boi" id="11"/>
+        <item start="2019-10-28 10:00:00" duration="8" friseur="2" msg="" id="12"/>
+        <item start="2019-10-28 10:15:00" duration="6" friseur="4" msg="" id="13"/>
+        <item start="2019-10-28 09:00:00" duration="3" friseur="5" msg="" id="14"/>
+        <item start="2019-10-22 09:00:00" duration="8" friseur="1" msg="" id="15"/>
     </blockierungen>
     <kunden>
         <item name="Reiser" vorname="Samuel" phone="45678" id="0"/>
@@ -25,23 +30,30 @@
     <friseure>
         <item name="Meryem" id="0">
             <vacations>
-                <item start="2019-10-02 15:17:00" end="2019-10-11 15:09:00" id="0"/>
-                <item start="2019-10-15 15:17:00" end="2019-10-26 15:17:00" id="1"/>
+                <item start="2019-10-03 18:28:00" end="2019-10-05 10:15:00" id="1"/>
+                <item start="2019-10-16 12:33:00" end="2019-10-24 18:28:00" id="2"/>
             </vacations>
         </item>
         <item name="Nena" id="1">
             <vacations/>
         </item>
         <item name="Barbara" id="2">
-            <vacations/>
+            <vacations>
+                <item start="2019-10-01 16:25:00" end="2019-10-04 16:25:00" id="1"/>
+            </vacations>
         </item>
         <item name="Linh" id="3">
-            <vacations/>
+            <vacations>
+                <item start="2019-10-23 18:20:00" end="2019-10-29 18:21:00" id="1"/>
+            </vacations>
         </item>
         <item name="Nida" id="4">
-            <vacations/>
+            <vacations>
+                <item start="2019-10-15 23:19:00" end="2019-10-19 23:19:00" id="1"/>
+                <item start="2019-10-22 01:46:00" end="2019-10-25 01:46:00" id="2"/>
+            </vacations>
         </item>
-        <item name="Linh" id="5">
+        <item name="Nicole" id="5">
             <vacations/>
         </item>
         <item name="Nardos" id="6">

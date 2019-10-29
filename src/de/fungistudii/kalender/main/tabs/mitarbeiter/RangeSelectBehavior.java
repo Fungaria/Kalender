@@ -33,13 +33,15 @@ public class RangeSelectBehavior implements DaysGrid.SelectBehavior {
     private boolean isBegin = true;
 
     private int vacationId;
+    private final int workerId;
 
-    public RangeSelectBehavior(int vacationId) {
+    public RangeSelectBehavior(int workerId, int vacationId) {
         this.vacationId = vacationId;
+        this.workerId = workerId;
     }
 
-    public RangeSelectBehavior(int vacationId, Date begin, Date end) {
-        this(vacationId);
+    public RangeSelectBehavior(int workerId, int vacationId, Date begin, Date end) {
+        this(workerId, vacationId);
         this.beginDate = begin;
         this.endDate = end;
     }
@@ -88,7 +90,7 @@ public class RangeSelectBehavior implements DaysGrid.SelectBehavior {
             button.uncheck();
         }
 
-        Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == 0)).findFirst().get();
+        Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == workerId)).findFirst().get();
         selectRange(buttons, beginDate, endDate, leftGreen, solidGreen, rightGreen);
 
         for (Vacation v : friseur.vacations.values()) {

@@ -11,7 +11,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.generic.DatePicker;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.util.DrawableSolid;
 
@@ -44,6 +43,7 @@ public class ServiceSide extends Container {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ERE.mainScreen.service.dialog.show();
+                ERE.mainScreen.service.dialog.setTitle("Service Hinzufügen");
             }
         });
     }

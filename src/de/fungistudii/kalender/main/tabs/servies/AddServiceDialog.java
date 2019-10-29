@@ -27,8 +27,7 @@ public class AddServiceDialog extends GenericDialog{
     private Service context;
     
     public AddServiceDialog() {
-        super("Service Hinzufügen");
-        
+        super("");
         
         name = new GenericTextField("Bezeichnung");
         price = new PriceField("10€");

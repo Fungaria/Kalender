@@ -25,6 +25,10 @@ public class NameSearchField extends SearchField<Kunde>{
         super.setItems(ERE.data.root.kunden.values());
     }
     
+    public int getId(){
+        return getSelected().id;
+    }
+    
     private static final class test extends SFStyle {
         public test() {
             super.textFieldStyle = new TextFieldStyle();
@@ -34,7 +38,7 @@ public class NameSearchField extends SearchField<Kunde>{
             super.textFieldStyle.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.textFieldStyle.cursor.setMinWidth(1);
             super.textFieldStyle.selection = ERE.assets.createDrawable("generic/textfield_selection");
-            super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey5, ERE.assets.grey4, new DrawableSolid(ERE.assets.grey2));
+            super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
             super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
         }

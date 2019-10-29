@@ -19,10 +19,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 public class Assets {
 
     public final Color grey1 = new Color(0.94f, 0.94f, 0.94f, 1);
-    public final Color grey2 = new Color(200f/255f, 200f/255f, 200f/255f, 1);
-    public final Color grey3 = new Color(130f/255f, 130f/255f, 130f/255f, 1);
-    public final Color grey4 = new Color(160f/255f, 160f/255f, 160f/255f, 1);
-    public final Color grey5 = new Color(53f/255f, 53f/255f, 53f/255f, 1);
+    public final Color grey2 = new Color(225f/255f, 225f/255f, 225f/255f, 1);
+    public final Color grey3 = new Color(200f/255f, 200f/255f, 200f/255f, 1);
+    public final Color grey4 = new Color(130f/255f, 130f/255f, 130f/255f, 1);
+    public final Color grey5 = new Color(160f/255f, 160f/255f, 160f/255f, 1);
+    public final Color grey6 = new Color(53f/255f, 53f/255f, 53f/255f, 1);
     
     public final Color darkRed = new Color(204/255f, 43/255f, 43/255f, 1);
     public final Color lightRed = new Color(238/255f, 31/255f, 32/255f, 1);

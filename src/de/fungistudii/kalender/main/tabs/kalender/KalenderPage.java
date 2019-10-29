@@ -6,7 +6,6 @@
 package de.fungistudii.kalender.main.tabs.kalender;
 
 import com.badlogic.gdx.Gdx;
-import de.fungistudii.kalender.main.tabs.kalender.side.SidePanel;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Disposable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
@@ -59,6 +59,7 @@ public class KalenderPage extends TabPage {
     
     public KalenderPage() {
         contentTable = new Container();
+        contentTable.setBackground(new DrawableSolid(Color.WHITE));
 
         sidePanel = new SidePanel((Date date, int direction) -> {
             if(weekView){
@@ -79,13 +80,12 @@ public class KalenderPage extends TabPage {
 
         dayTable = new DayTable(calendar.getTime());
         weekTable = new WeekTable(calendar.getTime());
-        currentTable = dayTable;
         
-        contentTable.setBackground(new DrawableSolid(Color.WHITE));
+        currentTable = dayTable;
         contentTable.setActor(currentTable);
         
-        add(sidePanel).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).minWidth(200).growY();
-        add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.02f, this));
+        add(sidePanel).width(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY();
+        add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.01f, this), Value.percentWidth(0.02f, this));
 
         updateDate(0);
     }
@@ -100,6 +100,7 @@ public class KalenderPage extends TabPage {
         contentTable.setActor(currentTable); 
         currentTable.invalidateHierarchy();
         weekTable.setElementHeight(dayTable.getElementHeight());
+        weekTable.viewWidget.setView(false);
     }
     
     public void toDayView(int dayOfWeek){
@@ -111,6 +112,7 @@ public class KalenderPage extends TabPage {
         contentTable.setActor(currentTable);
         currentTable.invalidateHierarchy();
         dayTable.setElementHeight(weekTable.getElementHeight());
+        dayTable.viewWidget.setView(true);
     }
 
     public void updateCurrentTable() {
@@ -135,8 +137,7 @@ public class KalenderPage extends TabPage {
         if (selectedElement instanceof BackgroundElement) {
             BackgroundElement e = (BackgroundElement) selectedElement;
             addAppointment.friseur.setSelectedIndex(e.getFriseur());
-            addAppointment.timeHours.setSelectedIndex(e.getStart().getHours());
-            addAppointment.timeMins.setSelectedIndex(e.getStart().getMinutes()/15);
+            //TODO correct default Values
         }
     }
 

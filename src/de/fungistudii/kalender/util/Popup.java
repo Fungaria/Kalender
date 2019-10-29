@@ -16,9 +16,13 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.ObjectMap;
@@ -43,6 +47,9 @@ public class Popup extends Container {
     private final Vector2 tmpSize = new Vector2();
 
     private Window w;
+    
+    protected Label titleLabel;
+    protected ImageButton closeButton;
 
     protected InputListener ignoreTouchDown = new InputListener() {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -51,20 +58,48 @@ public class Popup extends Container {
         }
     };
 
-    public Popup() {
+    public Popup(String title) {
         popupContainer = new Container();
         contentTable = new Table();
+        closeButton = new ImageButton(ERE.assets.createDrawable("generic/cross", ERE.assets.grey4));
+        closeButton.getStyle().imageOver = ERE.assets.createDrawable("generic/cross", ERE.assets.grey6);
+        titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 18), Color.BLACK));
         initialize();
     }
 
+    public void setTitle(String title){
+        this.titleLabel.setText(title);
+    }
+    
+    public String getTitle(){
+        return this.titleLabel.getName();
+    }
+    
     private void initialize() {
         super.setFillParent(true);
         super.setActor(popupContainer);
-        popupContainer.prefWidth(Value.percentWidth(0.45f, this));
+//        popupContainer.prefWidth(Value.percentWidth(0.45f, this));
 
         popupContainer.setActor(contentTable);
         contentTable.defaults().space(6);
+        contentTable.pad(20);
+        Table group = new Table();
+        
+        
+        group.add(titleLabel).grow().padLeft(Value.percentHeight(1, titleLabel));
+        group.add(closeButton).size(Value.percentHeight(1, titleLabel));
+        contentTable.add(group).growX();
+        contentTable.row();
+        contentTable.add(new Image(ERE.assets.createDrawable("generic/separator"))).grow().colspan(3).height(1);
+        contentTable.row();
 
+        closeButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                hide();
+            }
+        });
+        
         focusListener = new FocusListener() {
             public void keyboardFocusChanged(FocusListener.FocusEvent event, Actor actor, boolean focused) {
                 if (!focused) {
@@ -100,7 +135,7 @@ public class Popup extends Container {
         }
         super.setStage(stage);
     }
-    
+
     @Override
     public void draw(Batch batch, float parentAlpha) {
         Stage stage = getStage();
@@ -135,7 +170,7 @@ public class Popup extends Container {
     public Popup show(Stage stage, Action action) {
         clearActions();
         removeCaptureListener(ignoreTouchDown);
-        
+
         ERE.mainScreen.root.setTouchable(Touchable.disabled);
 
         previousKeyboardFocus = null;
