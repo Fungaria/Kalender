@@ -26,6 +26,14 @@ public abstract class GridElement extends Button implements Disposable{
         });
     }
 
+    @Override
+    public boolean isOver() {
+        if(!isDisabled())
+            return super.isOver(); //To change body of generated methods, choose Tools | Templates.
+        else
+            return false;
+    }
+    
     public abstract Date getStart();
     public abstract int getFriseur();
     public abstract int getSpan();

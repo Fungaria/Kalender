@@ -4,12 +4,12 @@ import de.fungistudii.kalender.util.ScrollPaneFollower;
 import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.main.tabs.kalender.TerminElement;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.value.ValueUtil;
@@ -32,7 +33,6 @@ import java.util.Date;
 public abstract class KalenderTable extends Table {
 
     private final int NUM_ROWS = 16;
-    public final int startTime = 8;
 
     private KalenderGrid old;
     private KalenderGrid nu;
@@ -50,6 +50,8 @@ public abstract class KalenderTable extends Table {
     private ScrollPaneFollower n;
 
     private float elementHeight = 24;
+
+    public static final int startTime = 8;
 
     public static BGPool pool;
 
@@ -190,8 +192,9 @@ public abstract class KalenderTable extends Table {
         old.remove();
         old = createGrid(currentDate);
         container.setMainActor(old);
+        setElementHeight(elementHeight);
     }
-    
+
     public void switchDate(Date date, int direction) {
         currentDate = date;
         navigator.setDate(date);
@@ -233,31 +236,40 @@ public abstract class KalenderTable extends Table {
     }
 
     private ClickListener desktopListener = new ClickListener() {
+        //selecting
         private boolean selecting;
-        private boolean dragging;
         private Date startRow;
         private int col;
-        private float startY;
 
-        private TerminElement dragged;
-        
+        //drag and drop
+        private float startY;
+        private float actorY;
+        private int distanceY;
+        private Vector2 tmpVec = new Vector2();
+
+        private TerminDD dragged;
+
         @Override
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             Actor hit = hit(x, y, true);
             pane.cancel();
-            
-            if (hit instanceof GridElement && ((GridElement) hit).isChecked() && old.buttons.getAllChecked().size > 1) {
+
+            if (hit instanceof GridElement && ((Button) hit).isChecked() && old.buttons.getAllChecked().size > 1) {
                 return true;
             }
-            
+
             if (hit instanceof TerminElement && ((TerminElement) hit).isChecked()) {
-                dragging = true;
-                dragged = (TerminElement)hit;
+                ((TerminElement) hit).fadeOut();
+                dragged = new TerminDD((TerminElement) hit, old.elementHeight);
+                old.addActor(dragged);
                 startY = y;
-            }else if(hit instanceof GridElement){
+                actorY = hit.localToActorCoordinates(old, tmpVec.set(0, 0)).y;
+                dragged.jumpTo(tmpVec.x, tmpVec.y);
+                old.disableInput();
+            } else if (hit instanceof GridElement) {
                 old.buttons.uncheckAll();
                 startRow = ((GridElement) hit).getStart();
-                col = (((Table) hit.getParent().getParent()).getCell(hit.getParent()).getColumn()) / 2;
+                col = ((GridElement) hit).getFriseur();
             }
             if (hit instanceof BackgroundElement) {
                 selecting = true;
@@ -275,8 +287,13 @@ public abstract class KalenderTable extends Table {
         public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
             selecting = false;
             // release Dragged Termin
-            if(dragging){
-                dragging = false;
+            if (dragged != null) {
+                old.enableInput();
+                dragged.getTermin().start = DateUtil.add(dragged.getTermin().start, Calendar.MINUTE, -15 * distanceY);
+                dragged.getTermin().friseur = col;
+                ERE.client.sendTCP(dragged.getTermin());
+                dragged.dispose();
+                dragged = null;
             }
         }
 
@@ -288,23 +305,11 @@ public abstract class KalenderTable extends Table {
                 Date min = DateUtil.min(currentRow, startRow);
                 Date max = DateUtil.max(currentRow, startRow);
                 old.selectRange(col, min, max);
-            }else if(dragging && hit instanceof GridElement){
-//                int distance = (int)((startY-y)/old.elementHeight.get());
-//                Date nuDate = DateUtil.add(startRow, Calendar.MINUTE, distance*15);
-//                if(hit instanceof GridElement){
-//                    int nuCol = (((Table) hit.getParent().getParent()).getCell(hit.getParent()).getColumn()) / 2;
-//                    if(nuCol != col){
-//                        dragged.getTermin().friseur = nuCol;
-//                        old.updateColumn(col);
-//                        old.updateColumn(nuCol);
-//                        col = nuCol;
-//                    }
-//                }
-//                if(DateUtil.getHour(nuDate)>=startTime && DateUtil.compareTime(nuDate, dragged.getTermin().start) != 0){
-//                    dragged.getTermin().start = nuDate;
-//                    old.updateColumn(col);
-//                }
-                        
+            } else if (dragged != null && hit instanceof GridElement) {
+                float targetX = (hit.getParent()).localToActorCoordinates(old, tmpVec.set(0, 0)).x;
+                col = ((GridElement) hit).getFriseur();
+                distanceY = (int) ((y-startY)/elementHeight);
+                dragged.setPosition(targetX,actorY + elementHeight * distanceY);
             }
         }
     };
@@ -314,7 +319,6 @@ public abstract class KalenderTable extends Table {
         public final VariableValue elementHeight = new VariableValue(24);
 
         private final Drawable timeFiller = ERE.assets.createNinePatchDrawable("kalender/grid/time", 2);
-        
 
         public TimeColumn(int align) {
             TextButton.TextButtonStyle dateStyle = new TextButton.TextButtonStyle(timeFiller, timeFiller, timeFiller, ERE.assets.fonts.createFont("robotoCondensed", 14));

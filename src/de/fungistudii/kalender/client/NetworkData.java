@@ -26,8 +26,7 @@ public class NetworkData {
         public String msg;
     }
 
-    public static class TerminRequest {
-
+    public static class CreateTerminRequest {
         public int kundenId;
         public Date start;
         public int duration;

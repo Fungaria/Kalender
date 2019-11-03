@@ -22,7 +22,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
-import de.fungistudii.kalender.client.NetworkData.TerminRequest;
+import de.fungistudii.kalender.client.NetworkData.CreateTerminRequest;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
 import de.fungistudii.kalender.main.generic.GenericTextField;
@@ -144,7 +144,7 @@ public class AddAppointmentDialog extends Popup{
                 calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
                 calendar.set(Calendar.MINUTE, timePicker.getMinute());
                 calendar.set(Calendar.SECOND, 0);
-                TerminRequest request = new TerminRequest();
+                CreateTerminRequest request = new CreateTerminRequest();
                 request.duration = 60;
                 request.start = calendar.getTime();
                 request.friseurId = friseur.getSelected().id;

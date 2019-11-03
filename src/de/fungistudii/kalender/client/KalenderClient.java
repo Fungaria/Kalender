@@ -55,7 +55,7 @@ public class KalenderClient extends Client{
         k.register(Blockierung.class);
         k.register(LoginRequest.class);
         k.register(LoginResponse.class);
-        k.register(TerminRequest.class);
+        k.register(CreateTerminRequest.class);
         k.register(StornoRequest.class);
         k.register(BlockRequest.class);
         k.register(EditVacationRequest.class);

@@ -66,4 +66,13 @@ public class DateUtil {
         calendar.setTime(nuDate);
         return calendar.get(Calendar.HOUR_OF_DAY);
     }
+
+    public static int getMinuteOfDay(Date nuDate) {
+        calendar.setTime(nuDate);
+        return calendar.get(Calendar.HOUR_OF_DAY)*60+calendar.get(Calendar.MINUTE);
+    }
+    
+    public static Date clone(Date date){
+        return new Date(date.getTime());
+    }
 }

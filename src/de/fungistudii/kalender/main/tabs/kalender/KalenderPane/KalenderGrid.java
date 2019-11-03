@@ -5,14 +5,18 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
@@ -27,8 +31,11 @@ import de.fungistudii.kalender.main.generic.ContextMenu;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import static de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.pool;
 import de.fungistudii.kalender.util.DateUtil;
+import de.fungistudii.kalender.util.NinePatchSolid;
+import de.fungistudii.kalender.util.StreamUtils;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import de.fungistudii.kalender.util.value.VariableValue;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Consumer;
@@ -38,8 +45,6 @@ import java.util.function.Consumer;
  * @author sreis
  */
 public abstract class KalenderGrid extends Table implements Disposable {
-
-    public final int startTime = 8;
 
     public final int NUM_ROWS = 16, NUM_COLS;
     private static final float spacing = 0.1f;
@@ -54,7 +59,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     protected Calendar calendar;
     public Date start;
 
-    final ButtonGroup<GridElement> buttons = new ButtonGroup<>();
+    final ButtonGroup<Button> buttons = new ButtonGroup<>();
 
     private DatePicker.DateSelectCallback callback;
 
@@ -68,7 +73,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
         calendar.setTime(date);
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, startTime);
+        calendar.set(Calendar.HOUR_OF_DAY, KalenderTable.startTime);
         this.start = calendar.getTime();
 
         buttons.setMinCheckCount(0);
@@ -107,12 +112,12 @@ public abstract class KalenderGrid extends Table implements Disposable {
         setHeight(getPrefHeight());
         validate();
     }
-
-    public Button getSelectedElement() {
-        GridElement lowest = buttons.getChecked();
-        for (GridElement button : buttons.getAllChecked()) {
-            if (button.getStart().before(lowest.getStart())) {
-                lowest = button;
+    
+    public GridElement getSelectedElement() {
+        GridElement lowest = (GridElement)buttons.getChecked();
+        for (Button button : buttons.getAllChecked()) {
+            if (((GridElement) button).getStart().before(lowest.getStart())) {
+                lowest = (GridElement) button;
             }
         }
         return lowest;
@@ -122,13 +127,13 @@ public abstract class KalenderGrid extends Table implements Disposable {
         return buttons.getAllChecked().size;
     }
 
-    public void updateColumn(int column){
+    public void updateColumn(int column) {
         Cell<MitarbeiterColumn> cell = getCell(columns[column]);
         cell.clearActor();
         columns[column] = createMitarbeiterColumn(column, start);
         cell.setActor(columns[column]);
     }
-    
+
     @Override
     public void dispose() {
         for (MitarbeiterColumn column : columns) {
@@ -150,7 +155,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
     public void animateIn(boolean direction, float width, Consumer<KalenderGrid> consumer) {
         setVisible(true);
-        setPosition((direction?1:-1) * width, 0);
+        setPosition((direction ? 1 : -1) * width, 0);
         addAction(Actions.sequence(Actions.moveTo(0, 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.run(() -> {
             consumer.accept(this);
         })));
@@ -158,26 +163,44 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
     public void animateOut(boolean direction) {
         setPosition(0, 0);
-        addAction(Actions.sequence(Actions.moveBy((direction?-1:1) * getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.hide(), Actions.run(() -> {
+        addAction(Actions.sequence(Actions.moveBy((direction ? -1 : 1) * getWidth(), 0, Cons.calendarTransitionTime, Interpolation.pow2), Actions.hide(), Actions.run(() -> {
             remove();
             dispose();
         })));
     }
-    
-    public void skipOut(){
+
+    public void skipOut() {
         clearActions();
         remove();
         dispose();
     }
-    
-    public void skipIn(){
+
+    public void skipIn() {
         clearActions();
         setPosition(0, 0);
     }
+
+    void disableInput() {
+        for (MitarbeiterColumn column : columns) {
+            for (GridElement element : column.elements) {
+                element.setDisabled(true);
+            }
+        }
+    }
     
-    public class MitarbeiterColumn extends Table {
+    void enableInput(){
+        for (MitarbeiterColumn column : columns) {
+            for (GridElement element : column.elements) {
+                element.setDisabled(false);
+            }
+        }
+    }
+
+    public class MitarbeiterColumn extends Stack {
 
         public Array<GridElement> elements = new Array<>();
+
+        private Table table;
 
         public MitarbeiterColumn(int friseur, Termin[] termine, Blockierung[] blockierungen, Date startTime) {
             calendar.setTime(startTime);
@@ -185,47 +208,45 @@ public abstract class KalenderGrid extends Table implements Disposable {
             int nxtTermin = 0;
             int nxtBlock = 0;
 
+            table = new Table();
+
             for (int row = 0; row < NUM_ROWS * 4; row++) {
                 GridElement element = null;
-                if (nxtTermin < termine.length && !termine[nxtTermin].start.after(calendar.getTime())) {
-                    element = new TerminElement(termine[nxtTermin]);
-                    int cells = termine[nxtTermin].dauer / 15;
-                    super.add(element).height(ValueUtil.percentValue(cells, elementHeight)).grow();
-                    row += cells - 1;
-                    calendar.add(Calendar.MINUTE, 15 * (cells - 1));
-                    nxtTermin++;
-                } 
                 if (nxtBlock < blockierungen.length && DateUtil.compareTime(blockierungen[nxtBlock].start, calendar.getTime()) <= 0) {
                     element = new BlockierungElement(blockierungen[nxtBlock]);
                     int cells = blockierungen[nxtBlock].duration;
-                    super.add(element).height(ValueUtil.percentValue(cells, elementHeight)).grow();
+                    table.add(element).height(ValueUtil.percentValue(cells, elementHeight)).grow();
                     row += cells - 1;
                     calendar.add(Calendar.MINUTE, 15 * (cells - 1));
                     nxtBlock++;
                 } else {
                     element = pool.obtain(calendar.getTime(), friseur, row % 4 == 0);
-                    super.add(element).growX().minSize(0).height(elementHeight).top();
+                    table.add(element).minSize(0).height(elementHeight).top();
                 }
                 buttons.add(element);
                 elements.add(element);
-                super.row();
+                table.row();
                 calendar.add(Calendar.MINUTE, 15);
             }
 
-            super.setClip(true);
+            super.add(table);
+            for (Termin termin : termine) {
+                TerminWrapper element = new TerminWrapper(termin, elementHeight);
+                buttons.add(element.terminElement);
+                super.add(element);
+            }
+
+            table.setClip(true);
             calendar.setTime(startTime);
         }
-
-        public void checkRange(Date begin, Date end) {
-            for (GridElement element : elements) {
-                if (!element.getStart().before(begin) && !element.getStart().after(end)) {
-                    ((Button) element).setChecked(true);
-                } else {
-                    ((Button) element).setChecked(false);
-                }
-            }
+        
+        @Override
+        public void invalidate() {
+            if(table != null)
+                table.invalidate();
+            super.invalidate();
         }
-
+        
         private void dispose() {
             for (GridElement element : elements) {
                 element.dispose();
@@ -236,7 +257,6 @@ public abstract class KalenderGrid extends Table implements Disposable {
             elements.clear();
         }
     }
- 
 
     public class FillerColumn extends Table {
 

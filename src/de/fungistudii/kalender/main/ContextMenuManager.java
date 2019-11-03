@@ -5,7 +5,7 @@ import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.ContextMenu;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockierungElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.TerminElement;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.TerminWrapper;
 
 /**
  *
@@ -16,7 +16,7 @@ public class ContextMenuManager {
     private Array<ContextMenu> menus = new Array<>();
     
     public void init(){
-        ContextMenu<TerminElement> termin = new ContextMenu<>(TerminElement.class,
+        ContextMenu<TerminWrapper> termin = new ContextMenu<>(TerminWrapper.class,
             new ContextMenu.ContextEntry<>("Termin stornieren", (a) -> ERE.mainScreen.kalender.stornoDialog.show(a.getTermin())),
             new ContextMenu.ContextEntry<>("Termin bearbeiten", (a) -> {;})
         );
