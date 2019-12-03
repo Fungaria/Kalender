@@ -26,6 +26,7 @@ public class TerminDD extends Group implements Disposable {
 
     public TerminDD(TerminElement termin, Value elementHeight) {
         super();
+        
         terminElement = new TerminElement(termin.getTermin(), termin.getBackgroundColor());
         terminElement.setWidth(termin.getWidth());
         terminElement.setHeight(termin.getHeight());
@@ -49,7 +50,7 @@ public class TerminDD extends Group implements Disposable {
     public void act(float delta) {
         tmpPos.lerp(targetPosition, 0.5f);
         if(tmpPos.dst2(targetPosition)<10)
-            tmpPos.set(targetPosition);
+            tmpPos.set(targetPosition.x, targetPosition.y);
         terminElement.setPosition((int) tmpPos.x, (int) tmpPos.y);
         super.act(delta);
     }

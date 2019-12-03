@@ -25,8 +25,6 @@ import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  *
@@ -116,15 +114,15 @@ public class SearchField<T> extends TextField implements Disableable {
         
         public boolean open;
 
-        public SelectBoxList(final SearchField selectBox) {
-            super(null, selectBox.style.scrollStyle);
-            this.selectBox = selectBox;
+        public SelectBoxList(final SearchField searchField) {
+            super(null, searchField.style.scrollStyle);
+            this.selectBox = searchField;
 
             setOverscroll(false, false);
             setFadeScrollBars(false);
             setScrollingDisabled(true, false);
 
-            list = new List<T>(selectBox.style.listStyle) {
+            list = new List<T>(searchField.style.listStyle) {
                 @Override
                 public String toString(T obj) {
                     return obj.toString();
@@ -148,19 +146,11 @@ public class SearchField<T> extends TextField implements Disableable {
                 }
             });
 
-            addListener(new InputListener() {
-                public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
-                    if (toActor == null || !isAscendantOf(toActor)) {
-                        list.setSelectedIndex(-1);
-                    }
-                }
-            });
-
             hideListener = new InputListener() {
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                     Actor target = event.getTarget();
                     if (isAscendantOf(target)) {
-                        selectBox.listener.accept(list.getSelected());
+                        searchField.listener.accept(list.getSelected());
                         return false;
                     }
                     hide();

@@ -26,6 +26,7 @@ public class NameSearchField extends SearchField<Kunde>{
     }
     
     public int getId(){
+        System.out.println(getSelected());
         return getSelected().id;
     }
     

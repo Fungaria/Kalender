@@ -73,8 +73,23 @@ public class TerminElement extends GridElement {
         super.setClip(true);
     }
 
+    boolean faded;
+    
     public void fadeOut(){
+        faded = true;
+        Color n = color.cpy();
+        n.a = 0.5f;
+        super.setChecked(false);
+        getStyle().up = (((NinePatchDrawable)getBackground()).tint(n));
     }
+
+    @Override
+    public void act(float delta) {
+        if(!faded)
+            super.act(delta);
+    }
+    
+    
     
     public void fadeIn(){
     }

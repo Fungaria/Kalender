@@ -245,7 +245,7 @@ public abstract class KalenderTable extends Table {
         private float startY;
         private float actorY;
         private int distanceY;
-        private Vector2 tmpVec = new Vector2();
+        private final Vector2 tmpVec = new Vector2();
 
         private TerminDD dragged;
 
@@ -257,12 +257,11 @@ public abstract class KalenderTable extends Table {
             if (hit instanceof GridElement && ((Button) hit).isChecked() && old.buttons.getAllChecked().size > 1) {
                 return true;
             }
-
             if (hit instanceof TerminElement && ((TerminElement) hit).isChecked()) {
                 ((TerminElement) hit).fadeOut();
                 dragged = new TerminDD((TerminElement) hit, old.elementHeight);
                 old.addActor(dragged);
-                startY = y;
+                startY = y; distanceY = 0; col = dragged.getTermin().friseur;
                 actorY = hit.localToActorCoordinates(old, tmpVec.set(0, 0)).y;
                 dragged.jumpTo(tmpVec.x, tmpVec.y);
                 old.disableInput();
@@ -308,8 +307,8 @@ public abstract class KalenderTable extends Table {
             } else if (dragged != null && hit instanceof GridElement) {
                 float targetX = (hit.getParent()).localToActorCoordinates(old, tmpVec.set(0, 0)).x;
                 col = ((GridElement) hit).getFriseur();
-                distanceY = (int) ((y-startY)/elementHeight);
-                dragged.setPosition(targetX,actorY + elementHeight * distanceY);
+                distanceY = (int) ((y-startY)/old.elementHeight.get());
+                dragged.setPosition(targetX,actorY + old.elementHeight.get() * distanceY);
             }
         }
     };

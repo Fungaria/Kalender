@@ -2,19 +2,19 @@
 <ns2:dataRoot xmlns:ns2="de.fungistudii.kalender">
     <termine>
         <item kundenid="0" start="2019-09-12 10:30:00" dauer="60" service="0" friseur="0" erstellt="2019-09-28 18:30:00" urheber="0" id="1"/>
-        <item kundenid="0" start="2019-10-13 15:30:00" dauer="240" service="0" friseur="5" erstellt="2019-10-13 15:48:49" urheber="0" id="3"/>
-        <item kundenid="0" start="2019-10-13 11:00:00" dauer="180" service="0" friseur="4" erstellt="2019-10-13 15:50:58" urheber="0" id="4"/>
-        <item kundenid="0" start="2019-10-13 17:00:00" dauer="120" service="0" friseur="2" erstellt="2019-10-13 15:52:42" urheber="0" id="7"/>
-        <item kundenid="0" start="2019-10-13 11:45:00" dauer="180" service="0" friseur="2" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
+        <item kundenid="0" start="2019-10-13 10:15:00" dauer="240" service="0" friseur="4" erstellt="2019-10-13 15:48:49" urheber="0" id="3"/>
+        <item kundenid="0" start="2019-10-13 07:45:00" dauer="180" service="0" friseur="1" erstellt="2019-10-13 15:50:58" urheber="0" id="4"/>
+        <item kundenid="0" start="2019-10-13 09:45:00" dauer="120" service="0" friseur="2" erstellt="2019-10-13 15:52:42" urheber="0" id="7"/>
+        <item kundenid="0" start="2019-10-13 14:00:00" dauer="180" service="0" friseur="1" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
         <item kundenid="0" start="2019-10-16 12:15:00" dauer="180" service="0" friseur="3" erstellt="2019-10-16 19:32:16" urheber="0" id="9"/>
         <item kundenid="0" start="2019-10-27 10:00:00" dauer="60" service="0" friseur="2" erstellt="2019-10-27 16:12:58" urheber="0" id="10"/>
+        <item kundenid="1" start="2019-12-11 12:00:00" dauer="60" service="0" friseur="1" erstellt="2019-12-03 08:46:46" urheber="0" id="11"/>
     </termine>
     <blockierungen>
         <item start="2019-10-12 08:45:00" duration="13" friseur="4" msg="" id="1"/>
         <item start="2019-10-10 08:00:00" duration="20" friseur="3" msg="" id="2"/>
         <item start="2019-10-10 08:00:00" duration="46" friseur="4" msg="" id="3"/>
         <item start="2019-10-13 10:00:00" duration="23" friseur="3" msg="" id="4"/>
-        <item start="2019-10-13 09:00:00" duration="6" friseur="1" msg="" id="5"/>
         <item start="2019-10-13 15:00:00" duration="16" friseur="4" msg="" id="7"/>
         <item start="2019-10-13 20:00:00" duration="14" friseur="2" msg="" id="8"/>
         <item start="2019-10-13 08:00:00" duration="56" friseur="0" msg="" id="9"/>
@@ -25,7 +25,10 @@
         <item start="2019-10-28 09:00:00" duration="3" friseur="5" msg="" id="14"/>
     </blockierungen>
     <kunden>
-        <item name="Reiser" vorname="Samuel" phone="45678" id="0"/>
+        <item name="Reiser" vorname="Peter" phone="45678" id="0"/>
+        <item name="Reiser" vorname="Samuel" phone="45678" id="1"/>
+        <item name="Chur" vorname="Chill" phone="45678" id="2"/>
+        <item name="Me" vorname="Boi" phone="45678" id="3"/>
     </kunden>
     <friseure>
         <item name="Meryem" id="0">
