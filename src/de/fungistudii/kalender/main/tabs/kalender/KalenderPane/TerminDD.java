@@ -57,7 +57,7 @@ public class TerminDD extends Group implements Disposable {
 
     @Override
     public void setPosition(float x, float y) {
-        this.targetPosition.set(x+Cons.appointmentPad, y);
+        this.targetPosition.set(x, y);
     }
     
     public float getX(){

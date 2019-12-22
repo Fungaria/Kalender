@@ -12,8 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
+import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import static de.fungistudii.kalender.util.Fonts.LIGHT;
+import de.fungistudii.kalender.util.Fonts;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -46,10 +47,15 @@ public class DateButton extends TextButton {
                     navigator.hide();
                 } else {
                     localToStageCoordinates(screenPosition.set(0, 0));
-                    navigator.show(screenPosition.x, screenPosition.y, getWidth());
+                    navigator.show(screenPosition.x, screenPosition.y, 300);
                 }
             }
         });
+    }
+
+    @Override
+    public float getPrefHeight() {
+        return Cons.defaultRowHeight;
     }
     
     public Date getDate(){
@@ -59,11 +65,15 @@ public class DateButton extends TextButton {
     private static class DateButtonStyle extends TextButtonStyle {
 
         public DateButtonStyle() {
-            super.up = ERE.assets.createNinePatchDrawable("generic/rounded", 13);
-            super.down = ERE.assets.createNinePatchDrawable("generic/rounded_check", 13);
-            super.checked = ERE.assets.createNinePatchDrawable("generic/rounded_check", 13);
-            super.font = ERE.assets.fonts.createFont("roboto", 15, LIGHT);
+            super.up = ERE.assets.createRounded("outline");
+            super.down = ERE.assets.createRounded("outline_check");
+            super.checked = super.down;
+            super.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
             super.fontColor = Color.BLACK;
+            
+            super.up.setLeftWidth(Cons.defaultLeftWidth);
+            super.down.setLeftWidth(Cons.defaultLeftWidth);
+            super.checked.setLeftWidth(Cons.defaultLeftWidth);
         }
     }
 }

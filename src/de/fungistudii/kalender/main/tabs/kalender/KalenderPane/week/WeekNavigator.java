@@ -39,23 +39,23 @@ public class WeekNavigator extends Navigator {
         super();
 
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
-        nextStyle.imageUp = ERE.assets.createDrawable("kalender/navigation/arrow_up");
-        nextStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey1);
-        nextStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey3);
+        nextStyle.imageUp = ERE.assets.createDrawable("icons/arrow_side");
+        nextStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_right", 12);
+        nextStyle.down = ERE.assets.createNinePatchDrawable("generic/rounded_right", 12, ERE.assets.grey2);
 
         ImageButton.ImageButtonStyle prevStyle = new ImageButton.ImageButtonStyle();
-        SpriteDrawable d = ERE.assets.createDrawable("kalender/navigation/arrow_up");
+        SpriteDrawable d = ERE.assets.createDrawable("icons/arrow_side");
         d.getSprite().flip(true, false);
-        prevStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey1);
-        prevStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey3);
+        prevStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_left", 12);
+        prevStyle.down = ERE.assets.createNinePatchDrawable("generic/rounded_left", 12, ERE.assets.grey2);
         prevStyle.imageUp = d;
 
         SelectBox.SelectBoxStyle sbs = new SelectBox.SelectBoxStyle();
-        sbs.background = new NinePatchSolid(ERE.assets.grey1);
-        sbs.backgroundOver = new NinePatchSolid(ERE.assets.grey3);
-        sbs.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
-        sbs.fontColor = Color.BLACK;
-        sbs.listStyle = new List.ListStyle(sbs.font, ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
+        sbs.background = ERE.assets.createNinePatchDrawable("generic/middle", 12);
+        sbs.backgroundOpen = ERE.assets.createNinePatchDrawable("generic/middle", 12, ERE.assets.grey2);
+        sbs.font = ERE.assets.fonts.createFont("roboto", 16);
+        sbs.fontColor = ERE.assets.grey6;
+        sbs.listStyle = new List.ListStyle(sbs.font, ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
         sbs.scrollStyle = new ScrollPane.ScrollPaneStyle();
         sbs.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
 
@@ -65,7 +65,7 @@ public class WeekNavigator extends Navigator {
         dropDown.setItems(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
 
         super.add(previous).minSize(0).maxWidth(Value.percentHeight(1, this));
-        super.add(dropDown).grow();
+        super.add(dropDown).grow().minHeight(0);
         super.add(next).minSize(0).maxWidth(Value.percentHeight(1, this));
 
         dropDown.setAlignment(Align.center);

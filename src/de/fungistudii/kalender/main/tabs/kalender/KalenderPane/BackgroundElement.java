@@ -51,7 +51,7 @@ public class BackgroundElement extends GridElement implements Pool.Poolable{
         public TopStyle() {
             super.up = ERE.assets.createNinePatchDrawable("kalender/grid/element_top", 2);
             super.down = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_check", 2);
-            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_hover", 2);
+//            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_hover", 2);
             super.checked = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_check", 2);
         }
     }
@@ -61,7 +61,7 @@ public class BackgroundElement extends GridElement implements Pool.Poolable{
         public BottomStyle() {
             super.up = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom", 2);
             super.down = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_check", 2);
-            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_hover", 2);
+//            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_hover", 2);
             super.checked = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_check", 2);
         }
     }

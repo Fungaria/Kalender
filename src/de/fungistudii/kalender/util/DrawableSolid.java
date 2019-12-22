@@ -22,7 +22,7 @@ public class DrawableSolid extends TextureRegionDrawable{
     }
     
     private static final Texture createTexture(Color color){
-        Pixmap bgPixmap = new Pixmap(100,100, Pixmap.Format.RGBA4444);
+        Pixmap bgPixmap = new Pixmap(100,100, Pixmap.Format.RGBA8888);
         bgPixmap.setColor(color);
         bgPixmap.fill();
         return new Texture(bgPixmap);

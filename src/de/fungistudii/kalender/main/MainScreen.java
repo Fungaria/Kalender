@@ -4,6 +4,7 @@ import de.fungistudii.kalender.main.tabpane.TabPane;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -28,7 +29,7 @@ public class MainScreen extends ScreenAdapter {
 
     public final Stage stage;
     public final Table root;
-    private Viewport viewport;
+    private ScreenViewport viewport;
 
     private Table contentTable;
     private TabPage currentPage;
@@ -47,7 +48,7 @@ public class MainScreen extends ScreenAdapter {
         root = new Table();
         this.viewport = new ScreenViewport();
         stage = new Stage(viewport);
-        
+
         stage.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {

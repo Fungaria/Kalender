@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import static de.fungistudii.kalender.main.generic.DatePicker.defaultHoverBehavior;
@@ -152,6 +153,7 @@ public class DaysGrid extends Table {
             super();
             
             label = new Label("", hardStyle);
+            label.setAlignment(Align.center);
             
             super.setBackground(def);
             super.add(label).grow();
@@ -219,6 +221,6 @@ public class DaysGrid extends Table {
         public void select(DayButton[] buttons, Date date);
     }
 
-    private final Label.LabelStyle hardStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey6);
+    private final Label.LabelStyle hardStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey7);
     private final Label.LabelStyle softStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
 }

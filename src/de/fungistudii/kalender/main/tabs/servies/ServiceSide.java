@@ -43,7 +43,7 @@ public class ServiceSide extends Container {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 ERE.mainScreen.service.dialog.show();
-                ERE.mainScreen.service.dialog.setTitle("Service Hinzufügen");
+//                ERE.mainScreen.service.dialog.setTitle("Service Hinzufügen");
             }
         });
     }

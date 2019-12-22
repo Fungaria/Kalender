@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import java.util.Date;
@@ -35,11 +36,11 @@ public class DatePickerPopup extends Table {
         
         super.add(navigation).grow().pad(20);
         
-        ERE.mainScreen.stage.addCaptureListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+        ERE.mainScreen.stage.addCaptureListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
                 Actor target = event.getTarget();
                 if (isAscendantOf(target)) {
-                    return false;
                 }
                 if(open){
                     hide();
@@ -47,7 +48,6 @@ public class DatePickerPopup extends Table {
                         event.cancel();
                     }
                 }
-                return true;
             }
 
             public boolean keyDown(InputEvent event, int keycode) {

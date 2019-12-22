@@ -5,18 +5,10 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender;
 
-import com.badlogic.gdx.Gdx;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Disposable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
@@ -25,13 +17,12 @@ import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.AddBlockDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockierungElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.StornoDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day.DayTable;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.WeekTable;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.util.DateUtil;
-import de.fungistudii.kalender.util.DrawableSolid;
+import de.fungistudii.kalender.util.NinePatchSolid;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -59,7 +50,7 @@ public class KalenderPage extends TabPage {
     
     public KalenderPage() {
         contentTable = new Container();
-        contentTable.setBackground(new DrawableSolid(Color.WHITE));
+        super.setBackground(new NinePatchSolid(ERE.assets.kalBG));
 
         sidePanel = new SidePanel((Date date, int direction) -> {
             if(weekView){

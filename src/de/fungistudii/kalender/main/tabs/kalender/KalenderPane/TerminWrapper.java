@@ -35,7 +35,7 @@ public class TerminWrapper extends Table {
         terminElement = new TerminElement(termin, colors[termin.id%colors.length]);
 
         int startCell = DateUtil.getMinuteOfDay(termin.start) - KalenderTable.startTime * 60;
-        super.add(terminElement).height(ValueUtil.percentValue(termin.dauer / 15, elementHeight)).grow().fillY().padRight(Cons.appointmentPad).padLeft(Cons.appointmentPad).padTop(ValueUtil.percentValue(startCell / 15, elementHeight)).top();
+        super.add(terminElement).height(ValueUtil.percentValue(termin.dauer / 15, elementHeight)).grow().fillY().padRight(Cons.appointmentPad).padTop(ValueUtil.percentValue(startCell / 15, elementHeight)).top();
     }
 
     public Termin getTermin() {

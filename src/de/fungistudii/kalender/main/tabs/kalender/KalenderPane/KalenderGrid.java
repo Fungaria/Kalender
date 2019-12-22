@@ -5,21 +5,19 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.Scaling;
@@ -31,11 +29,10 @@ import de.fungistudii.kalender.main.generic.ContextMenu;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import static de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.pool;
 import de.fungistudii.kalender.util.DateUtil;
+import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.NinePatchSolid;
-import de.fungistudii.kalender.util.StreamUtils;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import de.fungistudii.kalender.util.value.VariableValue;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.function.Consumer;
@@ -87,16 +84,17 @@ public abstract class KalenderGrid extends Table implements Disposable {
             columns[i] = createMitarbeiterColumn(i, start);
         }
 
+        setRound(false);
+        
+        SpriteDrawable vs = ERE.assets.createDrawable("generic/vertical_separator", ERE.assets.grey2);
         for (int i = 0; i < NUM_COLS; i++) {
-            add(columns[i]).grow().uniform().minWidth(0);
+            add(new Image(vs)).width(1).fillY();
+            add(columns[i]).minWidth(0).expand().fill().uniform();
             columns[i].setZIndex(1);
-            if (i < NUM_COLS - 1) {
-                Table filler = new FillerColumn();
-                add(filler).width(10);
-                filler.setZIndex(0);
-            }
         }
+        add(new Image(vs)).width(1).fillY();
     }
+    
 
     @Override
     public void invalidate() {
@@ -221,7 +219,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
                     nxtBlock++;
                 } else {
                     element = pool.obtain(calendar.getTime(), friseur, row % 4 == 0);
-                    table.add(element).minSize(0).height(elementHeight).top();
+                    table.add(element).minSize(0).height(elementHeight).top().grow();
                 }
                 buttons.add(element);
                 elements.add(element);
@@ -235,7 +233,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
                 buttons.add(element.terminElement);
                 super.add(element);
             }
-
+            
             table.setClip(true);
             calendar.setTime(startTime);
         }

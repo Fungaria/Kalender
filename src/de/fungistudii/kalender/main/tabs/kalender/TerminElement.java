@@ -15,7 +15,7 @@ import de.fungistudii.kalender.client.database.Service;
 import de.fungistudii.kalender.client.database.Termin;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
 import de.fungistudii.kalender.util.DateUtil;
-import static de.fungistudii.kalender.util.Fonts.LIGHT;
+import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -54,9 +54,9 @@ public class TerminElement extends GridElement {
         String startTime = timeFormat.format(termin.start);
         String endTime = timeFormat.format(DateUtil.add(termin.start, Calendar.MINUTE, termin.dauer));
 
-        Label.LabelStyle nameStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), Color.BLACK);
-        Label.LabelStyle serviceStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 11), ERE.assets.grey6);
-        Label.LabelStyle timeStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 11, LIGHT), ERE.assets.grey6);
+        Label.LabelStyle nameStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13, Fonts.BOLD), Color.WHITE);
+        Label.LabelStyle serviceStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 12), Color.WHITE);
+        Label.LabelStyle timeStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 12), Color.WHITE);
         this.nameLabel = new Label(kunde.vorname + " " + kunde.name, nameStyle);
         this.leistungLabel = new Label(service.name, serviceStyle);
         this.timeLabel = new Label(startTime + " - " + endTime, timeStyle);
@@ -65,11 +65,11 @@ public class TerminElement extends GridElement {
         leistungLabel.setTouchable(Touchable.disabled);
         timeLabel.setTouchable(Touchable.disabled);
 
-        super.add(nameLabel).fillY().top().left().padTop(ValueUtil.percentMinHeight(0.06f, this, 20)).padLeft(15);
+        super.add(nameLabel).fillY().top().left().padTop(ValueUtil.percentMinHeight(0.06f, this, 20)).padLeft(5);
         super.row();
-        leistCell = super.add(leistungLabel).fillY().left().padLeft(15);
+        leistCell = super.add(leistungLabel).fillY().left().padLeft(5);
         super.row();
-        timeCell = super.add(timeLabel).expand().bottom().right().padRight(10).padBottom(10);
+        timeCell = super.add(timeLabel).expand().bottom().right().padRight(5).padBottom(5);
         super.setClip(true);
     }
 
@@ -81,6 +81,7 @@ public class TerminElement extends GridElement {
         n.a = 0.5f;
         super.setChecked(false);
         getStyle().up = (((NinePatchDrawable)getBackground()).tint(n));
+        setTouchable(Touchable.disabled);
     }
 
     @Override
@@ -165,7 +166,7 @@ public class TerminElement extends GridElement {
         public BGDrawable(Color color) {
             super(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, color));
             super.getPatch().scale(2, 2);
-            separator = ERE.assets.createDrawable("generic/separator");
+            separator = ERE.assets.createDrawable("generic/horizontal_separator");
         }
 
         @Override

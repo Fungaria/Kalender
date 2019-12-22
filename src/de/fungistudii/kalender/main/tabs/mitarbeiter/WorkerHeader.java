@@ -48,7 +48,7 @@ public class WorkerHeader extends SelectBox<Friseur> {
             super.backgroundOpen = null;
             super.font = ERE.assets.fonts.createFont("roboto", 22, Fonts.MEDIUM);
             super.fontColor = Color.BLACK;
-            super.listStyle = new List.ListStyle(ERE.assets.fonts.createFont("roboto", 15, Fonts.REGULAR), ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
+            super.listStyle = new List.ListStyle(ERE.assets.fonts.createFont("roboto", 15, Fonts.REGULAR), ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
             super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
         }

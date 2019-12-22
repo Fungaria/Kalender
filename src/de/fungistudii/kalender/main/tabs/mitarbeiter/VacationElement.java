@@ -53,21 +53,21 @@ public class VacationElement extends Table {
         SpriteDrawable separator = ERE.assets.createDrawable("generic/vertical_separator");
 
         ImageButton.ImageButtonStyle deleteStyle = new ImageButton.ImageButtonStyle();
-        deleteStyle.imageUp = ERE.assets.createDrawable("generic/thrash");
-        deleteStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 6, ERE.assets.grey1);
-        deleteStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 6, ERE.assets.grey2);
+        deleteStyle.imageUp = ERE.assets.createDrawable("icons/thrash");
+        deleteStyle.up = ERE.assets.createNinePatchDrawable("rounded/filled_right", 15, ERE.assets.grey1);
+        deleteStyle.over = ERE.assets.createNinePatchDrawable("rounded/filled_right", 15, ERE.assets.grey2);
         ImageButton delete = new ImageButton(deleteStyle);
         delete.getImageCell().pad(5);
 
-        von = new Button(ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey1));
-        von.getStyle().over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey2);
-        von.getStyle().checked = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey3);
+        von = new Button(ERE.assets.createNinePatchDrawable("rounded/filled_left", 15, ERE.assets.grey1));
+        von.getStyle().over = ERE.assets.createNinePatchDrawable("rounded/filled_left", 15, ERE.assets.grey2);
+        von.getStyle().checked = ERE.assets.createNinePatchDrawable("rounded/filled_left", 15, ERE.assets.grey3);
         TwoColorLabel vonLabel = new TwoColorLabel("Von: ", font, ERE.assets.grey5, dateFormat.format(vacation.start), font, Color.BLACK);
         von.add(vonLabel).pad(0, 7, 0, 12);
 
-        bis = new Button(new NinePatchSolid(ERE.assets.grey1));
-        bis.getStyle().over = new NinePatchSolid(ERE.assets.grey2);
-        bis.getStyle().checked = new NinePatchSolid(ERE.assets.grey3);
+        bis = new Button(ERE.assets.createNinePatchDrawable("rounded/filled_middle", 5, ERE.assets.grey1));
+        bis.getStyle().over = ERE.assets.createNinePatchDrawable("rounded/filled_middle", 5, ERE.assets.grey2);
+        bis.getStyle().checked = ERE.assets.createNinePatchDrawable("rounded/filled_middle", 5, ERE.assets.grey3);
         TwoColorLabel bisLabel = new TwoColorLabel("Bis: ", font, ERE.assets.grey5, dateFormat.format(vacation.end), font, Color.BLACK);
         bis.add(bisLabel).pad(0, 7, 0, 12);
 

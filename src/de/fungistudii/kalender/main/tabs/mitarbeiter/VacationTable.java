@@ -26,7 +26,7 @@ public class VacationTable extends Table {
     private int workerId;
     
     public VacationTable(int mitarbeiterId) {
-        Label title = new Label("Urlaub", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey6));
+        Label title = new Label("Urlaub:", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey7));
 
         this.workerId = mitarbeiterId;
         
@@ -34,7 +34,7 @@ public class VacationTable extends Table {
 
         super.defaults().space(10);
 
-        super.add(title);
+        super.add(title).left();
         super.row();
         super.add(group).growX().fillY();
         super.row();
@@ -48,6 +48,11 @@ public class VacationTable extends Table {
         reload();
     }
 
+    @Override
+    public float getPrefWidth() {
+        return 500;
+    }
+
      void reload() {
         group.clear();
         Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == workerId)).findFirst().get();
@@ -59,7 +64,7 @@ public class VacationTable extends Table {
 
     private class AddButton extends ImageButton {
         public AddButton() {
-            super(new ImageButtonStyle(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 6, 6, 6, 6, ERE.assets.grey1), null, null, ERE.assets.createDrawable("employes/add"), null, null));
+            super(new ImageButtonStyle(ERE.assets.createNinePatchDrawable("rounded/outline", 15, ERE.assets.grey1), null, null, ERE.assets.createDrawable("icons/add"), null, null));
             super.pad(10, 0, 10, 0);
 
             super.addListener(new ClickListener() {

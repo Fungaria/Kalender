@@ -4,23 +4,28 @@ import de.fungistudii.kalender.util.ScrollPaneFollower;
 import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.kalender.TerminElement;
 import de.fungistudii.kalender.util.DateUtil;
+import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
+import de.fungistudii.kalender.util.NinePatchSolid;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import de.fungistudii.kalender.util.value.VariableValue;
 import java.util.Calendar;
@@ -64,7 +69,6 @@ public abstract class KalenderTable extends Table {
         this.navigator = navigator;
 
         old = createGrid(date);
-
         container = new AnimationStack(old);
 
         pane = new ScrollPane(container);
@@ -84,21 +88,27 @@ public abstract class KalenderTable extends Table {
         n.setScrollingDisabled(false, true);
         n.setParent(pane);
 
-        resizeButton = new TextButton("100%", new TextButton.TextButtonStyle(ERE.assets.createNinePatchDrawable("generic/rounded", 5), null, null, ERE.assets.fonts.createFont("roboto", 14, Fonts.LIGHT)));
-        resizeButton.getStyle().over = ERE.assets.createNinePatchDrawable("generic/rounded", 5, ERE.assets.grey2);
-        resizeButton.getStyle().fontColor = ERE.assets.grey6;
+        resizeButton = new TextButton("100%", new TextButton.TextButtonStyle(ERE.assets.createRounded("outline"), null, null, ERE.assets.fonts.createFont("roboto", 14, Fonts.LIGHT)));
+        resizeButton.getStyle().over = ERE.assets.createRounded("outline_over");
+        resizeButton.getStyle().fontColor = ERE.assets.grey7;
 
-        viewWidget = new ViewWidget();
+        KalSearch search = new  KalSearch();
+        
+        viewWidget = new ViewWidget();  
 
         Table navig = new Table();
-        navig.add(viewWidget).expandX().left().height(40).uniform();
-        navig.add(navigator).uniform().height(40).expandX().center().fillX();
-        navig.add(resizeButton).uniform().height(40).expandX().right().width(80);
+        navig.add(search).uniform().height(55).expandX().left().minWidth(220);
+        navig.add(navigator).uniform().height(55).expandX().center().fillX();
+        navig.add(viewWidget).uniform().height(55).expandX().right();
+
+        SpriteDrawable separator = ERE.assets.createDrawable("generic/horizontal_separator", ERE.assets.grey3);
 
         super.add(navig).growX().colspan(3);
         super.row();
         super.add();
         super.add(n).growX().padTop(10).height(50);
+        super.row();
+        super.add(new Image(separator)).colspan(3).growX().height(1).padLeft(30).padRight(30);
         super.add();
         super.row();
         super.add(p1).growY().width(50);
@@ -323,18 +333,19 @@ public abstract class KalenderTable extends Table {
             TextButton.TextButtonStyle dateStyle = new TextButton.TextButtonStyle(timeFiller, timeFiller, timeFiller, ERE.assets.fonts.createFont("robotoCondensed", 14));
             dateStyle.fontColor = ERE.assets.grey5;
             for (int i = 0; i < NUM_ROWS; i++) {
-                TextButton element = new TextButton(startTime + i + "", dateStyle);
-                element.getLabel().setAlignment((align | Align.top) & ~Align.bottom);
-                element.getLabelCell().pad(6);
-                super.add(element).growX().minWidth(Value.percentWidth(0.03f, KalenderTable.this)).height(ValueUtil.percentValue(4, elementHeight));
+                Image image = new Image(timeFiller);
+                Label label = new Label(startTime+i+"", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 15), ERE.assets.grey6));
+                if(align == Align.left){
+                    label.setAlignment(Align.bottomLeft);
+                    super.add(image).width(20).height(ValueUtil.percentValue(4, elementHeight));
+                    super.add(label).growX().padTop(-10).top().padLeft(5);
+                }else{
+                    label.setAlignment(Align.bottomRight);
+                    super.add(label).growX().padTop(-10).top().padRight(5);
+                    super.add(image).width(20).height(ValueUtil.percentValue(4, elementHeight));
+                }
                 super.row();
-//                Image image = new Image(timeFiller);
-//                Label label = new Label(startTime+i+"", new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5));
-//                label.setAlignment((align | Align.top) & ~Align.bottom);
-//                super.add(image).growX().minWidth(Value.percentWidth(0.03f, KalenderTable.this)).height(ValueUtil.percentValue(4, elementHeight));
-//                super.add(label).growX().padTop(-10).top();
-//                super.row();
-//                super.setClip(false);
+                super.setClip(false);
             }
         }
     }

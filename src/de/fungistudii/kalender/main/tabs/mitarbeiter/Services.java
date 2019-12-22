@@ -16,7 +16,7 @@ public class Services extends Table{
     
     public Services(int workerId) {
         this.workerId = workerId;
-        Label title = new Label("Services", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey6));
+        Label title = new Label("Services", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey7));
         add(title);
         super.row();
         super.add(new Container()).grow();

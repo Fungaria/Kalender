@@ -48,9 +48,6 @@ public class Popup extends Container {
 
     private Window w;
     
-    protected Label titleLabel;
-    protected ImageButton closeButton;
-
     protected InputListener ignoreTouchDown = new InputListener() {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             event.cancel();
@@ -58,47 +55,17 @@ public class Popup extends Container {
         }
     };
 
-    public Popup(String title) {
+    public Popup() {
         popupContainer = new Container();
         contentTable = new Table();
-        closeButton = new ImageButton(ERE.assets.createDrawable("generic/cross", ERE.assets.grey4));
-        closeButton.getStyle().imageOver = ERE.assets.createDrawable("generic/cross", ERE.assets.grey6);
-        titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 18), Color.BLACK));
         initialize();
     }
 
-    public void setTitle(String title){
-        this.titleLabel.setText(title);
-    }
-    
-    public String getTitle(){
-        return this.titleLabel.getName();
-    }
-    
     private void initialize() {
         super.setFillParent(true);
         super.setActor(popupContainer);
-//        popupContainer.prefWidth(Value.percentWidth(0.45f, this));
 
         popupContainer.setActor(contentTable);
-        contentTable.defaults().space(6);
-        contentTable.pad(20);
-        Table group = new Table();
-        
-        
-        group.add(titleLabel).grow().padLeft(Value.percentHeight(1, titleLabel));
-        group.add(closeButton).size(Value.percentHeight(1, titleLabel));
-        contentTable.add(group).growX();
-        contentTable.row();
-        contentTable.add(new Image(ERE.assets.createDrawable("generic/separator"))).grow().colspan(3).height(1);
-        contentTable.row();
-
-        closeButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                hide();
-            }
-        });
         
         focusListener = new FocusListener() {
             public void keyboardFocusChanged(FocusListener.FocusEvent event, Actor actor, boolean focused) {

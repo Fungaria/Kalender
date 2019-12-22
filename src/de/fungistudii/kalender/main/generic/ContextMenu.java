@@ -61,7 +61,7 @@ public class ContextMenu<T extends Actor> extends Table {
         style.up = new NinePatchSolid(Color.WHITE);
         style.over = new NinePatchSolid(ERE.assets.grey3);
         style.font = ERE.assets.fonts.createFont("roboto", 13, Fonts.LIGHT);
-        style.fontColor = ERE.assets.grey6;
+        style.fontColor = ERE.assets.grey7;
 
         for (ContextEntry entry : entries) {
             TextButton button = new TextButton(entry.title, style);
