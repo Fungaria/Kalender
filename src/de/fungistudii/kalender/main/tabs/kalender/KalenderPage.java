@@ -14,13 +14,11 @@ import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import de.fungistudii.kalender.main.tabs.TabPage;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.AddBlockDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockierungElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.StornoDialog;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.WeekSelectBehavior;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day.DayTable;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.WeekTable;
-import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.util.Calendar;
@@ -37,10 +35,6 @@ public class KalenderPage extends TabPage {
 
     public Calendar calendar = Calendar.getInstance();
     private Date currentDate = new Date();
-
-    public final AddAppointmentDialog addAppointment = new AddAppointmentDialog();
-    public final StornoDialog stornoDialog = new StornoDialog();
-    public final AddBlockDialog blockDialog = new AddBlockDialog();
 
     public final DayTable dayTable;
     public final WeekTable weekTable;
@@ -75,7 +69,7 @@ public class KalenderPage extends TabPage {
         currentTable = dayTable;
         contentTable.setActor(currentTable);
         
-        add(sidePanel).width(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY();
+        add(sidePanel).minWidth(Cons.sideBarMinWidth).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY();
         add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.01f, this), Value.percentWidth(0.02f, this));
 
         updateDate(0);
@@ -83,7 +77,7 @@ public class KalenderPage extends TabPage {
 
     public void toWeekView(int workerId){
         weekView = true;
-        sidePanel.navigation.setSelectBehavior(new DatePicker.WeekSelectBehavior());
+        sidePanel.navigation.setSelectBehavior(new WeekSelectBehavior());
         weekTable.setFriseur(workerId);
         currentTable = weekTable;
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -123,13 +117,8 @@ public class KalenderPage extends TabPage {
 
     public void addTermin() {
         Button selectedElement = ERE.mainScreen.kalender.getKalender().getSelectedElement();
-
-        addAppointment.show(ERE.mainScreen.stage, sidePanel.navigation.getDate());
-        if (selectedElement instanceof BackgroundElement) {
-            BackgroundElement e = (BackgroundElement) selectedElement;
-            addAppointment.friseur.setSelectedIndex(e.getFriseur());
-            //TODO correct default Values
-        }
+        int defFriseur = (selectedElement instanceof BackgroundElement)?((BackgroundElement)selectedElement).getFriseur():0;
+        ERE.mainScreen.dialogManager.showAppointment(sidePanel.navigation.getDate(), defFriseur);
     }
 
     @Override

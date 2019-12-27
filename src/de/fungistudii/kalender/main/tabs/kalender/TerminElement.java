@@ -164,15 +164,13 @@ public class TerminElement extends GridElement {
         private Drawable separator;
 
         public BGDrawable(Color color) {
-            super(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, color));
-            super.getPatch().scale(2, 2);
+            super(ERE.assets.createNinePatchDrawable("generic/rounded_filled", 13, color));
             separator = ERE.assets.createDrawable("generic/horizontal_separator");
         }
 
         @Override
         public void draw(Batch batch, float x, float y, float width, float height) {
             super.draw(batch, x, y, width, height); //To change body of generated methods, choose Tools | Templates.
-//            separator.draw(batch, x, y+height-1, width, 1);
         }
     }
 }

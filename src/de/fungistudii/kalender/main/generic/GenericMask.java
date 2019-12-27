@@ -16,13 +16,14 @@ public class GenericMask extends GenericDialog{
 
     private int columns;
     private float[] columnWeights;
-    private Table ttt;
+    private Table contentTable;
     
     public GenericMask(int columns, String title) {
         super(title);
         
-        ttt = new Table();
+        super.prefWidth(900);
         
+        contentTable = new Table();
         this.columns = columns;
         
         columnWeights = new float[columns];
@@ -30,30 +31,30 @@ public class GenericMask extends GenericDialog{
             columnWeights[i] = 1f/columns;
         }
         
-        ttt.defaults().spaceLeft(Cons.dialogHorizontalSpacing).spaceRight(Cons.dialogHorizontalSpacing);
-        setMainActor(ttt);
+        contentTable.defaults().spaceLeft(Cons.dialogHorizontalSpacing).spaceRight(Cons.dialogHorizontalSpacing);
+        setMainActor(contentTable);
     }
     
     public void setColumnWeights(float[] columnWeights){
         for (int i = 0; i < columnWeights.length; i++) {
-            ttt.columnDefaults(i).width(Value.percentWidth(columnWeights[i], contentTable));
+            contentTable.columnDefaults(i).width(Value.percentWidth(columnWeights[i], this));
         }
     }
     
-    public Cell add(String name, Actor actor){
-        return add(new TitledWidget(name, actor));
+    public Cell addC(String name, Actor actor){
+        return addC(new TitledWidget(name, actor));
     }
     
-    public Cell add(String name, Actor actor, int colspan){
-        return add(new TitledWidget(name, actor),colspan);
+    public Cell addC(String name, Actor actor, int colspan){
+        return addC(new TitledWidget(name, actor),colspan);
     }
     
     public Container addContained(String name, Actor actor){
         return addContained(new TitledWidget(name, actor));
     }
     
-    public Cell add(Actor actor){
-        return this.add(actor, 1);
+    public Cell addC(Actor actor){
+        return this.addC(actor, 1);
     }
     
     public Container addContained(Actor actor){
@@ -63,8 +64,8 @@ public class GenericMask extends GenericDialog{
         return container;
     }
     
-    public Cell add(Actor actor, int colspan){
-        Cell res = ttt.add(actor).left().top().growX().colspan(colspan);
+    public Cell addC(Actor actor, int colspan){
+        Cell res = contentTable.add(actor).left().top().growX().colspan(colspan);
         
         //erste Zelle Einrücken
         if(res.getColumn() == 0){
@@ -82,13 +83,13 @@ public class GenericMask extends GenericDialog{
         return res;
     }
     
-    public void row(){
-        ttt.row();
+    public void rowC(){
+        contentTable.row();
     }
     
     public void separator(){
-        ttt.row().padTop(Cons.dialogRowPadBottom);
-        ttt.add(new Image(separator)).grow().colspan(columns).height(1).maxWidth(-1);
-        ttt.row().padTop(Cons.dialogRowPadTop);
+        contentTable.row().padTop(Cons.dialogRowPadBottom);
+        contentTable.add(new Image(separator)).grow().colspan(columns).height(1).maxWidth(-1);
+        contentTable.row().padTop(Cons.dialogRowPadTop);
     }
 }

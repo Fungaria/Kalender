@@ -1,6 +1,8 @@
 package de.fungistudii.kalender.main.generic;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 
@@ -19,6 +21,15 @@ public class GenericImageButton extends ImageButton{
         getImageCell().pad(3, 3, 3, 7.5f);
     }
 
+    public void addListener(Runnable r){
+        super.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                r.run();
+            }
+        });
+    }
+    
     @Override
     public float getPrefHeight() {
         return Cons.defaultRowHeight;

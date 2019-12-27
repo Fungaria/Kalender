@@ -143,6 +143,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
     void selectRange(int col, Date min, Date max) {
         for (GridElement element : columns[col].elements) {
+            System.out.println(element.getStart()+"    "+min);
             if (!element.getStart().before(min) && !element.getStart().after(max)) {
                 ((Button) element).setChecked(true);
             } else {

@@ -5,6 +5,7 @@ package de.fungistudii.kalender.util;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -49,6 +50,9 @@ public class Assets {
     
     public void load(){
         atlas = new TextureAtlas(internal("img/sprites.pack"));
+        for (Texture texture : atlas.getTextures()) {
+            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
+        }
         fonts = new Fonts();
     }
     

@@ -49,9 +49,7 @@ public class GenericDialog extends Popup {
     public GenericDialog(String title) {
         NinePatchDrawable np = ERE.assets.createNinePatchDrawable("generic/rounded_stripped", Cons.roundedPad, new Color(0.93f, 0.93f, 0.93f, 1));
         np.setPadding(0, 0, 0, 0);
-        this.popupContainer.setBackground(np);
-        this.popupContainer.prefWidth(900);
-        super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
+        super.setBackground(np);
         
         this.separator = ERE.assets.createDrawable("generic/horizontal_separator");
         
@@ -69,18 +67,16 @@ public class GenericDialog extends Popup {
         buttonTable.bottom();
         buttonTable.defaults().space(10).bottom();
         bottomCell = buttonTable.add(new Container()).grow().left().bottom();
-        buttonTable.add(cancelButton).width(Value.percentWidth(0.25f, contentTable));
-        buttonTable.add(okButton).width(Value.percentWidth(0.25f, contentTable));
+        buttonTable.add(cancelButton).width(Value.percentWidth(0.25f, this));
+        buttonTable.add(okButton).width(Value.percentWidth(0.25f, this));
         
-        super.contentTable.add(titleTable).left().grow();
-        super.contentTable.row();
-        super.contentTable.add(new Image(separator)).grow().height(1);
-        super.contentTable.row().padTop(Cons.dialogRowPadTop);
-        actorCell = super.contentTable.add().left().grow();
-        super.contentTable.row().padTop(Cons.dialogRowPadBottom);
-        super.contentTable.add(new Image(separator)).grow().height(1);
-        super.contentTable.row();
-        super.contentTable.add(buttonTable).grow().pad(Cons.dialogRowPadTop, Cons.dialogOuterPadding, Cons.dialogOuterPadding/2f, Cons.dialogOuterPadding/2);
+        super.add(titleTable).left().grow();
+        super.row();
+        super.add(new Image(separator)).grow().height(1);
+        super.row().padTop(Cons.dialogRowPadTop);
+        actorCell = super.add().left().grow();
+        super.row();
+        super.add(buttonTable).grow().pad(Cons.dialogRowPadTop, Cons.dialogOuterPadding, Cons.dialogOuterPadding/2f, Cons.dialogOuterPadding/2);
         
         okButton.addListener(new ClickListener(){
             @Override

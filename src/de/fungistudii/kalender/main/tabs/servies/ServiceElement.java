@@ -51,7 +51,7 @@ public class ServiceElement extends Button{
         settings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.service.dialog.show(service);
+                ERE.mainScreen.dialogManager.showService(service);
 //                ERE.mainScreen.service.dialog.setTitle("Service Bearbeiten");
             }
         });

@@ -1,5 +1,6 @@
 package de.fungistudii.kalender.main.tabs.servies;
 
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Service;
@@ -31,14 +32,14 @@ public class AddServiceDialog extends GenericMask{
         category = new GenericDropDown("Herren", "Damen", "Andere");
         einwirken = new GenericDropDown("keine", "15 Minuten", "30 Minuten", "45 Minuten", "60 Minuten");
         
-        super.add("Bezeichnung: ", name, 2);
-        super.add("Kategorie: ", category);
+        super.addC("Bezeichnung: ", name, 2);
+        super.addC("Kategorie: ", category);
         
         super.separator();
         
-        super.add("Dauer: ", duration);
-        super.add("Einwirkzeit: ", einwirken);
-        super.add("Preis: ", price);
+        super.addC("Dauer: ", duration);
+        super.addC("Einwirkzeit: ", einwirken);
+        super.addC("Preis: ", price);
         
         super.addConfirmCallback(() -> {
             if(context == null){
@@ -56,17 +57,13 @@ public class AddServiceDialog extends GenericMask{
         });
     }
 
-    @Override
-    public void show() {
-        super.show();
-        this.context = null;
-    }
-    
-    public void show(Service service) {
-        name.setText(service.name);
-        price.setText(service.price+"");
-        category.setSelectedIndex(service.category);
+    public void show(Stage stage, Service service) {
         this.context = service;
-        super.show();
+        if(service!= null){
+            name.setText(service.name);
+            price.setText(service.price+"");
+            category.setSelectedIndex(service.category);
+        }
+        super.show(stage);
     }
 }

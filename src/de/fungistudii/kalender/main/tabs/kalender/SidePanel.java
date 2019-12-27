@@ -26,7 +26,7 @@ import de.fungistudii.kalender.util.NinePatchSolid;
 public class SidePanel extends Container {
 
     public DatePicker navigation;
-    private GenericTextButton terminHinzufügen;
+    private GenericTextButton addAppointmentButton;
     
     private Table content;
     
@@ -37,7 +37,7 @@ public class SidePanel extends Container {
         
         content = new Table();
         navigation = new DatePicker(callback);
-        terminHinzufügen = new GenericTextButton("Termin hinzufugen", new GenericTextButton.FilledStyle());
+        addAppointmentButton = new GenericTextButton("Termin hinzufugen", new GenericTextButton.FilledStyle());
         Drawable separator = ERE.assets.createDrawable("generic/vertical_separator");
         
         content.defaults().space(15);
@@ -46,14 +46,14 @@ public class SidePanel extends Container {
         navigation.add(new Image(separator)).height(1).growX();
         content.add(navigation).fill().height(Value.percentWidth(1, this)).minWidth(0);
         content.row();
-        content.add(terminHinzufügen).minSize(0).growX();
+        content.add(addAppointmentButton).minSize(0).growX().padRight(-10).height(45);
         content.row();
         content.add().grow();
         
         content.pad(Value.percentWidth(0.05f, this), Value.percentWidth(0.1f, this), Value.percentWidth(0.05f, this), Value.percentWidth(0.1f, this));
         setActor(content);
         
-        terminHinzufügen.addListener(new ClickListener(){
+        addAppointmentButton.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
                 ERE.mainScreen.kalender.addTermin();
             }

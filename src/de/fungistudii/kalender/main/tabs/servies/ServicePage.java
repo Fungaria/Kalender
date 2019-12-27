@@ -19,8 +19,6 @@ public class ServicePage extends TabPage{
     private ServiceTable serviceTable = new ServiceTable();
     private final ServiceSide sidePanel = new ServiceSide();
     
-    public final AddServiceDialog dialog = new AddServiceDialog();
-    
     public ServicePage() {
         contentTable = new Container<>();
         contentTable.setBackground(new DrawableSolid(Color.WHITE));

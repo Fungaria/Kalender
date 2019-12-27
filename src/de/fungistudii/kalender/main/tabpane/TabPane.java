@@ -94,7 +94,7 @@ public class TabPane extends Table {
 
         super.setRound(true);
         super.align(Align.left);
-        super.add(orplid).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY().minSize(0);
+        super.add(orplid).minWidth(Cons.sideBarMinWidth).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY().minHeight(0);
         ButtonGroup bg = new ButtonGroup();
         for (Button tab : tabs) {
             bg.add(tab);

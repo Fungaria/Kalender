@@ -42,7 +42,7 @@ public class ServiceSide extends Container {
         serviceBearbeiten.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.service.dialog.show();
+                ERE.mainScreen.dialogManager.showService(null);
 //                ERE.mainScreen.service.dialog.setTitle("Service Hinzufügen");
             }
         });

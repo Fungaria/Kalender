@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
@@ -39,16 +40,19 @@ public class DateButton extends TextButton {
         getLabel().setText(dateFormat.format(navigator.navigation.getDate()));
         super.getLabelCell().left();
         super.getLabel().setAlignment(Align.left);
+    }
+
+    @Override
+    protected void setStage(Stage stage) {
+        if(stage == null)
+            return;
+        super.setStage(stage);
         super.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if (navigator.isOpen()) {
-                    navigator.hide();
-                } else {
-                    localToStageCoordinates(screenPosition.set(0, 0));
-                    navigator.show(screenPosition.x, screenPosition.y, 300);
-                }
+                localToStageCoordinates(screenPosition.set(0, 0));
+                ERE.mainScreen.dialogManager.showDatePicker(screenPosition.x, screenPosition.y, 300, navigator);
             }
         });
     }

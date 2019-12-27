@@ -6,13 +6,15 @@
 package de.fungistudii.kalender.main.generic;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.DrawableSolid;
-import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.SearchField;
 
 /**
@@ -21,13 +23,38 @@ import de.fungistudii.kalender.util.SearchField;
  */
 public class GenericSearchField<T> extends SearchField<T>{
 
+    private final Drawable icon;
+    private static final int iconPadSide = 8;
+    private static final int iconPadTop= 16;
+    private boolean drawIcon = true;
+    
     public GenericSearchField(ListFilter<T> filter) {
         super(new Style(), filter);
+        this.icon = ERE.assets.createDrawable("icons/search", ERE.assets.grey2);
     }
     
     @Override
     public float getPrefHeight() {
         return Cons.defaultRowHeight;
+    }
+
+    public void setDrawIcon(boolean drawIcon) {
+        this.drawIcon = drawIcon;
+    }
+
+    public boolean isDrawIcon() {
+        return drawIcon;
+    }
+    
+    @Override
+    protected void drawMessageText(Batch batch, BitmapFont font, float x, float y, float maxWidth) {
+        if(drawIcon){
+            float iconSize = getHeight()-(2*iconPadTop);
+            this.icon.draw(batch, getX()+iconPadSide, getY()+iconPadTop, iconSize, iconSize);
+            super.drawMessageText(batch, font, getX()+iconSize+iconPadSide*2, y, maxWidth);
+        }else{
+            super.drawMessageText(batch, font, x, y, maxWidth);
+        }
     }
     
     private static final class Style extends SearchField.SFStyle {
@@ -39,11 +66,13 @@ public class GenericSearchField<T> extends SearchField<T>{
             super.textFieldStyle.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.textFieldStyle.cursor.setMinWidth(1);
             super.textFieldStyle.selection = ERE.assets.createDrawable("generic/textfield_selection");
-            super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
+            super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey1));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
             super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
             
-            textFieldStyle.background.setLeftWidth(Cons.defaultLeftWidth);
+            super.textFieldStyle.background.setLeftWidth(Cons.defaultLeftWidth);
+//            super.textFieldStyle.disabledBackground.setLeftWidth(Cons.defaultLeftWidth);
+//            super.textFieldStyle.focusedBackground.setLeftWidth(Cons.defaultLeftWidth);
         }
     }
 }

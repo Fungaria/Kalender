@@ -5,7 +5,7 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.kotcrab.vis.ui.util.dialog.Dialogs;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Termin;
@@ -28,8 +28,8 @@ public class StornoDialog extends ConfirmationDialog{
         });
     }
     
-    public void show(Termin termin){
-        super.show(ERE.mainScreen.stage);
+    public void show(Stage stage, Termin termin){
+        super.show(stage);
         this.termin = termin;
     }
 }

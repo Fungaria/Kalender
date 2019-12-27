@@ -246,30 +246,6 @@ public class DatePicker extends Table {
         }
     };
 
-    public static class WeekSelectBehavior implements SelectBehavior {
-        private final NinePatchSolid solid = new NinePatchSolid(ERE.assets.lightGreen, 10);
-        private final Drawable left = ERE.assets.createNinePatchDrawable("rounded/filled_left", 10, ERE.assets.mediumGreen);
-        private final Drawable right = ERE.assets.createNinePatchDrawable("rounded/filled_right", 10, ERE.assets.mediumGreen);
-        private final Drawable def = ERE.assets.createNinePatchDrawable("rounded/filled", 10, Color.CLEAR);
-
-        @Override
-        public void select(DaysGrid.DayButton[] buttons, Date date) {
-            for (DayButton button : buttons) {
-                if (DateUtil.compareWeek(date, button.getDay()) == 0) {
-                    if(DateUtil.getDayOfWeek(button.getDay()) == Calendar.MONDAY){
-                        button.check(left);
-                    }else if(DateUtil.getDayOfWeek(button.getDay()) == Calendar.SUNDAY){
-                        button.check(right);
-                    }else{
-                        button.check(solid);
-                    }
-                } else {
-                    button.uncheck();
-                }
-            }
-        }
-    };
-
     public static interface DateSelectCallback {
 
         public void dateSelected(Date date, int direction);

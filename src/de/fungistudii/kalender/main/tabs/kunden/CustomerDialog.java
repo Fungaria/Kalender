@@ -12,7 +12,7 @@ import de.fungistudii.kalender.main.generic.TitledWidget;
  *
  * @author sreis
  */
-public class DetailDialog extends GenericMask{
+public class CustomerDialog extends GenericMask{
     
     private GenericTextField name;
     private GenericTextField lastName;
@@ -21,9 +21,10 @@ public class DetailDialog extends GenericMask{
     private GenericDropDown gender;
     private GenericTextArea notizen;
     
-    public DetailDialog() {
+    public CustomerDialog() {
         super(3, "Details");
         super.setColumnWeights(new float[]{0.3f, 0.3f, 0f});
+        super.prefWidth(800);
         initGUI();
     }
 
@@ -32,17 +33,17 @@ public class DetailDialog extends GenericMask{
         name = new GenericTextField("John");
         lastName = new GenericTextField("Doe");
         
-        super.add(new TitledWidget("Vorname:", name));
-        super.add(new TitledWidget("Nachname:", lastName));
-        super.add(new Container());
+        super.addC(new TitledWidget("Vorname:", name));
+        super.addC(new TitledWidget("Nachname:", lastName));
+        super.addC(new Container());
         super.separator();
         
         //ROW 2  ---------------------------------------------------------------
         phone = new GenericTextField("+089123456");
         mobile = new GenericTextField("+4912345678");
         
-        super.add(new TitledWidget("Telefon:", phone));
-        super.add(new TitledWidget("Mobil:", mobile));
+        super.addC(new TitledWidget("Telefon:", phone));
+        super.addC(new TitledWidget("Mobil:", mobile));
         super.separator();
         
         //ROW 2  ---------------------------------------------------------------
@@ -52,7 +53,7 @@ public class DetailDialog extends GenericMask{
         notizen.setRows(2);
         notizen.setAlignment(Align.topLeft);
         
-        super.add(new TitledWidget("Andere:", gender));
-        super.add(new TitledWidget("Notizen:", notizen), 2);
+        super.addC(new TitledWidget("Andere:", gender));
+        super.addC(new TitledWidget("Notizen:", notizen), 2);
     }
 }

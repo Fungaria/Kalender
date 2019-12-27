@@ -21,6 +21,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.client.database.Kunde;
+import de.fungistudii.kalender.main.generic.GenericSearchField;
 import de.fungistudii.kalender.main.tabs.kalender.TerminElement;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.DrawableSolid;
@@ -92,7 +94,9 @@ public abstract class KalenderTable extends Table {
         resizeButton.getStyle().over = ERE.assets.createRounded("outline_over");
         resizeButton.getStyle().fontColor = ERE.assets.grey7;
 
-        KalSearch search = new  KalSearch();
+        GenericSearchField search = new GenericSearchField<Kunde>((String s, Kunde k) -> (k.name.startsWith(s) || (k.vorname+" "+k.name).startsWith(s)));
+        search.setMessageText("Kunden suchen ...");
+        search.setItems(ERE.data.root.kunden.values());
         
         viewWidget = new ViewWidget();  
 
@@ -278,7 +282,7 @@ public abstract class KalenderTable extends Table {
             } else if (hit instanceof GridElement) {
                 old.buttons.uncheckAll();
                 startRow = ((GridElement) hit).getStart();
-                col = ((GridElement) hit).getFriseur();
+                col = ((GridElement)hit).getFriseur();
             }
             if (hit instanceof BackgroundElement) {
                 selecting = true;

@@ -17,13 +17,13 @@ public class ContextMenuManager {
     
     public void init(){
         ContextMenu<TerminWrapper> termin = new ContextMenu<>(TerminWrapper.class,
-            new ContextMenu.ContextEntry<>("Termin stornieren", (a) -> ERE.mainScreen.kalender.stornoDialog.show(a.getTermin())),
+            new ContextMenu.ContextEntry<>("Termin stornieren", (a) -> ERE.mainScreen.dialogManager.showStorno(a.getTermin())),
             new ContextMenu.ContextEntry<>("Termin bearbeiten", (a) -> {;})
         );
         
         ContextMenu<BackgroundElement> bg = new ContextMenu<>(BackgroundElement.class,
             new ContextMenu.ContextEntry<>("Termin hinzufügen", (a) -> ERE.mainScreen.kalender.addTermin()),
-            new ContextMenu.ContextEntry<>("Blockierung hinzufügen", (a) -> ERE.mainScreen.kalender.blockDialog.show())
+            new ContextMenu.ContextEntry<>("Blockierung hinzufügen", (a) -> ERE.mainScreen.dialogManager.showBlock())
         );
         
         ContextMenu<BlockierungElement> blockierung = new ContextMenu<>(BlockierungElement.class,

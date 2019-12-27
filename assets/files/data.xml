@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dataRoot xmlns:ns2="de.fungistudii.kalender">
     <termine>
+        <item kundenid="1" start="2019-12-25 11:45:00" dauer="60" service="0" friseur="0" erstellt="2019-12-25 17:43:40" urheber="0" id="16"/>
         <item kundenid="0" start="2019-09-12 10:30:00" dauer="60" service="0" friseur="0" erstellt="2019-09-28 18:30:00" urheber="0" id="1"/>
         <item kundenid="0" start="2019-10-13 10:15:00" dauer="240" service="0" friseur="4" erstellt="2019-10-13 15:48:49" urheber="0" id="3"/>
         <item kundenid="0" start="2019-10-13 07:45:00" dauer="180" service="0" friseur="1" erstellt="2019-10-13 15:50:58" urheber="0" id="4"/>
@@ -8,13 +9,10 @@
         <item kundenid="0" start="2019-10-13 14:00:00" dauer="180" service="0" friseur="1" erstellt="2019-10-13 15:53:07" urheber="0" id="8"/>
         <item kundenid="0" start="2019-10-16 12:15:00" dauer="180" service="0" friseur="3" erstellt="2019-10-16 19:32:16" urheber="0" id="9"/>
         <item kundenid="0" start="2019-10-27 10:00:00" dauer="60" service="0" friseur="2" erstellt="2019-10-27 16:12:58" urheber="0" id="10"/>
-        <item kundenid="1" start="2019-12-11 10:00:00" dauer="60" service="0" friseur="2" erstellt="2019-12-03 08:46:46" urheber="0" id="11"/>
-        <item kundenid="1" start="2019-12-07 09:30:00" dauer="60" service="0" friseur="0" erstellt="2019-12-07 16:58:33" urheber="0" id="12"/>
-        <item kundenid="0" start="2019-12-07 15:45:00" dauer="60" service="0" friseur="4" erstellt="2019-12-07 17:23:48" urheber="0" id="13"/>
-        <item kundenid="1" start="2019-12-07 10:30:00" dauer="60" service="0" friseur="3" erstellt="2019-12-07 17:58:17" urheber="0" id="14"/>
-        <item kundenid="1" start="2019-12-10 11:00:00" dauer="60" service="0" friseur="2" erstellt="2019-12-11 19:34:22" urheber="0" id="15"/>
-        <item kundenid="1" start="2019-12-10 08:30:00" dauer="60" service="0" friseur="2" erstellt="2019-12-11 19:34:30" urheber="0" id="16"/>
-        <item kundenid="0" start="2019-12-01 05:30:00" dauer="60" service="0" friseur="1" erstellt="2019-12-22 23:39:17" urheber="0" id="17"/>
+        <item kundenid="1" start="2019-12-11 12:00:00" dauer="60" service="0" friseur="1" erstellt="2019-12-03 08:46:46" urheber="0" id="11"/>
+        <item kundenid="1" start="2019-12-23 09:00:00" dauer="0" service="0" friseur="2" erstellt="2019-12-23 08:19:58" urheber="0" id="12"/>
+        <item kundenid="0" start="2019-12-23 10:15:00" dauer="60" service="2" friseur="4" erstellt="2019-12-23 08:22:32" urheber="0" id="14"/>
+        <item kundenid="3" start="2019-12-23 09:45:00" dauer="60" service="0" friseur="3" erstellt="2019-12-23 08:38:36" urheber="0" id="15"/>
     </termine>
     <blockierungen>
         <item start="2019-10-12 08:45:00" duration="13" friseur="4" msg="" id="1"/>
@@ -29,6 +27,7 @@
         <item start="2019-10-28 10:00:00" duration="8" friseur="2" msg="" id="12"/>
         <item start="2019-10-28 10:15:00" duration="6" friseur="4" msg="" id="13"/>
         <item start="2019-10-28 09:00:00" duration="3" friseur="5" msg="" id="14"/>
+        <item start="2019-12-12 10:00:00" duration="12" friseur="2" msg="Mittag" id="15"/>
     </blockierungen>
     <kunden>
         <item name="Reiser" vorname="Peter" phone="45678" id="0"/>
@@ -39,8 +38,8 @@
     <friseure>
         <item name="Meryem" id="0">
             <vacations>
-                <item start="2019-12-17 17:55:00" end="2019-12-21 20:16:00" id="1"/>
-                <item start="2019-12-03 17:46:00" end="2019-12-07 17:46:00" id="2"/>
+                <item start="2019-12-05 17:33:00" end="2019-12-14 17:33:00" id="2"/>
+                <item start="2019-10-09 17:33:00" end="2019-10-31 17:33:00" id="3"/>
             </vacations>
         </item>
         <item name="Nena" id="1">
@@ -68,10 +67,10 @@
         </item>
     </friseure>
     <services>
-        <item name="Schnitt und Styling" category="0" duration="0" einwirkZeit="0" price="89" id="0"/>
-        <item name="Schnitt und Styling" category="1" duration="0" einwirkZeit="0" price="70" id="1"/>
+        <item name="Schnitt und Styling" category="0" duration="60" einwirkZeit="0" price="70" id="0"/>
+        <item name="Schnitt und Styling" category="1" duration="60" einwirkZeit="0" price="70" id="1"/>
         <item name="Ansatzfarbe" category="1" duration="60" einwirkZeit="0" price="70" id="2"/>
-        <item name="Handmassage" category="2" duration="0" einwirkZeit="0" price="70" id="3"/>
+        <item name="Handmassage" category="2" duration="60" einwirkZeit="0" price="70" id="3"/>
     </services>
     <serviceCategories>
         <item name="Herren" id="0"/>

@@ -18,7 +18,7 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class RangeSelectBehavior implements DaysGrid.SelectBehavior {
+public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
 
     private final Drawable leftRed = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 10, ERE.assets.lightRed);
     private final Drawable rightRed = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 10, ERE.assets.lightRed);
@@ -35,12 +35,12 @@ public class RangeSelectBehavior implements DaysGrid.SelectBehavior {
     private int vacationId;
     private final int workerId;
 
-    public RangeSelectBehavior(int workerId, int vacationId) {
+    public VacationSelectBehavior(int workerId, int vacationId) {
         this.vacationId = vacationId;
         this.workerId = workerId;
     }
 
-    public RangeSelectBehavior(int workerId, int vacationId, Date begin, Date end) {
+    public VacationSelectBehavior(int workerId, int vacationId, Date begin, Date end) {
         this(workerId, vacationId);
         this.beginDate = begin;
         this.endDate = end;

@@ -1,8 +1,6 @@
 package de.fungistudii.kalender.util;
 
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
@@ -15,38 +13,37 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
-import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.ObjectMap;
+import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 
 /**
  *
  * @author sreis
  */
-public class Popup extends Container {
+public class Popup extends Table {
 
-    protected Container popupContainer;
-    protected Table contentTable;
     ObjectMap<Actor, Object> values = new ObjectMap();
     boolean cancelHide;
     Actor previousKeyboardFocus, previousScrollFocus;
     FocusListener focusListener;
 
-    private Drawable stageBackground;
-
     private final Vector2 tmpPosition = new Vector2();
     private final Vector2 tmpSize = new Vector2();
-
+    
     private Window w;
+    
+    private float prefWidth;
+    private float prefHeight;
+    
+    private boolean centered = true;
+    
+    DialogManager manager;
+    
+    private boolean fadeBackground= true;
     
     protected InputListener ignoreTouchDown = new InputListener() {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -56,17 +53,10 @@ public class Popup extends Container {
     };
 
     public Popup() {
-        popupContainer = new Container();
-        contentTable = new Table();
         initialize();
     }
 
     private void initialize() {
-        super.setFillParent(true);
-        super.setActor(popupContainer);
-
-        popupContainer.setActor(contentTable);
-        
         focusListener = new FocusListener() {
             public void keyboardFocusChanged(FocusListener.FocusEvent event, Actor actor, boolean focused) {
                 if (!focused) {
@@ -109,36 +99,53 @@ public class Popup extends Container {
         if (stage.getKeyboardFocus() == null) {
             stage.setKeyboardFocus(this);
         }
-
-        if (stageBackground != null) {
-            stageToLocalCoordinates(tmpPosition.set(0, 0));
-            stageToLocalCoordinates(tmpSize.set(stage.getWidth(), stage.getHeight()));
-            drawStageBackground(batch, parentAlpha, getX() + tmpPosition.x, getY() + tmpPosition.y, getX() + tmpSize.x,
-                    getY() + tmpSize.y);
-        }
-
+        
         super.draw(batch, parentAlpha);
     }
-
-    protected void drawStageBackground(Batch batch, float parentAlpha, float x, float y, float width, float height) {
-        Color color = getColor();
-        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
-        stageBackground.draw(batch, x, y, width, height);
+    
+    public boolean isFadeBackground() {
+        return fadeBackground;
     }
 
-    public Drawable getStageBackground() {
-        return stageBackground;
+    public void fadeBackground(boolean fade) {
+        this.fadeBackground = fade;
     }
 
-    public void setStageBackground(Drawable stageBackground) {
-        this.stageBackground = stageBackground;
+    @Override
+    public float getPrefWidth() {
+        return prefWidth>0?prefWidth:super.getPrefWidth();
     }
 
+    @Override
+    public float getPrefHeight() {
+        return prefHeight>0?prefHeight:super.getPrefHeight();
+    }
+
+    /**
+     * @param prefWidth the preferredWidth of the Popup or -1 if the prefWidth should be calculated based on its Children.
+     */
+    public void prefWidth(float prefWidth) {
+        this.prefWidth = prefWidth;
+    }
+    
+    /**
+     * @param prefHeight the preferredHeight of the Popup or -1 if the prefHeight should be calculated based on its children.
+     */
+    public void prefHeight(float prefHeight) {
+        this.prefHeight = prefHeight;
+    }
+
+    public void setCentered(boolean centered) {
+        this.centered = centered;
+    }
+
+    public boolean isCentered() {
+        return centered;
+    }
+    
     public Popup show(Stage stage, Action action) {
         clearActions();
         removeCaptureListener(ignoreTouchDown);
-
-        ERE.mainScreen.root.setTouchable(Touchable.disabled);
 
         previousKeyboardFocus = null;
         Actor actor = stage.getKeyboardFocus();
@@ -153,7 +160,6 @@ public class Popup extends Container {
         }
 
         pack();
-        stage.addActor(this);
         stage.setKeyboardFocus(this);
         stage.setScrollFocus(this);
         if (action != null) {
@@ -168,7 +174,7 @@ public class Popup extends Container {
      * default fadeIn action
      */
     public Popup show(Stage stage) {
-        show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
+        show(stage, sequence(Actions.alpha(0), Actions.fadeIn(Cons.dialogFadeTime, Interpolation.fade)));
         setPosition(0, 0);
         return this;
     }
@@ -179,7 +185,8 @@ public class Popup extends Container {
      */
     public void hide(Action action) {
         Stage stage = getStage();
-        ERE.mainScreen.root.setTouchable(Touchable.enabled);
+        if(manager != null)
+            manager.removePopup(this);
         if (stage != null) {
             removeListener(focusListener);
             if (previousKeyboardFocus != null && previousKeyboardFocus.getStage() == null) {
@@ -212,7 +219,7 @@ public class Popup extends Container {
      * then removes it from the stage.
      */
     public void hide() {
-        hide(sequence(fadeOut(0.4f, Interpolation.fade), Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
+        hide(sequence(fadeOut(Cons.dialogFadeTime, Interpolation.fade), Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
     }
 
     public void setObject(Actor actor, Object object) {

@@ -4,16 +4,14 @@ import de.fungistudii.kalender.main.tabpane.TabPane;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import de.fungistudii.kalender.util.DialogManager;
 import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
 import de.fungistudii.kalender.main.tabs.kunden.KundenPage;
@@ -43,6 +41,7 @@ public class MainScreen extends ScreenAdapter {
     private boolean printfps = false;
 
     private final ContextMenuManager contextManager;
+    public final DialogManager dialogManager;
     
     public MainScreen() {
         root = new Table();
@@ -60,6 +59,7 @@ public class MainScreen extends ScreenAdapter {
         });
         
         contextManager = new ContextMenuManager();
+        dialogManager = new DialogManager();
     }
 
     @Override
@@ -95,6 +95,7 @@ public class MainScreen extends ScreenAdapter {
         setTab(kalender);
         
         contextManager.init();
+        stage.addActor(dialogManager);
         
         Gdx.app.postRunnable(() ->{
             resize(Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight());
@@ -153,4 +154,5 @@ public class MainScreen extends ScreenAdapter {
         stage.getViewport().update(width, height, true);
         currentPage.resize(width, height);
     }
+    
 }

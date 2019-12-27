@@ -8,6 +8,7 @@ package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Blockierung;
 import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.util.DateUtil;
 import java.text.SimpleDateFormat;

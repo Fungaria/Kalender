@@ -20,13 +20,13 @@ import de.fungistudii.kalender.util.value.ValueUtil;
  *
  * @author sreis
  */
-public class LeistungTable extends Table{
+public class ServiceElement extends Table{
 
     public final GenericDropDown<Service> leistung;
     public final GenericDropDown<Durations> duration;
     public final ImageButton delete;
 
-    public LeistungTable(Value width, Value height) {
+    public ServiceElement(Value width, Value height) {
         NinePatchOffsetDrawable np = ERE.assets.createRounded("outline_left");
         np.setAdjustSize(true);
         leistung = new GenericDropDown<>(np, ERE.data.root.services.values().stream().toArray(Service[]::new));
@@ -48,9 +48,9 @@ public class LeistungTable extends Table{
         defaults().height(Cons.defaultRowHeight).minHeight(0);
         
         add(leistung).grow().maxWidth(-1);
-        add(separator1).width(1).prefHeight(ValueUtil.percentValue(0.6f, height)).padLeft(-1).padRight(-1);
+//        add(separator1).width(1).prefHeight(ValueUtil.percentValue(0.6f, height)).padLeft(-1).padRight(-1);
         add(duration).grow();
-        add(separator2).width(1).prefHeight(ValueUtil.percentValue(0.6f, height)).padLeft(-1).padRight(-1);
+//        add(separator2).width(1).prefHeight(ValueUtil.percentValue(0.6f, height)).padLeft(-1).padRight(-1);
         add(delete).width(height).right();
         separator1.setZIndex(10);
         separator2.setZIndex(10);
@@ -63,5 +63,9 @@ public class LeistungTable extends Table{
                 duration.setSelectedIndex(leistung.getSelected().duration/15);
             }
         });
+    }
+    
+    public Service createService(){
+        return ERE.data.root.services.get(leistung.getSelectedIndex());
     }
 }
