@@ -21,7 +21,8 @@ import de.fungistudii.kalender.main.tabs.kalender.AddBlockDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.StornoDialog;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.DatePickerPopup;
-import de.fungistudii.kalender.main.tabs.kunden.CustomerDialog;
+import de.fungistudii.kalender.main.tabs.kunden.EditCustomerDialog;
+import de.fungistudii.kalender.main.tabs.kunden.ViewCustomerDialog;
 import de.fungistudii.kalender.main.tabs.servies.AddServiceDialog;
 import java.util.Date;
 
@@ -32,10 +33,11 @@ import java.util.Date;
 public class DialogManager extends WidgetGroup {
 
     private final AddAppointmentDialog appointment;
-    private final CustomerDialog customer;
+    private final EditCustomerDialog customer;
     private final AddServiceDialog service;
     private final StornoDialog storno;
     private final AddBlockDialog block;
+    private ViewCustomerDialog viewCustomer;
 
     private Array<Popup> openPops = new Array<>();
 
@@ -46,10 +48,11 @@ public class DialogManager extends WidgetGroup {
 
     public DialogManager() {
         this.appointment = new AddAppointmentDialog();
-        this.customer = new CustomerDialog();
+        this.customer = new EditCustomerDialog();
         this.service = new AddServiceDialog();
         this.storno = new StornoDialog();
         this.block = new AddBlockDialog();
+        this.viewCustomer = new ViewCustomerDialog();
         super.setFillParent(true);
 
         stageBackground = new Image(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
@@ -88,6 +91,12 @@ public class DialogManager extends WidgetGroup {
     public void showDatePicker(float x, float y, float width, DatePickerPopup popup) {
         popup.show(x, y, width, getStage());
         openDialog(popup);
+    }
+    
+    public void showViewCustomer(int kunde) {
+        viewCustomer = new ViewCustomerDialog();
+        viewCustomer.show(getStage(), kunde);
+        openDialog(viewCustomer);
     }
     
     private void openDialog(Popup popup) {

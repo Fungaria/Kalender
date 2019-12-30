@@ -14,6 +14,8 @@ import de.fungistudii.kalender.util.Fonts;
  */
 public class GenericTextButton extends TextButton {
 
+    private float prefHeight = Cons.defaultRowHeight;
+    
     public GenericTextButton(String text, TextButtonStyle style) {
         super(text, style);
     }
@@ -29,11 +31,14 @@ public class GenericTextButton extends TextButton {
 
     @Override
     public float getPrefHeight() {
-        return Cons.defaultRowHeight;
+        return prefHeight;
+    }
+
+    public void prefHeight(float prefHeight) {
+        this.prefHeight = prefHeight;
     }
 
     public static class OutlineStyle extends TextButtonStyle {
-
         public OutlineStyle() {
             super.up = ERE.assets.createRounded("outline");
             super.down = ERE.assets.createRounded("outline_check");

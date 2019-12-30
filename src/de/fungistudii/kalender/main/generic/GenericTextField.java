@@ -42,7 +42,7 @@ public class GenericTextField extends TextField{
             super.background = super.disabledBackground;
             super.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.cursor.setMinWidth(1);
-            super.selection = new NinePatchSolid(ERE.assets.grey1);
+            super.selection = new NinePatchSolid(ERE.assets.grey2);
             super.focusedBackground = ERE.assets.createRounded("outline_check");
             super.font = ERE.assets.fonts.createFont("roboto", 16, Fonts.LIGHT);
             super.fontColor = Color.BLACK;

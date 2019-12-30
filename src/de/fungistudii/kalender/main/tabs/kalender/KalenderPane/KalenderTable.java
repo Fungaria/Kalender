@@ -5,14 +5,12 @@ import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -21,16 +19,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Kunde;
+import de.fungistudii.kalender.client.database.Customer;
+import de.fungistudii.kalender.main.generic.CurrentTimeLine;
 import de.fungistudii.kalender.main.generic.GenericSearchField;
-import de.fungistudii.kalender.main.tabs.kalender.TerminElement;
-import de.fungistudii.kalender.util.DateUtil;
-import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import de.fungistudii.kalender.util.value.VariableValue;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -39,66 +34,85 @@ import java.util.Date;
  */
 public abstract class KalenderTable extends Table {
 
-    private final int NUM_ROWS = 16;
+    private static final int NUM_ROWS = 16;
+    public static final int startTime = 8;
+    public static BGPool BG_POOL;
 
     private KalenderGrid old;
     private KalenderGrid nu;
     private ScrollPane pane;
     private AnimationStack container;
 
-    private TimeColumn leftTimeColumn;
-    private TimeColumn rightTimeColumn;
-
-    private Date currentDate;
-
-    protected Header header;
     protected Navigator navigator;
+    private ScrollPaneFollower top;
+    protected Header header;
+    
+    private TimeColumn rightTimeColumn;
+    private TimeColumn leftTimeColumn;
 
-    private ScrollPaneFollower n;
+    
 
-    private float elementHeight = 24;
-
-    public static final int startTime = 8;
-
-    public static BGPool pool;
-
+    private GenericSearchField<Customer> search;
     public TextButton resizeButton;
     public ViewWidget viewWidget;
+    public CurrentTimeLine timeLine;
 
+    private final VariableValue elementHeight = new VariableValue(24);
+    
     public KalenderTable(Date date, Header header, Navigator navigator) {
-        pool = new BGPool();
+        BG_POOL = new BGPool();
         this.header = header;
         this.navigator = navigator;
 
+        initGUI(date);
+        initListeners();
+        
+    }
+
+    private void initGUI(Date date){
         old = createGrid(date);
         container = new AnimationStack(old);
 
-        pane = new ScrollPane(container);
+        ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
+        paneStyle.hScroll = new NinePatchSolid(ERE.assets.grey2, 2, 15, 15);
+        paneStyle.hScrollKnob = new NinePatchSolid(ERE.assets.grey4, 2, 15, 15);
+        
+        pane = new ScrollPane(container, paneStyle);
+        pane.getListeners().removeIndex(0);
+        pane.setFadeScrollBars(false);
+        pane.setVariableSizeKnobs(true);
         pane.setOverscroll(false, true);
-
-        leftTimeColumn = new TimeColumn(Align.left);
-        ScrollPaneFollower p2 = new ScrollPaneFollower(leftTimeColumn);
-        p2.setScrollingDisabled(true, false);
-        p2.setParent(pane);
-
-        rightTimeColumn = new TimeColumn(Align.right);
-        ScrollPaneFollower p1 = new ScrollPaneFollower(rightTimeColumn);
+        
+        leftTimeColumn = new TimeColumn(Align.right);
+        Stack leftStack = new Stack(leftTimeColumn);
+        ScrollPaneFollower p1 = new ScrollPaneFollower(leftStack);
         p1.setScrollingDisabled(true, false);
         p1.setParent(pane);
+        CurrentTimeLine tl = new CurrentTimeLine.Elbel(elementHeight);
+        leftStack.add(tl);
+        
+        rightTimeColumn = new TimeColumn(Align.left);
+        ScrollPaneFollower p2 = new ScrollPaneFollower(rightTimeColumn);
+        p2.setScrollingDisabled(true, false);
+        p2.setParent(pane);
+        
 
-        n = new ScrollPaneFollower(header);
-        n.setScrollingDisabled(false, true);
-        n.setParent(pane);
+        top = new ScrollPaneFollower(header);
+        top.setScrollingDisabled(false, true);
+        top.setParent(pane);
 
         resizeButton = new TextButton("100%", new TextButton.TextButtonStyle(ERE.assets.createRounded("outline"), null, null, ERE.assets.fonts.createFont("roboto", 14, Fonts.LIGHT)));
         resizeButton.getStyle().over = ERE.assets.createRounded("outline_over");
         resizeButton.getStyle().fontColor = ERE.assets.grey7;
 
-        GenericSearchField search = new GenericSearchField<Kunde>((String s, Kunde k) -> (k.name.startsWith(s) || (k.vorname+" "+k.name).startsWith(s)));
+        search = new GenericSearchField<>((String s, Customer k) -> (k.name.startsWith(s) || (k.vorname + " " + k.name).startsWith(s)));
         search.setMessageText("Kunden suchen ...");
         search.setItems(ERE.data.root.kunden.values());
+
+        timeLine = new CurrentTimeLine.Line(elementHeight);
+        container.add(timeLine);
         
-        viewWidget = new ViewWidget();  
+        viewWidget = new ViewWidget();
 
         Table navig = new Table();
         navig.add(search).uniform().height(55).expandX().left().minWidth(220);
@@ -110,7 +124,7 @@ public abstract class KalenderTable extends Table {
         super.add(navig).growX().colspan(3);
         super.row();
         super.add();
-        super.add(n).growX().padTop(10).height(50);
+        super.add(top).growX().padTop(10).height(50);
         super.row();
         super.add(new Image(separator)).colspan(3).growX().height(1).padLeft(30).padRight(30);
         super.add();
@@ -121,9 +135,11 @@ public abstract class KalenderTable extends Table {
 
         p2.setZIndex(1000);
         p1.setZIndex(1000);
-        n.setZIndex(1000);
-
-        super.addListener(desktopListener);
+        top.setZIndex(1000);
+    }
+    
+    private void initListeners(){
+        //resize Listener
         ERE.mainScreen.stage.addCaptureListener(new InputListener() {
             @Override
             public boolean keyDown(InputEvent event, int keycode) {
@@ -147,7 +163,7 @@ public abstract class KalenderTable extends Table {
             @Override
             public boolean scrolled(InputEvent event, float x, float y, int amount) {
                 if (Gdx.input.isKeyPressed(Keys.CONTROL_LEFT)) {
-                    setElementHeight(old.elementHeight.getValue() * (amount > 0 ? 1.1f : 0.9f));
+                    setElementHeight(elementHeight.getValue() * (amount > 0 ? 1.1f : 0.9f));
                 }
                 return super.scrolled(event, x, y, amount);
             }
@@ -159,28 +175,31 @@ public abstract class KalenderTable extends Table {
             }
         });
     }
-
+    
     @Override
     public float getPrefWidth() {
         return 2000;
     }
 
-    public void setElementHeight(float elementHeight) {
-        resizeButton.setText(((int) (elementHeight / 0.0024f)) / 100 + "%");
-        this.elementHeight = elementHeight;
-        float min = getHeight() / (old.NUM_ROWS * 4);
+    public void setElementHeight(float eH) {
+        resizeButton.setText(((int) (eH / 0.0024f)) / 100 + "%");
+        
+        //round
+        float nuHeight = ((int)(eH*2))/2;
+        //bound
+        float min = getHeight() / (16 * 4);
         float max = 40; //willkürlich
-        float height = Math.min(Math.max(elementHeight, min), max);
-        old.elementHeight.setValue(height);
+        nuHeight = Math.min(Math.max(nuHeight, min), max);
+        //apply
+        this.elementHeight.setValue(nuHeight);
         old.invalidateHierarchy();
         pane.layout();
-        leftTimeColumn.elementHeight.setValue(height);
-        rightTimeColumn.elementHeight.setValue(height);
-        leftTimeColumn.invalidateHierarchy();
+        rightTimeColumn.elementHeight.setValue(nuHeight);
+        leftTimeColumn.elementHeight.setValue(nuHeight);
         rightTimeColumn.invalidateHierarchy();
+        leftTimeColumn.invalidateHierarchy();
     }
-
-    public float getElementHeight() {
+    public Value getElementHeight() {
         return elementHeight;
     }
 
@@ -194,23 +213,18 @@ public abstract class KalenderTable extends Table {
         }
         header.updateLayout(old);
         header.invalidate();
-        n.invalidate();
-    }
-
-    @Override
-    public void act(float delta) {
-        super.act(delta); //To change body of generated methods, choose Tools | Templates.
+        top.invalidate();
+        timeLine.setZIndex(100);
     }
 
     public void updateCurrentTable() {
         old.remove();
-        old = createGrid(currentDate);
+        old = createGrid(old.start);
         container.setMainActor(old);
-        setElementHeight(elementHeight);
+        setElementHeight(elementHeight.get());
     }
 
     public void switchDate(Date date, int direction) {
-        currentDate = date;
         navigator.setDate(date);
 
         if (direction == 0) {
@@ -226,10 +240,9 @@ public abstract class KalenderTable extends Table {
         }
 
         nu = createGrid(date);
-        nu.elementHeight.setValue(old.elementHeight.getValue());
         container.setMainActor(nu);
         nu.setVisible(false);
-
+        
         Gdx.app.postRunnable(() -> {
             nu.animateIn(direction > 0, old.getWidth(), (c) -> {
                 old = c;
@@ -241,7 +254,7 @@ public abstract class KalenderTable extends Table {
 
     public abstract KalenderGrid createGrid(Date date);
 
-    public Button getSelectedElement() {
+    public BackgroundElement getSelectedElement() {
         return old.getSelectedElement();
     }
 
@@ -249,86 +262,7 @@ public abstract class KalenderTable extends Table {
         return old.getSelectedDuration();
     }
 
-    private ClickListener desktopListener = new ClickListener() {
-        //selecting
-        private boolean selecting;
-        private Date startRow;
-        private int col;
-
-        //drag and drop
-        private float startY;
-        private float actorY;
-        private int distanceY;
-        private final Vector2 tmpVec = new Vector2();
-
-        private TerminDD dragged;
-
-        @Override
-        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-            Actor hit = hit(x, y, true);
-            pane.cancel();
-
-            if (hit instanceof GridElement && ((Button) hit).isChecked() && old.buttons.getAllChecked().size > 1) {
-                return true;
-            }
-            if (hit instanceof TerminElement && ((TerminElement) hit).isChecked()) {
-                ((TerminElement) hit).fadeOut();
-                dragged = new TerminDD((TerminElement) hit, old.elementHeight);
-                old.addActor(dragged);
-                startY = y; distanceY = 0; col = dragged.getTermin().friseur;
-                actorY = hit.localToActorCoordinates(old, tmpVec.set(0, 0)).y;
-                dragged.jumpTo(tmpVec.x, tmpVec.y);
-                old.disableInput();
-            } else if (hit instanceof GridElement) {
-                old.buttons.uncheckAll();
-                startRow = ((GridElement) hit).getStart();
-                col = ((GridElement)hit).getFriseur();
-            }
-            if (hit instanceof BackgroundElement) {
-                selecting = true;
-                old.buttons.setMaxCheckCount(100);
-            }
-            return true;
-        }
-
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            old.buttons.setMaxCheckCount(1);
-        }
-
-        @Override
-        public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
-            selecting = false;
-            // release Dragged Termin
-            if (dragged != null) {
-                old.enableInput();
-                dragged.getTermin().start = DateUtil.add(dragged.getTermin().start, Calendar.MINUTE, -15 * distanceY);
-                dragged.getTermin().friseur = col;
-                ERE.client.sendTCP(dragged.getTermin());
-                dragged.dispose();
-                dragged = null;
-            }
-        }
-
-        @Override
-        public void touchDragged(InputEvent event, float x, float y, int pointer) {
-            Actor hit = hit(x, y, true);
-            if (selecting && hit instanceof GridElement) {
-                Date currentRow = ((GridElement) hit).getStart();
-                Date min = DateUtil.min(currentRow, startRow);
-                Date max = DateUtil.max(currentRow, startRow);
-                old.selectRange(col, min, max);
-            } else if (dragged != null && hit instanceof GridElement) {
-                float targetX = (hit.getParent()).localToActorCoordinates(old, tmpVec.set(0, 0)).x;
-                col = ((GridElement) hit).getFriseur();
-                distanceY = (int) ((y-startY)/old.elementHeight.get());
-                dragged.setPosition(targetX,actorY + old.elementHeight.get() * distanceY);
-            }
-        }
-    };
-
-    private class TimeColumn extends Table {
-
+    private static class TimeColumn extends Table {
         public final VariableValue elementHeight = new VariableValue(24);
 
         private final Drawable timeFiller = ERE.assets.createNinePatchDrawable("kalender/grid/time", 2);
@@ -338,12 +272,12 @@ public abstract class KalenderTable extends Table {
             dateStyle.fontColor = ERE.assets.grey5;
             for (int i = 0; i < NUM_ROWS; i++) {
                 Image image = new Image(timeFiller);
-                Label label = new Label(startTime+i+"", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 15), ERE.assets.grey6));
-                if(align == Align.left){
+                Label label = new Label(startTime + i + "", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 15), ERE.assets.grey6));
+                if (align == Align.left) {
                     label.setAlignment(Align.bottomLeft);
                     super.add(image).width(20).height(ValueUtil.percentValue(4, elementHeight));
                     super.add(label).growX().padTop(-10).top().padLeft(5);
-                }else{
+                } else {
                     label.setAlignment(Align.bottomRight);
                     super.add(label).growX().padTop(-10).top().padRight(5);
                     super.add(image).width(20).height(ValueUtil.percentValue(4, elementHeight));

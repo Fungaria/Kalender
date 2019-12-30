@@ -48,10 +48,11 @@ public class MainScreen extends ScreenAdapter {
         this.viewport = new ScreenViewport();
         stage = new Stage(viewport);
 
+        //unfocus Actors when user clicks anywhere. By default Actors are only unfocused when another Actor "claims" the Keyboard Focus
         stage.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(stage.getKeyboardFocus() == null || !stage.getKeyboardFocus().isAscendantOf(stage.hit(x, y, false))){
+                if(stage.getKeyboardFocus()!=null && !stage.getKeyboardFocus().isAscendantOf(event.getTarget())){
                     stage.setKeyboardFocus(null);
                 }
                 return false;
@@ -133,6 +134,8 @@ public class MainScreen extends ScreenAdapter {
         Gdx.gl.glClearColor(1, 1, 1, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stage.act();
+//        stage.getBatch().enableBlending();
+//        stage.getBatch().setBlendFunction(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         stage.draw();
         
         fps = 1/delta;

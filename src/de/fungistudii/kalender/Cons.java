@@ -14,7 +14,7 @@ public class Cons {
     public static final float tabPanePercentHeight = 0.15f;
     public static final float tabButtonWidth = 0.1f;
     
-    public static final float appointmentPad = 7;
+    public static final float appointmentPad = 5;
     
     public static final float defaultRowHeight = 55;
     public static final float defaultLeftWidth = 10;

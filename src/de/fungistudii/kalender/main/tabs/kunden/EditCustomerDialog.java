@@ -12,7 +12,7 @@ import de.fungistudii.kalender.main.generic.TitledWidget;
  *
  * @author sreis
  */
-public class CustomerDialog extends GenericMask{
+public class EditCustomerDialog extends GenericMask{
     
     private GenericTextField name;
     private GenericTextField lastName;
@@ -21,7 +21,7 @@ public class CustomerDialog extends GenericMask{
     private GenericDropDown gender;
     private GenericTextArea notizen;
     
-    public CustomerDialog() {
+    public EditCustomerDialog() {
         super(3, "Details");
         super.setColumnWeights(new float[]{0.3f, 0.3f, 0f});
         super.prefWidth(800);

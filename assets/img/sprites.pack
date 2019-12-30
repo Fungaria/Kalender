@@ -1,466 +1,515 @@
 sprites.png
-size: 1842, 689
+size: 802, 949
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
 generic/context_bg
   rotate: false
-  xy: 457, 33
+  xy: 695, 67
   size: 55, 32
   orig: 55, 32
   offset: 0, 0
   index: -1
 generic/cross
   rotate: false
-  xy: 1514, 107
+  xy: 113, 432
   size: 111, 111
   orig: 111, 111
   offset: 0, 0
   index: -1
 generic/filled_middle
   rotate: false
-  xy: 122, 107
+  xy: 251, 242
   size: 42, 70
   orig: 42, 70
   offset: 0, 0
   index: -1
 generic/horizontal_separator
   rotate: false
-  xy: 1, 1
+  xy: 3, 3
   size: 555, 2
   orig: 555, 2
   offset: 0, 0
   index: -1
 generic/middle
   rotate: false
-  xy: 79, 107
+  xy: 493, 242
   size: 35, 70
   orig: 35, 70
   offset: 0, 0
   index: -1
 generic/rounded
   rotate: false
-  xy: 1, 107
+  xy: 173, 242
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 generic/rounded_check
   rotate: false
-  xy: 172, 107
+  xy: 301, 242
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 generic/rounded_down
   rotate: false
-  xy: 385, 107
+  xy: 614, 242
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 generic/rounded_filled
   rotate: false
-  xy: 600, 107
+  xy: 84, 322
   size: 73, 73
   orig: 73, 73
   offset: 0, 0
   index: -1
 generic/rounded_filled_left
   rotate: false
-  xy: 681, 107
+  xy: 165, 322
   size: 73, 73
   orig: 73, 73
   offset: 0, 0
   index: -1
 generic/rounded_filled_right
   rotate: false
-  xy: 762, 107
+  xy: 3, 322
   size: 73, 73
   orig: 73, 73
   offset: 0, 0
   index: -1
 generic/rounded_left
   rotate: false
-  xy: 463, 107
+  xy: 379, 242
   size: 49, 70
   orig: 49, 70
   offset: 0, 0
   index: -1
 generic/rounded_over
   rotate: false
-  xy: 307, 107
+  xy: 536, 242
   size: 70, 70
   orig: 70, 70
   offset: 0, 0
   index: -1
 generic/rounded_red
   rotate: false
-  xy: 520, 33
+  xy: 758, 67
   size: 33, 33
   orig: 33, 33
   offset: 0, 0
   index: -1
 generic/rounded_right
   rotate: false
-  xy: 250, 107
+  xy: 436, 242
   size: 49, 70
   orig: 49, 70
   offset: 0, 0
   index: -1
 generic/rounded_stripped
   rotate: false
-  xy: 928, 33
+  xy: 730, 108
   size: 52, 52
   orig: 52, 52
   offset: 0, 0
   index: -1
 generic/settings
   rotate: false
-  xy: 659, 33
+  xy: 101, 108
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 generic/square
   rotate: false
-  xy: 988, 33
+  xy: 63, 168
   size: 53, 53
   orig: 53, 53
   offset: 0, 0
   index: -1
 generic/textfield_cursor
   rotate: false
-  xy: 395, 33
+  xy: 633, 67
   size: 1, 25
   orig: 1, 25
   offset: 0, 0
   index: -1
 generic/textfield_selection
   rotate: false
-  xy: 404, 33
+  xy: 642, 67
   size: 45, 29
   orig: 45, 29
   offset: 0, 0
   index: -1
 generic/vertical_separator
   rotate: false
-  xy: 1174, 107
+  xy: 577, 322
   size: 2, 100
   orig: 2, 100
   offset: 0, 0
   index: -1
 icons/add
   rotate: false
-  xy: 843, 107
+  xy: 246, 322
   size: 77, 77
   orig: 77, 77
   offset: 0, 0
   index: -1
 icons/arrow_down
   rotate: false
-  xy: 520, 107
+  xy: 692, 242
   size: 72, 72
   orig: 72, 72
   offset: 0, 0
   index: -1
 icons/arrow_side
   rotate: false
-  xy: 211, 236
+  xy: 652, 432
   size: 132, 132
   orig: 132, 132
   offset: 0, 0
   index: -1
+icons/color
+  rotate: false
+  xy: 3, 168
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
 icons/customer
   rotate: false
-  xy: 607, 33
+  xy: 3, 108
   size: 44, 44
   orig: 44, 44
   offset: 0, 0
   index: -1
 icons/edit
   rotate: false
-  xy: 817, 33
+  xy: 259, 108
   size: 46, 46
   orig: 46, 46
   offset: 0, 0
   index: -1
+icons/expand
+  rotate: false
+  xy: 566, 3
+  size: 29, 8
+  orig: 29, 8
+  offset: 0, 0
+  index: -1
 icons/kalender_day
   rotate: false
-  xy: 928, 107
+  xy: 331, 322
   size: 76, 80
   orig: 76, 80
   offset: 0, 0
   index: -1
 icons/kalender_week
   rotate: false
-  xy: 1012, 107
+  xy: 415, 322
   size: 76, 80
   orig: 76, 80
   offset: 0, 0
   index: -1
+icons/mail
+  rotate: false
+  xy: 370, 108
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+icons/money
+  rotate: false
+  xy: 430, 108
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+icons/note
+  rotate: false
+  xy: 550, 108
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+icons/person
+  rotate: false
+  xy: 490, 108
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
+icons/phone
+  rotate: false
+  xy: 610, 108
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
 icons/plus
   rotate: false
-  xy: 1049, 33
+  xy: 124, 168
   size: 55, 55
   orig: 55, 55
   offset: 0, 0
   index: -1
+icons/scissor
+  rotate: false
+  xy: 670, 108
+  size: 52, 52
+  orig: 52, 52
+  offset: 0, 0
+  index: -1
 icons/search
   rotate: false
-  xy: 871, 33
+  xy: 313, 108
   size: 49, 49
   orig: 49, 49
   offset: 0, 0
   index: -1
 icons/service
   rotate: false
-  xy: 764, 33
+  xy: 206, 108
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 icons/settings
   rotate: false
-  xy: 711, 33
+  xy: 153, 108
   size: 45, 45
   orig: 45, 45
   offset: 0, 0
   index: -1
 icons/thrash
   rotate: false
-  xy: 561, 33
+  xy: 55, 108
   size: 38, 44
   orig: 38, 44
   offset: 0, 0
   index: -1
 kalender/grid/block_bg_check_r
   rotate: false
-  xy: 811, 236
-  size: 452, 452
-  orig: 452, 452
-  offset: 0, 0
-  index: -1
-kalender/grid/block_bg_over_r
-  rotate: false
-  xy: 351, 236
-  size: 452, 452
-  orig: 452, 452
+  xy: 385, 572
+  size: 374, 374
+  orig: 374, 374
   offset: 0, 0
   index: -1
 kalender/grid/block_bg_r
   rotate: false
-  xy: 1271, 236
-  size: 452, 452
-  orig: 452, 452
+  xy: 3, 572
+  size: 374, 374
+  orig: 374, 374
   offset: 0, 0
   index: -1
 kalender/grid/element_block_bottom
   rotate: false
-  xy: 1210, 1
+  xy: 3, 67
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_block_top
   rotate: false
-  xy: 894, 1
+  xy: 3, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_bottom
   rotate: false
-  xy: 1526, 1
+  xy: 161, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_bottom_check
   rotate: false
-  xy: 1052, 1
+  xy: 617, 3
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_bottom_hover
   rotate: false
-  xy: 736, 1
+  xy: 635, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_empty
   rotate: false
-  xy: 578, 1
+  xy: 319, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_top
   rotate: false
-  xy: 1368, 1
+  xy: 477, 35
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_top_check
   rotate: false
-  xy: 1, 33
+  xy: 397, 67
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/element_top_hover
   rotate: false
-  xy: 237, 33
+  xy: 239, 67
   size: 150, 24
   orig: 150, 24
   offset: 0, 0
   index: -1
 kalender/grid/filler_bottom
   rotate: false
-  xy: 159, 33
+  xy: 555, 67
   size: 70, 24
   orig: 70, 24
   offset: 0, 0
   index: -1
 kalender/grid/filler_top
   rotate: false
-  xy: 1684, 1
+  xy: 161, 67
   size: 70, 24
   orig: 70, 24
   offset: 0, 0
   index: -1
 kalender/grid/time
   rotate: false
-  xy: 1096, 107
+  xy: 499, 322
   size: 70, 96
   orig: 70, 96
   offset: 0, 0
   index: -1
 kalender/time_dots
   rotate: false
-  xy: 564, 1
+  xy: 603, 3
   size: 6, 18
   orig: 6, 18
   offset: 0, 0
   index: -1
 rounded/cancel
   rotate: false
-  xy: 1593, 33
+  xy: 261, 168
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 rounded/filled
   rotate: false
-  xy: 1319, 33
+  xy: 99, 242
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 rounded/filled_left
   rotate: false
-  xy: 1112, 33
+  xy: 3, 242
   size: 48, 66
   orig: 48, 66
   offset: 0, 0
   index: -1
 rounded/filled_middle
   rotate: false
-  xy: 1168, 33
+  xy: 591, 168
   size: 29, 66
   orig: 29, 66
   offset: 0, 0
   index: -1
 rounded/filled_right
   rotate: false
-  xy: 1723, 33
+  xy: 335, 168
   size: 44, 66
   orig: 44, 66
   offset: 0, 0
   index: -1
 rounded/outline
   rotate: false
-  xy: 1775, 33
+  xy: 387, 168
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 rounded/outline_check
   rotate: false
-  xy: 1519, 33
+  xy: 461, 168
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 rounded/outline_down
   rotate: false
-  xy: 1445, 33
+  xy: 187, 168
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 rounded/outline_left
   rotate: false
-  xy: 1667, 33
+  xy: 535, 168
   size: 48, 66
   orig: 48, 66
   offset: 0, 0
   index: -1
 rounded/outline_middle
   rotate: false
-  xy: 1279, 33
+  xy: 59, 242
   size: 32, 66
   orig: 32, 66
   offset: 0, 0
   index: -1
 rounded/outline_over
   rotate: false
-  xy: 1205, 33
+  xy: 680, 168
   size: 66, 66
   orig: 66, 66
   offset: 0, 0
   index: -1
 rounded/outline_right
   rotate: false
-  xy: 1393, 33
+  xy: 628, 168
   size: 44, 66
   orig: 44, 66
   offset: 0, 0
   index: -1
 tabs/blue
   rotate: false
-  xy: 1184, 107
+  xy: 587, 322
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 tabs/button_down
   rotate: false
-  xy: 1, 236
+  xy: 442, 432
   size: 202, 121
   orig: 202, 121
   offset: 0, 0
   index: -1
 tabs/button_up
   rotate: false
-  xy: 1633, 107
+  xy: 232, 432
   size: 202, 121
   orig: 202, 121
   offset: 0, 0
   index: -1
 tabs/green
   rotate: false
-  xy: 1294, 107
+  xy: 697, 322
   size: 102, 102
   orig: 102, 102
   offset: 0, 0
   index: -1
 tabs/red
   rotate: false
-  xy: 1404, 107
+  xy: 3, 432
   size: 102, 102
   orig: 102, 102
   offset: 0, 0

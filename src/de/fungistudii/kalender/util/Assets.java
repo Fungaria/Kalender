@@ -50,9 +50,6 @@ public class Assets {
     
     public void load(){
         atlas = new TextureAtlas(internal("img/sprites.pack"));
-        for (Texture texture : atlas.getTextures()) {
-            texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
-        }
         fonts = new Fonts();
     }
     

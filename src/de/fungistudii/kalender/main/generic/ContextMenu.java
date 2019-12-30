@@ -43,12 +43,13 @@ public class ContextMenu<T extends Actor> extends Table {
     private T getType(Actor actor){
         Actor current = actor;
         for (int i = 0; i < 4; i++) {
-            if(current == null)
+            if(current == null){
                 return null;
-            else if(current.getClass().equals(type))
+            }else if(current.getClass().equals(type)){
                 return (T)current;
-            else
+            }else{
                 current = current.getParent();
+            }
         }
         return null;
     }

@@ -22,7 +22,7 @@ public class DayTable extends KalenderTable {
 
     @Override
     public KalenderGrid createGrid(Date date) {
-        return new DayGrid(date);
+        return new DayGrid(date, super.getElementHeight());
     }
 
 }

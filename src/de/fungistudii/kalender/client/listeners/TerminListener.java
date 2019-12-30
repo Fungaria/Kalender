@@ -6,10 +6,7 @@ import com.esotericsoftware.kryonet.Listener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Termin;
-import java.util.Comparator;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.xml.bind.JAXBException;
+
 
 /**
  *

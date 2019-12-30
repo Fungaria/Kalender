@@ -6,26 +6,19 @@
 package de.fungistudii.kalender.main.tabs.kalender.dialog;
 
 import de.fungistudii.kalender.main.generic.TitledWidget;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import de.fungistudii.kalender.util.DialogManager;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
 import de.fungistudii.kalender.client.NetworkData.CreateTerminRequest;
-import de.fungistudii.kalender.client.database.Kunde;
+import de.fungistudii.kalender.client.database.Customer;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.generic.GenericImageButton;
 import de.fungistudii.kalender.main.generic.GenericMask;
 import de.fungistudii.kalender.main.generic.GenericSearchField;
 import de.fungistudii.kalender.main.generic.GenericTextField;
-import de.fungistudii.kalender.util.Popup;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,8 +29,8 @@ import java.util.Date;
 public class AddAppointmentDialog extends GenericMask{
     
     //1
-    private GenericSearchField<Kunde> customerName;
-    private GenericTextField customerPhone;
+    private GenericSearchField<Customer> customerName;
+//    private GenericTextField customerPhone;
     private GenericImageButton edit;
     private GenericImageButton nu;
     
@@ -65,10 +58,10 @@ public class AddAppointmentDialog extends GenericMask{
 
     private void initGUI(){
         // ROW 1 ---------------------------------------------------------------
-        customerName = new GenericSearchField<Kunde>((String s, Kunde k) -> (k.name.startsWith(s) || (k.vorname+" "+k.name).startsWith(s)));
+        customerName = new GenericSearchField<Customer>((String s, Customer k) -> (k.name.startsWith(s) || (k.vorname+" "+k.name).startsWith(s)));
         customerName.setMessageText("Enter name");
         customerName.setItems(ERE.data.root.kunden.values());
-        customerPhone = new GenericTextField("Telefon");
+//        customerPhone = new GenericTextField("Telefon");
         edit = new GenericImageButton("icons/settings");
         nu = new GenericImageButton("icons/customer");
         
@@ -78,7 +71,7 @@ public class AddAppointmentDialog extends GenericMask{
         buttons.add(nu).left();
         
         super.addC(new TitledWidget("Kunde:", customerName));
-        super.addC(new TitledWidget("Telefon:", customerPhone));
+//        super.addC(new TitledWidget("Telefon:", customerPhone));
         super.addC(buttons).bottom().left();
         super.separator();
         
@@ -114,7 +107,7 @@ public class AddAppointmentDialog extends GenericMask{
     private void addListeners(){
         customerName.setListener((k) -> {
             customerName.setText(k.toString());
-            customerPhone.setText(k.phone);
+//            customerPhone.setText(k.phone);
         });
         
         addServiceButton.addListener(

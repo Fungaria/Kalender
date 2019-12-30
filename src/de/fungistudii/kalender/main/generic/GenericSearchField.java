@@ -15,6 +15,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.DrawableSolid;
+import de.fungistudii.kalender.util.Fonts;
+import de.fungistudii.kalender.util.NinePatchSolid;
 import de.fungistudii.kalender.util.SearchField;
 
 /**
@@ -30,7 +32,7 @@ public class GenericSearchField<T> extends SearchField<T>{
     
     public GenericSearchField(ListFilter<T> filter) {
         super(new Style(), filter);
-        this.icon = ERE.assets.createDrawable("icons/search", ERE.assets.grey2);
+        this.icon = ERE.assets.createDrawable("icons/search", ERE.assets.grey3);
     }
     
     @Override
@@ -61,11 +63,11 @@ public class GenericSearchField<T> extends SearchField<T>{
         public Style() {
             super.textFieldStyle = new TextField.TextFieldStyle();
             super.textFieldStyle.background = ERE.assets.createRounded("outline");
-            super.textFieldStyle.font = ERE.assets.fonts.createFont("roboto", 15);
+            super.textFieldStyle.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
             super.textFieldStyle.fontColor = Color.BLACK;
             super.textFieldStyle.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.textFieldStyle.cursor.setMinWidth(1);
-            super.textFieldStyle.selection = ERE.assets.createDrawable("generic/textfield_selection");
+            super.textFieldStyle.selection = new NinePatchSolid(ERE.assets.grey2);
             super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey1));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
             super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);

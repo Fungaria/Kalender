@@ -68,8 +68,8 @@ public class GenericDropDown<T> extends SelectBox<T> {
             super.listStyle = new List.ListStyle(font, ERE.assets.grey7, ERE.assets.grey5, new NinePatchSolid(ERE.assets.grey1, 5));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
             super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 10);
-//            super.scrollStyle.vScroll = new NinePatchSolid(ERE.assets.grey2, 10);
-//            super.scrollStyle.vScrollKnob = new NinePatchSolid(ERE.assets.grey4, 10);
+            super.scrollStyle.vScroll = new NinePatchSolid(ERE.assets.grey2, 10);
+            super.scrollStyle.vScrollKnob = new NinePatchSolid(ERE.assets.grey4, 10);
         }
     }
 }

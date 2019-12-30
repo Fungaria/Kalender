@@ -5,9 +5,11 @@
  */
 package de.fungistudii.kalender.main.generic;
 
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -22,9 +24,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Array;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Popup;
-import java.util.HashSet;
 
 /**
  *
@@ -55,7 +55,7 @@ public class GenericDialog extends Popup {
         
         this.okButton = new GenericTextButton("Bestätigen", new GenericTextButton.FilledStyle());
         this.cancelButton = new GenericTextButton("Abbrechen", new GenericTextButton.CancelStyle());
-        this.titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 18), Color.BLACK));
+        this.titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20), Color.BLACK));
         this.closeButton = new ImageButton(ERE.assets.createDrawable("generic/cross", ERE.assets.grey4));
         this.closeButton.getStyle().imageOver = ERE.assets.createDrawable("generic/cross", ERE.assets.grey7);
         
@@ -97,6 +97,21 @@ public class GenericDialog extends Popup {
             public void clicked(InputEvent event, float x, float y) {
                 hide();
                 cancelCallbacks.forEach(c -> c.run());
+            }
+        });
+        addListener(new InputListener(){
+            @Override
+            public boolean keyDown(InputEvent event, int keycode) {
+                if(keycode == Keys.ENTER){
+                    hide();
+                    confirmCallbacks.forEach(c -> c.run());
+                    return true;
+                }else if(keycode == Keys.ESCAPE){
+                    hide();
+                    cancelCallbacks.forEach(c -> c.run());
+                    return true;
+                }
+                return false;
             }
         });
     }

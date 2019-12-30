@@ -39,7 +39,6 @@ public class SearchField<T> extends TextField implements Disableable {
     final Array<T> items = new Array();
     
     private SelectBoxList<T> list;
-    
     private ListFilter<T> filter;
 
     private Consumer<T> listener = new Consumer<T>() {
@@ -67,8 +66,6 @@ public class SearchField<T> extends TextField implements Disableable {
                     list.setItems(items);
                 }
             }
-            
-            
         });
     }
     

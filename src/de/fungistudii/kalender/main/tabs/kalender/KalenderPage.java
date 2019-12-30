@@ -15,7 +15,7 @@ import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockierungElement;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.WeekSelectBehavior;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day.DayTable;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.WeekTable;
@@ -84,7 +84,7 @@ public class KalenderPage extends TabPage {
         updateDate(0);
         contentTable.setActor(currentTable); 
         currentTable.invalidateHierarchy();
-        weekTable.setElementHeight(dayTable.getElementHeight());
+        weekTable.setElementHeight(dayTable.getElementHeight().get());
         weekTable.viewWidget.setView(false);
     }
     
@@ -96,7 +96,7 @@ public class KalenderPage extends TabPage {
         updateDate(0);
         contentTable.setActor(currentTable);
         currentTable.invalidateHierarchy();
-        dayTable.setElementHeight(weekTable.getElementHeight());
+        dayTable.setElementHeight(weekTable.getElementHeight().get());
         dayTable.viewWidget.setView(true);
     }
 
@@ -127,16 +127,16 @@ public class KalenderPage extends TabPage {
 
     @Override
     public void hide() {
-        System.out.println("");
     }
 
     @Override
     public void resize(int width, int height) {
+        
     }
 
-    public void removeBlock(BlockierungElement a) {
+    public void removeBlock(BlockElement a) {
         NetworkData.RemoveBlockRequest request = new NetworkData.RemoveBlockRequest();
-        request.id = a.getBlockierung().id;
+        request.id = a.getBlock().id;
         
         ERE.client.sendTCP(request);
     }
