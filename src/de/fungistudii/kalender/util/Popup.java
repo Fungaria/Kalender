@@ -1,6 +1,8 @@
 package de.fungistudii.kalender.util;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
@@ -13,38 +15,42 @@ import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.ui.Window;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.ObjectMap;
-import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 
 /**
  *
  * @author sreis
  */
-public class Popup extends Table {
+public class Popup extends Container {
 
+    protected Container popupContainer;
+    protected Table contentTable;
     ObjectMap<Actor, Object> values = new ObjectMap();
     boolean cancelHide;
     Actor previousKeyboardFocus, previousScrollFocus;
     FocusListener focusListener;
 
+    private Drawable stageBackground;
+
     private final Vector2 tmpPosition = new Vector2();
     private final Vector2 tmpSize = new Vector2();
-    
+
     private Window w;
     
-    private float prefWidth;
-    private float prefHeight;
-    
-    private boolean centered = true;
-    
-    DialogManager manager;
-    
-    private boolean fadeBackground= true;
-    
+    protected Label titleLabel;
+    protected ImageButton closeButton;
+
     protected InputListener ignoreTouchDown = new InputListener() {
         public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
             event.cancel();
@@ -52,11 +58,48 @@ public class Popup extends Table {
         }
     };
 
-    public Popup() {
+    public Popup(String title) {
+        popupContainer = new Container();
+        contentTable = new Table();
+        closeButton = new ImageButton(ERE.assets.createDrawable("generic/cross", ERE.assets.grey4));
+        closeButton.getStyle().imageOver = ERE.assets.createDrawable("generic/cross", ERE.assets.grey6);
+        titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 18), Color.BLACK));
         initialize();
     }
 
+    public void setTitle(String title){
+        this.titleLabel.setText(title);
+    }
+    
+    public String getTitle(){
+        return this.titleLabel.getName();
+    }
+    
     private void initialize() {
+        super.setFillParent(true);
+        super.setActor(popupContainer);
+//        popupContainer.prefWidth(Value.percentWidth(0.45f, this));
+
+        popupContainer.setActor(contentTable);
+        contentTable.defaults().space(6);
+        contentTable.pad(20);
+        Table group = new Table();
+        
+        
+        group.add(titleLabel).grow().padLeft(Value.percentHeight(1, titleLabel));
+        group.add(closeButton).size(Value.percentHeight(1, titleLabel));
+        contentTable.add(group).growX();
+        contentTable.row();
+        contentTable.add(new Image(ERE.assets.createDrawable("generic/separator"))).grow().colspan(3).height(1);
+        contentTable.row();
+
+        closeButton.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                hide();
+            }
+        });
+        
         focusListener = new FocusListener() {
             public void keyboardFocusChanged(FocusListener.FocusEvent event, Actor actor, boolean focused) {
                 if (!focused) {
@@ -99,53 +142,36 @@ public class Popup extends Table {
         if (stage.getKeyboardFocus() == null) {
             stage.setKeyboardFocus(this);
         }
-        
+
+        if (stageBackground != null) {
+            stageToLocalCoordinates(tmpPosition.set(0, 0));
+            stageToLocalCoordinates(tmpSize.set(stage.getWidth(), stage.getHeight()));
+            drawStageBackground(batch, parentAlpha, getX() + tmpPosition.x, getY() + tmpPosition.y, getX() + tmpSize.x,
+                    getY() + tmpSize.y);
+        }
+
         super.draw(batch, parentAlpha);
     }
-    
-    public boolean isFadeBackground() {
-        return fadeBackground;
+
+    protected void drawStageBackground(Batch batch, float parentAlpha, float x, float y, float width, float height) {
+        Color color = getColor();
+        batch.setColor(color.r, color.g, color.b, color.a * parentAlpha);
+        stageBackground.draw(batch, x, y, width, height);
     }
 
-    public void fadeBackground(boolean fade) {
-        this.fadeBackground = fade;
+    public Drawable getStageBackground() {
+        return stageBackground;
     }
 
-    @Override
-    public float getPrefWidth() {
-        return prefWidth>0?prefWidth:super.getPrefWidth();
+    public void setStageBackground(Drawable stageBackground) {
+        this.stageBackground = stageBackground;
     }
 
-    @Override
-    public float getPrefHeight() {
-        return prefHeight>0?prefHeight:super.getPrefHeight();
-    }
-
-    /**
-     * @param prefWidth the preferredWidth of the Popup or -1 if the prefWidth should be calculated based on its Children.
-     */
-    public void prefWidth(float prefWidth) {
-        this.prefWidth = prefWidth;
-    }
-    
-    /**
-     * @param prefHeight the preferredHeight of the Popup or -1 if the prefHeight should be calculated based on its children.
-     */
-    public void prefHeight(float prefHeight) {
-        this.prefHeight = prefHeight;
-    }
-
-    public void setCentered(boolean centered) {
-        this.centered = centered;
-    }
-
-    public boolean isCentered() {
-        return centered;
-    }
-    
     public Popup show(Stage stage, Action action) {
         clearActions();
         removeCaptureListener(ignoreTouchDown);
+
+        ERE.mainScreen.root.setTouchable(Touchable.disabled);
 
         previousKeyboardFocus = null;
         Actor actor = stage.getKeyboardFocus();
@@ -160,6 +186,7 @@ public class Popup extends Table {
         }
 
         pack();
+        stage.addActor(this);
         stage.setKeyboardFocus(this);
         stage.setScrollFocus(this);
         if (action != null) {
@@ -174,7 +201,7 @@ public class Popup extends Table {
      * default fadeIn action
      */
     public Popup show(Stage stage) {
-        show(stage, sequence(Actions.alpha(0), Actions.fadeIn(Cons.dialogFadeTime, Interpolation.fade)));
+        show(stage, sequence(Actions.alpha(0), Actions.fadeIn(0.4f, Interpolation.fade)));
         setPosition(0, 0);
         return this;
     }
@@ -185,8 +212,7 @@ public class Popup extends Table {
      */
     public void hide(Action action) {
         Stage stage = getStage();
-        if(manager != null)
-            manager.removePopup(this);
+        ERE.mainScreen.root.setTouchable(Touchable.enabled);
         if (stage != null) {
             removeListener(focusListener);
             if (previousKeyboardFocus != null && previousKeyboardFocus.getStage() == null) {
@@ -219,7 +245,7 @@ public class Popup extends Table {
      * then removes it from the stage.
      */
     public void hide() {
-        hide(sequence(fadeOut(Cons.dialogFadeTime, Interpolation.fade), Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
+        hide(sequence(fadeOut(0.4f, Interpolation.fade), Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
     }
 
     public void setObject(Actor actor, Object object) {

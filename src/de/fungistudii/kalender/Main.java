@@ -11,8 +11,6 @@ import de.fungistudii.kalender.util.Assets;
 import de.fungistudii.kalender.client.KalenderClient;
 import de.fungistudii.kalender.main.MainScreen;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
 import de.fungistudii.kalender.account.ConnectScreen;
 import de.fungistudii.kalender.client.database.DataHandler;
 
@@ -35,7 +33,6 @@ public class Main extends Game{
         ERE = this;
         
         assets = new Assets();
-        assets.load();
         client = new KalenderClient();
         
         loadDataBase();
@@ -49,11 +46,6 @@ public class Main extends Game{
     @Override
     public void render() {
         super.render(); //To change body of generated methods, choose Tools | Templates.
-        
-        if(Gdx.input.isKeyJustPressed(Keys.R)){
-            mainScreen = new MainScreen();
-            setScreen(mainScreen);
-        }
     }
     
     private void loadDataBase(){

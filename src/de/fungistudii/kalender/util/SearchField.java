@@ -21,7 +21,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.Array;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -39,6 +38,7 @@ public class SearchField<T> extends TextField implements Disableable {
     final Array<T> items = new Array();
     
     private SelectBoxList<T> list;
+    
     private ListFilter<T> filter;
 
     private Consumer<T> listener = new Consumer<T>() {
@@ -102,10 +102,6 @@ public class SearchField<T> extends TextField implements Disableable {
 
     public int getSelectedIndex() {
         return 0;
-    }
-
-    public SFStyle getSFStyle() {
-        return style;
     }
     
     static class SelectBoxList<T> extends ScrollPane {
@@ -343,4 +339,8 @@ public class SearchField<T> extends TextField implements Disableable {
     static public interface ListFilter<T>{
         public boolean test(String input, T test);
     }
+//    
+//    static public interface ListCallback<T>{
+//        public void select(T);
+//    }
 }

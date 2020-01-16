@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
-import de.fungistudii.kalender.main.tabs.kunden.EditCustomerDialog;
 
 /**
  *
@@ -22,13 +21,10 @@ public class ProduktePage extends TabPage{
     }
 
     AddAppointmentDialog dialog = new AddAppointmentDialog();
-    EditCustomerDialog d2 = new EditCustomerDialog();
-    VacationDialog d3 = new VacationDialog();
     
     @Override
     public void show() {
-//        dialog.show(getStage());
-        d3.show(getStage());
+        dialog.show(getStage());
     }
 
     @Override

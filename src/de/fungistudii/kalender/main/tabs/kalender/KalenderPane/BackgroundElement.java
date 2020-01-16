@@ -1,7 +1,5 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
-import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.utils.Pool;
 import static de.fungistudii.kalender.Main.ERE;
 import java.util.Date;
@@ -10,58 +8,42 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class BackgroundElement extends Button implements Pool.Poolable{
+public class BackgroundElement extends GridElement implements Pool.Poolable{
 
+    public Date date;
+    public int friseur;
+    
     private static TopStyle topStyle = new TopStyle();
     private static BottomStyle bottomStyle = new BottomStyle();
     
-    private int row;
-    private int friseur;
-    private Date start;
-    
     public BackgroundElement() {
-        super();
     }
     
-    public void init(Date date, int row, boolean top){
-        setFriseur(friseur);
-        setRow(row);
-        setStart(date);
+    public void init(Date date, int friseur, boolean top){
+        this.date = date;
+        this.friseur = friseur;
         setStyle(top?topStyle:bottomStyle);
     }
 
-    public void setStart(Date start) {
-        this.start = start;
-    }
-
+    @Override
     public Date getStart() {
-        return start;
+        return date;
     }
 
-    public void setFriseur(int friseur) {
-        this.friseur = friseur;
-    }
-
+    @Override
     public int getFriseur() {
         return friseur;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    @Override
+    public int getSpan() {
+        return 1;
     }
 
-    public int getRow() {
-        return row;
-    }
-    
     @Override
     public void reset() {
         super.reset(); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    //TODO
-    public void dispose(){
-        
+        super.dispose();
     }
     
     private static final class TopStyle extends ButtonStyle {
@@ -69,7 +51,7 @@ public class BackgroundElement extends Button implements Pool.Poolable{
         public TopStyle() {
             super.up = ERE.assets.createNinePatchDrawable("kalender/grid/element_top", 2);
             super.down = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_check", 2);
-//            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_hover", 2);
+            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_hover", 2);
             super.checked = ERE.assets.createNinePatchDrawable("kalender/grid/element_top_check", 2);
         }
     }
@@ -79,7 +61,7 @@ public class BackgroundElement extends Button implements Pool.Poolable{
         public BottomStyle() {
             super.up = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom", 2);
             super.down = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_check", 2);
-//            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_hover", 2);
+            super.over = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_hover", 2);
             super.checked = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom_check", 2);
         }
     }

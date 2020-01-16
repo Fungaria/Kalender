@@ -43,13 +43,12 @@ public class ContextMenu<T extends Actor> extends Table {
     private T getType(Actor actor){
         Actor current = actor;
         for (int i = 0; i < 4; i++) {
-            if(current == null){
+            if(current == null)
                 return null;
-            }else if(current.getClass().equals(type)){
+            else if(current.getClass().equals(type))
                 return (T)current;
-            }else{
+            else
                 current = current.getParent();
-            }
         }
         return null;
     }
@@ -62,7 +61,7 @@ public class ContextMenu<T extends Actor> extends Table {
         style.up = new NinePatchSolid(Color.WHITE);
         style.over = new NinePatchSolid(ERE.assets.grey3);
         style.font = ERE.assets.fonts.createFont("roboto", 13, Fonts.LIGHT);
-        style.fontColor = ERE.assets.grey7;
+        style.fontColor = ERE.assets.grey6;
 
         for (ContextEntry entry : entries) {
             TextButton button = new TextButton(entry.title, style);

@@ -3,16 +3,13 @@ package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.Header;
-import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.util.Date;
 
@@ -28,20 +25,17 @@ public class NamesHeader extends Header {
     public NamesHeader() {
         super.center();
         
-        style.font = ERE.assets.fonts.createFont("roboto", 19);
-        style.fontColor = ERE.assets.grey6;
+        style.font = ERE.assets.fonts.createFont("roboto", 17);
+        style.fontColor = ERE.assets.grey5;
         style.over = new NinePatchSolid(ERE.assets.grey1);
-        style.down = new NinePatchSolid(ERE.assets.grey2);
+        style.down = new NinePatchSolid(ERE.assets.grey3);
 
         this.labels = new TextButton[ERE.data.root.friseure.size()];
-        
-        SpriteDrawable vs = ERE.assets.createDrawable("generic/vertical_separator", ERE.assets.grey2);
-        add(new Image(vs)).height(Value.percentHeight(0.5f, this)).bottom();
         for (int i = 0; i < 7; i++) {
             labels[i] = new TextButton(ERE.data.root.friseure.get(i).name, style);
             labels[i].getLabel().setAlignment(Align.center);
             add(labels[i]).grow();
-            add(new Image(vs)).height(Value.percentHeight(0.5f, this)).bottom();
+            add(new Container());
             
             final int workerId = i;
             labels[i].addListener(new ClickListener() {

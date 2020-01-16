@@ -5,22 +5,33 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender;
 
+import com.badlogic.gdx.Gdx;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.Disposable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.main.generic.DatePicker;
 import de.fungistudii.kalender.main.tabs.TabPage;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.AddBlockDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.WeekSelectBehavior;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockierungElement;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.StornoDialog;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day.DayTable;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.WeekTable;
+import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.util.DateUtil;
-import de.fungistudii.kalender.util.NinePatchSolid;
+import de.fungistudii.kalender.util.DrawableSolid;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,6 +47,10 @@ public class KalenderPage extends TabPage {
     public Calendar calendar = Calendar.getInstance();
     private Date currentDate = new Date();
 
+    public final AddAppointmentDialog addAppointment = new AddAppointmentDialog();
+    public final StornoDialog stornoDialog = new StornoDialog();
+    public final AddBlockDialog blockDialog = new AddBlockDialog();
+
     public final DayTable dayTable;
     public final WeekTable weekTable;
     public KalenderTable currentTable;
@@ -44,7 +59,7 @@ public class KalenderPage extends TabPage {
     
     public KalenderPage() {
         contentTable = new Container();
-        super.setBackground(new NinePatchSolid(ERE.assets.kalBG));
+        contentTable.setBackground(new DrawableSolid(Color.WHITE));
 
         sidePanel = new SidePanel((Date date, int direction) -> {
             if(weekView){
@@ -69,7 +84,7 @@ public class KalenderPage extends TabPage {
         currentTable = dayTable;
         contentTable.setActor(currentTable);
         
-        add(sidePanel).minWidth(Cons.sideBarMinWidth).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY();
+        add(sidePanel).width(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY();
         add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.01f, this), Value.percentWidth(0.02f, this));
 
         updateDate(0);
@@ -77,14 +92,14 @@ public class KalenderPage extends TabPage {
 
     public void toWeekView(int workerId){
         weekView = true;
-        sidePanel.navigation.setSelectBehavior(new WeekSelectBehavior());
+        sidePanel.navigation.setSelectBehavior(new DatePicker.WeekSelectBehavior());
         weekTable.setFriseur(workerId);
         currentTable = weekTable;
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         updateDate(0);
         contentTable.setActor(currentTable); 
         currentTable.invalidateHierarchy();
-        weekTable.setElementHeight(dayTable.getElementHeight().get());
+        weekTable.setElementHeight(dayTable.getElementHeight());
         weekTable.viewWidget.setView(false);
     }
     
@@ -96,7 +111,7 @@ public class KalenderPage extends TabPage {
         updateDate(0);
         contentTable.setActor(currentTable);
         currentTable.invalidateHierarchy();
-        dayTable.setElementHeight(weekTable.getElementHeight().get());
+        dayTable.setElementHeight(weekTable.getElementHeight());
         dayTable.viewWidget.setView(true);
     }
 
@@ -117,8 +132,13 @@ public class KalenderPage extends TabPage {
 
     public void addTermin() {
         Button selectedElement = ERE.mainScreen.kalender.getKalender().getSelectedElement();
-        int defFriseur = (selectedElement instanceof BackgroundElement)?((BackgroundElement)selectedElement).getFriseur():0;
-        ERE.mainScreen.dialogManager.showAppointment(sidePanel.navigation.getDate(), defFriseur);
+
+        addAppointment.show(ERE.mainScreen.stage, sidePanel.navigation.getDate());
+        if (selectedElement instanceof BackgroundElement) {
+            BackgroundElement e = (BackgroundElement) selectedElement;
+            addAppointment.friseur.setSelectedIndex(e.getFriseur());
+            //TODO correct default Values
+        }
     }
 
     @Override
@@ -127,16 +147,16 @@ public class KalenderPage extends TabPage {
 
     @Override
     public void hide() {
+        System.out.println("");
     }
 
     @Override
     public void resize(int width, int height) {
-        
     }
 
-    public void removeBlock(BlockElement a) {
+    public void removeBlock(BlockierungElement a) {
         NetworkData.RemoveBlockRequest request = new NetworkData.RemoveBlockRequest();
-        request.id = a.getBlock().id;
+        request.id = a.getBlockierung().id;
         
         ERE.client.sendTCP(request);
     }

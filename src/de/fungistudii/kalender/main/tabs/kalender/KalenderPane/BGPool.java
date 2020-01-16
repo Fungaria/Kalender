@@ -14,9 +14,9 @@ public class BGPool extends Pool<BackgroundElement>{
         return new BackgroundElement();
     }
 
-    public BackgroundElement obtain(Date date, int row) {
+    public BackgroundElement obtain(Date date, int friseur, boolean top) {
         BackgroundElement element = super.obtain();
-        element.init(date, row, row % 4 == 0);
+        element.init(date, friseur, top);
         return element;
     }
     

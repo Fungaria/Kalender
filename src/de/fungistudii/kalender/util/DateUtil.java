@@ -1,4 +1,4 @@
-/*DateUtil.
+/*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -21,7 +21,7 @@ public class DateUtil {
     private static final SimpleDateFormat month = new SimpleDateFormat("MM");
     private static final SimpleDateFormat general = new SimpleDateFormat("yyyyDHHmmss");
     
-    public static final Calendar calendar = Calendar.getInstance();
+    private static final Calendar calendar = Calendar.getInstance();
     
     public static int compareWeek(Date d1, Date d2){
         return week.format(d1).compareTo(week.format(d2));

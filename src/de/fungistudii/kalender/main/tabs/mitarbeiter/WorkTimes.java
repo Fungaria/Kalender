@@ -16,7 +16,7 @@ public class WorkTimes extends Table{
     
     public WorkTimes(int workerId) {
         this.workerId = workerId;
-        Label title = new Label("Arbeitszeiten", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey7));
+        Label title = new Label("Arbeitszeiten", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20, Fonts.REGULAR), ERE.assets.grey6));
         add(title);
         super.row();
         super.add(new Container()).grow();

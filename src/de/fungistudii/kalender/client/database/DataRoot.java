@@ -25,7 +25,7 @@ public class DataRoot {
 
     @XmlElement(name = "kunden")
     @XmlJavaTypeAdapter(ClientAdapter.class)
-    public final HashMap<Integer, Customer> kunden = new HashMap<>();
+    public final HashMap<Integer, Kunde> kunden = new HashMap<>();
 
     @XmlElement(name = "friseure")
     @XmlJavaTypeAdapter(WorkerAdapter.class)

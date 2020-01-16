@@ -15,7 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
-import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.Navigator;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
@@ -40,23 +39,33 @@ public class WeekNavigator extends Navigator {
         super();
 
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
-        nextStyle.imageUp = ERE.assets.createDrawable("icons/arrow_side");
-        nextStyle.up = ERE.assets.createNinePatchDrawable("rounded/outline_right", 12);
-        nextStyle.down = ERE.assets.createNinePatchDrawable("rounded/outline_right", 12, ERE.assets.grey2);
+        nextStyle.imageUp = ERE.assets.createDrawable("kalender/navigation/arrow_up");
+        nextStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey1);
+        nextStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey3);
 
         ImageButton.ImageButtonStyle prevStyle = new ImageButton.ImageButtonStyle();
-        SpriteDrawable d = ERE.assets.createDrawable("icons/arrow_side");
+        SpriteDrawable d = ERE.assets.createDrawable("kalender/navigation/arrow_up");
         d.getSprite().flip(true, false);
-        prevStyle.up = ERE.assets.createNinePatchDrawable("rounded/outline_left", 12);
-        prevStyle.down = ERE.assets.createNinePatchDrawable("rounded/outline_left", 12, ERE.assets.grey2);
+        prevStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey1);
+        prevStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey3);
         prevStyle.imageUp = d;
+
+        SelectBox.SelectBoxStyle sbs = new SelectBox.SelectBoxStyle();
+        sbs.background = new NinePatchSolid(ERE.assets.grey1);
+        sbs.backgroundOver = new NinePatchSolid(ERE.assets.grey3);
+        sbs.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
+        sbs.fontColor = Color.BLACK;
+        sbs.listStyle = new List.ListStyle(sbs.font, ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
+        sbs.scrollStyle = new ScrollPane.ScrollPaneStyle();
+        sbs.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
 
         next = new ImageButton(nextStyle);
         previous = new ImageButton(prevStyle);
-        dropDown = new GenericDropDown<Friseur>(null, ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12), ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12), ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        dropDown = new SelectBox<Friseur>(sbs);
+        dropDown.setItems(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
 
         super.add(previous).minSize(0).maxWidth(Value.percentHeight(1, this));
-        super.add(dropDown).grow().minHeight(0);
+        super.add(dropDown).grow();
         super.add(next).minSize(0).maxWidth(Value.percentHeight(1, this));
 
         dropDown.setAlignment(Align.center);
