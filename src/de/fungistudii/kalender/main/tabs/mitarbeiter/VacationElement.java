@@ -18,6 +18,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
+import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
 import de.fungistudii.kalender.client.database.Vacation;
@@ -53,36 +54,36 @@ public class VacationElement extends Table {
         SpriteDrawable separator = ERE.assets.createDrawable("generic/vertical_separator");
 
         ImageButton.ImageButtonStyle deleteStyle = new ImageButton.ImageButtonStyle();
-        deleteStyle.imageUp = ERE.assets.createDrawable("generic/thrash");
-        deleteStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 6, ERE.assets.grey1);
-        deleteStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 6, ERE.assets.grey2);
+        deleteStyle.imageUp = ERE.assets.createDrawable("icons/thrash");
+        deleteStyle.up = ERE.assets.createNinePatchDrawable("rounded/filled_right", 15);
+        deleteStyle.over = ERE.assets.createNinePatchDrawable("rounded/filled_right", 15, ERE.assets.grey1);
         ImageButton delete = new ImageButton(deleteStyle);
-        delete.getImageCell().pad(5);
+        delete.getImageCell().pad(1);
 
-        von = new Button(ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey1));
-        von.getStyle().over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey2);
-        von.getStyle().checked = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 6, ERE.assets.grey3);
+        von = new Button(ERE.assets.createNinePatchDrawable("rounded/filled_left", 15));
+        von.getStyle().over = ERE.assets.createNinePatchDrawable("rounded/filled_left", 15, ERE.assets.grey1);
+        von.getStyle().down = ERE.assets.createNinePatchDrawable("rounded/filled_left", 15, ERE.assets.grey2);
         TwoColorLabel vonLabel = new TwoColorLabel("Von: ", font, ERE.assets.grey5, dateFormat.format(vacation.start), font, Color.BLACK);
-        von.add(vonLabel).pad(0, 7, 0, 12);
+        von.add(vonLabel).pad(0, 7, 0, 12).expand().left();
 
-        bis = new Button(new NinePatchSolid(ERE.assets.grey1));
-        bis.getStyle().over = new NinePatchSolid(ERE.assets.grey2);
-        bis.getStyle().checked = new NinePatchSolid(ERE.assets.grey3);
+        bis = new Button(ERE.assets.createNinePatchDrawable("rounded/filled_middle", 11));
+        bis.getStyle().over = ERE.assets.createNinePatchDrawable("rounded/filled_middle", 11, ERE.assets.grey1);
+        bis.getStyle().down = ERE.assets.createNinePatchDrawable("rounded/filled_middle", 11, ERE.assets.grey2);
         TwoColorLabel bisLabel = new TwoColorLabel("Bis: ", font, ERE.assets.grey5, dateFormat.format(vacation.end), font, Color.BLACK);
-        bis.add(bisLabel).pad(0, 7, 0, 12);
+        bis.add(bisLabel).pad(0, 7, 0, 12).expand().left();
 
         Image separator1 = new Image(separator);
         Image separator2 = new Image(separator);
 
-        super.add(von).grow().minSize(0).uniform();
+        super.add(von).grow().minSize(0).uniform().height(Cons.defaultRowHeight);
         super.add(separator1).width(1).pad(5, -1, 5, -1);
-        super.add(bis).grow().minSize(0).uniform();
+        super.add(bis).grow().minSize(0).uniform().height(Cons.defaultRowHeight);
         super.add(separator2).width(1).pad(5, -1, 5, -1);
-        super.add(delete).minSize(0).maxWidth(Value.percentHeight(1.2f, this));
+        super.add(delete).minSize(0).maxWidth(Value.percentHeight(1.2f, this)).height(Cons.defaultRowHeight);
         separator1.setZIndex(100);
         separator2.setZIndex(100);
 
-        final RangeSelectBehavior sh = new RangeSelectBehavior(workerId, vacation.id, vacation.start, vacation.end);
+        final VacationSelectBehavior sh = new VacationSelectBehavior(workerId, vacation.id, vacation.start, vacation.end);
         navigator = new DatePickerPopup((date, dir) -> {
             if (sh.isSelectBegin()) {
                 vonLabel.setRightText(dateFormat.format(date));
@@ -146,11 +147,16 @@ public class VacationElement extends Table {
     }
 
     private void showNavigator(float x, float y) {
-        navigator.show(tmpVec.x, tmpVec.y - 10, 250);
+        ERE.mainScreen.dialogManager.showDatePicker(tmpVec.x, tmpVec.y - 10, 250, navigator);
     }
 
     @Override
     public float getPrefHeight() {
         return 50;
+    }
+
+    @Override
+    public float getPrefWidth() {
+        return 500;
     }
 }

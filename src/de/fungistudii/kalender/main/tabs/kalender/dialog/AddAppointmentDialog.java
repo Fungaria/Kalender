@@ -6,29 +6,19 @@
 package de.fungistudii.kalender.main.tabs.kalender.dialog;
 
 import de.fungistudii.kalender.main.generic.TitledWidget;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
+import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.ui.VerticalGroup;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.database.Friseur;
 import de.fungistudii.kalender.client.NetworkData.CreateTerminRequest;
+import de.fungistudii.kalender.client.database.Customer;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
-import de.fungistudii.kalender.main.generic.GenericTextButton;
+import de.fungistudii.kalender.main.generic.GenericImageButton;
+import de.fungistudii.kalender.main.generic.GenericMask;
+import de.fungistudii.kalender.main.generic.GenericSearchField;
 import de.fungistudii.kalender.main.generic.GenericTextField;
-import de.fungistudii.kalender.util.DrawableSolid;
-import de.fungistudii.kalender.util.Popup;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -36,137 +26,117 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class AddAppointmentDialog extends Popup{
+public class AddAppointmentDialog extends GenericMask{
     
+    //1
+    private GenericSearchField<Customer> customerName;
+//    private GenericTextField customerPhone;
+    private GenericImageButton edit;
+    private GenericImageButton nu;
+    
+    //2
     private DateButton date;
+    private GenericDropDown timePicker; 
     public GenericDropDown<Friseur> friseur;
-    private GenericDropDown<Friseur> urheber;
-    private TimePicker timePicker; 
-    private ImageButton addButton;
-    private TextButton okButton;
-    private TextButton cancelButton;
+    
+    //3
     private ServiceWidget serviceWidget;
-    private NameSearchField customerName;
-    private GenericTextField customerPhone;
+    private GenericImageButton addServiceButton;
+    
+    //4
+    private GenericDropDown<Friseur> urheber;
     
     private Calendar calendar = Calendar.getInstance();
     
     public AddAppointmentDialog() {
-        super("Termin Hinzufügen");
-        
-        popupContainer.setBackground(new DrawableSolid(new Color(0.9f, 0.9f, 0.9f, 1)));
-        popupContainer.prefWidth(600);
-        super.setStageBackground(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
-        
-        date = new DateButton();
-        friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
-        timePicker = new TimePicker();
-        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
-        addButton = new ImageButton(ERE.assets.createDrawable("kalender/dialog/plus"));
-        okButton = new GenericTextButton("Bestätigen", new GenericTextButton.FilledStyle());
-        cancelButton = new GenericTextButton("Abbrechen", new GenericTextButton.CancelStyle());
-        serviceWidget = new ServiceWidget(Value.percentHeight(1, friseur));
-        customerName = new NameSearchField();
-        customerPhone = new GenericTextField("Telefon");
-        Label serviceLabel = new Label("LEISTUNGEN", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey5));
-        Label urheberLabel = new Label("URHEBER", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 13), ERE.assets.grey5));
-        
-        Table row1 = new Table();
-        row1.defaults().space(Value.percentWidth(0.06f, this));
-        row1.add(new TitledWidget("NAME", customerName)).grow();
-        row1.add(new TitledWidget("TELEFON", customerPhone)).grow();
-        
-        Table row2 = new Table();
-        row2.defaults().space(Value.percentWidth(0.06f, row2));
-        row2.defaults().left();
-        row2.add(new TitledWidget("DATE", date)).width(Value.percentWidth(0.4f, contentTable)).fill();
-        row2.add(new TitledWidget("TIME", timePicker)).growX().fillY();
-        row2.add(new TitledWidget("FRISEUR", friseur)).growX().fillY();
-        
-        Table row3 = new Table();
-        row3.add(serviceLabel).left().padBottom(10);
-        row3.add();
-        row3.row();
-        row3.add(serviceWidget).grow();
-        row3.add(addButton).bottom().left().height(Value.percentHeight(0.5f, friseur)).pad(Value.percentHeight(0.25f, friseur));
-        
-        Table row4 = new Table();
-        row4.defaults().space(10);
-        row4.add(urheber).width(Value.percentWidth(0.3f, contentTable)).left();
-        row4.add(new Image()).grow();
-        row4.add(cancelButton).height(40).width(Value.percentWidth(0.25f, contentTable));
-        row4.add(okButton).height(40).width(Value.percentWidth(0.25f, contentTable)).padRight(20);
-        
-        contentTable.defaults().space(10);
-        contentTable.left();
-        
-        SpriteDrawable separator = ERE.assets.createDrawable("generic/separator");
-        
-        contentTable.add(row1).grow().padTop(15);
-        contentTable.row();
-        contentTable.add(new Image(separator)).growX().height(1);
-        contentTable.row();
-        //
-        contentTable.add(row2).grow().padTop(15);
-        contentTable.row();
-        contentTable.add(new Image(separator)).growX().height(1);
-        contentTable.row();
-        //
-        contentTable.add(row3).grow().padTop(15);
-        contentTable.row();
-        contentTable.add(new Image(separator)).growX().height(1);
-        contentTable.row();
-        //
-        contentTable.add(urheberLabel).left().padTop(15);
-        contentTable.row();
-        contentTable.add(row4).grow().right();
-        contentTable.row();
-        contentTable.add().grow();
-        
-        contentTable.pack();
-        
-        customerName.setListener((k) -> {
-            customerName.setText(k.toString());
-            customerPhone.setText(k.phone);
-        });
-        
-        addButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                serviceWidget.addService();
-            }
-        });
-        
-        okButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                calendar.setTime(date.getDate());
-                calendar.set(Calendar.HOUR_OF_DAY, timePicker.getHour());
-                calendar.set(Calendar.MINUTE, timePicker.getMinute());
-                calendar.set(Calendar.SECOND, 0);
-                CreateTerminRequest request = new CreateTerminRequest();
-                request.duration = 60;
-                request.start = calendar.getTime();
-                request.friseurId = friseur.getSelected().id;
-                request.kundenId = customerName.getId();
-                request.serviceId = 0;
-                ERE.client.sendTCP(request);
-                hide();
-            }
-        });
-        
-        cancelButton.addListener(new ClickListener(){
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                hide();
-            }
-        });
+        super(3, "Termin Hinzufügen");
+        super.setColumnWeights(new float[]{0.3f, 0.2f, 0.1f});
+        initGUI();
+        prefWidth(900);
+        addListeners();
     }
 
-    public Popup show(Stage stage, Date def) {
-        date.navigator.setDate(def);
-        return super.show(stage);
+    private void initGUI(){
+        // ROW 1 ---------------------------------------------------------------
+        customerName = new GenericSearchField<Customer>((String s, Customer k) -> (k.name.startsWith(s) || (k.vorname+" "+k.name).startsWith(s)));
+        customerName.setMessageText("Enter name");
+        customerName.setItems(ERE.data.root.kunden.values());
+//        customerPhone = new GenericTextField("Telefon");
+        edit = new GenericImageButton("icons/settings");
+        nu = new GenericImageButton("icons/customer");
+        
+        Table buttons = new Table();
+        buttons.left().bottom();
+        buttons.add(edit).left();
+        buttons.add(nu).left();
+        
+        super.addC(new TitledWidget("Kunde:", customerName));
+//        super.addC(new TitledWidget("Telefon:", customerPhone));
+        super.addC(buttons).bottom().left();
+        super.separator();
+        
+        //ROW 2  ---------------------------------------------------------------
+        date = new DateButton();
+        timePicker = new GenericDropDown<>("13:30");
+        friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        super.addC(new TitledWidget("Datum:", date));
+        super.addC(new TitledWidget("Uhrzeit:", timePicker));
+        super.addC(new TitledWidget("Friseur:", friseur)).padRight(100);
+        
+        super.separator();
+        
+        //ROW 3 ----------------------------------------------------------------
+        Label serviceLabel = new Label("Leistungen:", new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 16), ERE.assets.grey5));
+        serviceWidget = new ServiceWidget(Value.percentHeight(1, friseur));
+        addServiceButton = new GenericImageButton("icons/service");
+        Container addContainer = new Container(addServiceButton);
+        addContainer.bottom().left();
+        super.addC(serviceLabel).left().padBottom(10);
+        super.rowC();
+        super.addC(serviceWidget, 2);
+        super.addC(addContainer).bottom().left();
+        
+        //ROW 4 ----------------------------------------------------------------
+        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        Container bottom = new Container(new TitledWidget("Urheber:", urheber));
+        bottom.left();
+        bottom.width(Value.percentWidth(0.25f, this));
+        super.setBottomActor(bottom);
     }
+    
+    private void addListeners(){
+        customerName.setListener((k) -> {
+            customerName.setText(k.toString());
+//            customerPhone.setText(k.phone);
+        });
+        
+        addServiceButton.addListener(
+            () -> serviceWidget.addService()
+        );
+        
+        edit.addListener(() -> ERE.mainScreen.dialogManager.showCustomer());
+        
+        super.addConfirmCallback(() -> {
+                calendar.setTime(date.getDate());
+                calendar.set(Calendar.HOUR_OF_DAY, 11);
+                calendar.set(Calendar.MINUTE, 30);
+                calendar.set(Calendar.SECOND, 0);
+                CreateTerminRequest request = new CreateTerminRequest();
+                request.duration = serviceWidget.getService(0).duration;
+                request.start = calendar.getTime();
+                request.friseurId = friseur.getSelected().id;
+                request.kundenId = customerName.getSelected().id;
+                request.serviceId = serviceWidget.getService(0).id;
+                ERE.client.sendTCP(request);
+                hide();
+        });
+    }
+    
+    public void init(Date def, int friseur){
+        date.navigator.setDate(def);
+        this.friseur.setSelectedIndex(friseur);
+    }
+    
     
     private static int parseMinutes(String input){
         String[] s = input.split(":");

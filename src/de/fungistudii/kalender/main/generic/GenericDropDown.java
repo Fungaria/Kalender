@@ -8,10 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
+import com.badlogic.gdx.utils.Align;
+import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.NinePatchIconDrawable;
+import de.fungistudii.kalender.util.NinePatchSolid;
 
 /**
  *
@@ -20,24 +22,25 @@ import de.fungistudii.kalender.util.NinePatchIconDrawable;
 public class GenericDropDown<T> extends SelectBox<T> {
 
     public GenericDropDown(T... list) {
-        this(ERE.assets.createNinePatchDrawable("generic/rounded", 6), ERE.assets.createNinePatchDrawable("generic/rounded_check",6), list);
+        this(ERE.assets.createRounded("outline"), ERE.assets.createRounded("outline_check"), list);
     }
     
     public GenericDropDown(NinePatchDrawable bg, T[] list){
         this(bg, bg, list);
     }
-    
-    public GenericDropDown(NinePatchDrawable bg, NinePatchDrawable bgOpen, T[] list) {
-        this(ERE.assets.createDrawable("generic/arrow_down"), bg, bgOpen, list);
+
+    @Override
+    public float getPrefHeight() {
+        return Cons.defaultRowHeight;
     }
-    
+
+    public GenericDropDown(NinePatchDrawable bg, NinePatchDrawable bgOpen, T[] list) {
+        this(ERE.assets.createDrawable("icons/arrow_down"), bg, bgOpen, list);
+    }
+
     public GenericDropDown(Drawable icon, NinePatchDrawable bg, NinePatchDrawable bgOpen, T[] list) {
-        super(new DDStyle(icon, bg, bgOpen));
+        super(new GenericDropDownStyle(icon, bg, bgOpen));
         super.setItems(list);
-        if(getStyle().background != null){
-            super.getStyle().background.setLeftWidth(10);
-            super.getStyle().backgroundOpen.setLeftWidth(10);
-        }
         super.addListener(new InputListener(){
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -47,19 +50,26 @@ public class GenericDropDown<T> extends SelectBox<T> {
         });
     }
 
-    private static final class DDStyle extends SelectBoxStyle {
-        public DDStyle(Drawable icon, NinePatchDrawable bg, NinePatchDrawable bgOpen) {
+    public static final class GenericDropDownStyle extends SelectBoxStyle {
+        public GenericDropDownStyle(Drawable icon, NinePatchDrawable bg, NinePatchDrawable bgOpen) {
             if(icon == null){
                 super.background = bg;
             }else{
-                super.background = new NinePatchIconDrawable(ERE.assets.createDrawable("generic/arrow_down"), bg, 0.35f, 0.5f);
+                super.background = new NinePatchIconDrawable(ERE.assets.createDrawable("icons/arrow_down"), bg, 20, Align.right);
             }
             super.backgroundOpen = bgOpen;
-            super.font = ERE.assets.fonts.createFont("roboto", 15, Fonts.LIGHT);
+            
+            super.background.setLeftWidth(Cons.defaultLeftWidth);
+            super.backgroundOpen.setLeftWidth(Cons.defaultLeftWidth);
+            
+            super.font = ERE.assets.fonts.createFont("roboto", 16, Fonts.LIGHT);
+            super.font.setUseIntegerPositions(false);
             super.fontColor = Color.BLACK;
-            super.listStyle = new List.ListStyle(font, ERE.assets.grey6, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey3));
+            super.listStyle = new List.ListStyle(font, ERE.assets.grey7, ERE.assets.grey5, new NinePatchSolid(ERE.assets.grey1, 5));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
-            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
+            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 10);
+            super.scrollStyle.vScroll = new NinePatchSolid(ERE.assets.grey2, 10);
+            super.scrollStyle.vScrollKnob = new NinePatchSolid(ERE.assets.grey4, 10);
         }
     }
 }

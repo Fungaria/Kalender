@@ -1,12 +1,10 @@
 package de.fungistudii.kalender.main.tabs.servies;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -28,10 +26,10 @@ public class ServiceElement extends Button{
         
         this.service = service;
         
-        NinePatchDrawable up = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, ERE.assets.grey1);
-        NinePatchDrawable down = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 5, ERE.assets.grey3);
+        NinePatchDrawable up = ERE.assets.createNinePatchDrawable("rounded/filled", 15);
+        NinePatchDrawable down = ERE.assets.createNinePatchDrawable("rounded/filled", 15, ERE.assets.grey2);
         SpriteDrawable separator = ERE.assets.createDrawable("generic/vertical_separator");
-        Label.LabelStyle lStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 14), ERE.assets.grey6);
+        Label.LabelStyle lStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 14), ERE.assets.grey7);
         
         ButtonStyle bStyle = new ButtonStyle();
         bStyle.up = up;
@@ -40,7 +38,7 @@ public class ServiceElement extends Button{
         
         super.setTouchable(Touchable.enabled);
         
-        Button settings = new Button(ERE.assets.createDrawable("employes/edit", ERE.assets.grey4));
+        Button settings = new Button(ERE.assets.createDrawable("icons/edit", ERE.assets.grey4));
         
         super.addListener(new InputListener(){
             @Override
@@ -53,9 +51,8 @@ public class ServiceElement extends Button{
         settings.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.service.dialog.show(service);
-                ERE.mainScreen.service.dialog.setTitle("Service Bearbeiten");
-                
+                ERE.mainScreen.dialogManager.showService(service);
+//                ERE.mainScreen.service.dialog.setTitle("Service Bearbeiten");
             }
         });
         

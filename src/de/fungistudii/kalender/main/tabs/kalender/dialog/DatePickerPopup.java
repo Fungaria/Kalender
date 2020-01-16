@@ -3,63 +3,59 @@ package de.fungistudii.kalender.main.tabs.kalender.dialog;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.DatePicker;
+import de.fungistudii.kalender.util.Popup;
 import java.util.Date;
 
 /**
  *
  * @author sreis
  */
-public class DatePickerPopup extends Table {
+public class DatePickerPopup extends Popup {
 
     public DatePicker navigation;
 
     private boolean open;
 
-    public Runnable onHide = ()->{};
-    
+    public Runnable onHide = () -> {
+    };
+
     public Actor openButton;
-    
+
+    ClickListener hideListener = new ClickListener() {
+        public boolean keyDown(InputEvent event, int keycode) {
+            switch (keycode) {
+                case Input.Keys.ESCAPE:
+                    hide();
+                    event.stop();
+                    return true;
+            }
+            return false;
+        }
+
+        @Override
+        public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+            if(!isAscendantOf(event.getTarget())){
+                hide();
+                return true;
+            }
+            return false;
+        }
+    };
+
     public DatePickerPopup(DatePicker.DateSelectCallback callback) {
-        super.setBackground(ERE.assets.createNinePatchDrawable("generic/square", 7, ERE.assets.grey1));
+        setBackground(ERE.assets.createNinePatchDrawable("generic/square", 7, ERE.assets.grey1));
+        fadeBackground(false);
         
         navigation = new DatePicker((date, dir) -> {
             hide();
             callback.dateSelected(date, dir);
         });
-        
-        super.add(navigation).grow().pad(20);
-        
-        ERE.mainScreen.stage.addCaptureListener(new InputListener() {
-            public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                Actor target = event.getTarget();
-                if (isAscendantOf(target)) {
-                    return false;
-                }
-                if(open){
-                    hide();
-                    if(openButton != null && openButton.isAscendantOf(target)){
-                        event.cancel();
-                    }
-                }
-                return true;
-            }
 
-            public boolean keyDown(InputEvent event, int keycode) {
-                switch (keycode) {
-                    case Input.Keys.ESCAPE:
-                        hide();
-                        event.stop();
-                        return true;
-                }
-                return false;
-            }
-        });
+        add(navigation).grow().pad(20);
     }
 
     public void setDate(Date date) {
@@ -67,18 +63,22 @@ public class DatePickerPopup extends Table {
     }
 
     public void hide() {
+        super.hide();
         this.open = false;
         onHide.run();
-        super.remove();
+        getStage().removeListener(hideListener);
     }
 
-    public void show(float x, float y, float width) {
+    public void show(float x, float y, float width, Stage stage) {
         this.open = true;
-        ERE.mainScreen.stage.addActor(this);
-        setWidth(width);
-        setHeight(width*1.1f);
-        setX(x);
-        setY(y - getHeight());
+        prefWidth(width);
+        prefHeight(width * 1.1f);
+        super.show(stage);
+        super.setX(x);
+        super.setY(y - (width * 1.1f));
+        super.setCentered(false);
+        invalidate();
+        stage.addListener(hideListener);
     }
 
     public boolean isOpen() {

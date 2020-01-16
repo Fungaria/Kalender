@@ -167,18 +167,23 @@ public class DatePicker extends Table {
         private final SimpleDateFormat headerFormat = new SimpleDateFormat("MMMM' 'yyyy");
         
         public MonthHeader() {
-            label = new Label("Januar 2020", new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14, Fonts.BOLD), ERE.assets.grey6));
+            label = new Label("Januar 2020", new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14, Fonts.BOLD), ERE.assets.grey7));
 
-            SpriteDrawable arrowf = ERE.assets.createDrawable("kalender/navigation/arrow_up");
-            SpriteDrawable arrowb = ERE.assets.createDrawable("kalender/navigation/arrow_up");
+            SpriteDrawable arrowf = ERE.assets.createDrawable("icons/arrow_side");
+            SpriteDrawable arrowb = ERE.assets.createDrawable("icons/arrow_side");
             arrowb.getSprite().flip(true, false);
             next = new ImageButton(arrowf);
             previous = new ImageButton(arrowb);
-
-            super.left();
-            add(previous).minSize(0).prefSize(Value.percentHeight(0.7f, this));
-            add(label).prefWidth(Value.percentWidth(0.9f, this));
-            add(next).minSize(0).prefSize(Value.percentHeight(0.7f, this));
+            
+            next.getImageCell().right().maxWidth(Value.percentHeight(1, this));
+            previous.getImageCell().left().maxWidth(Value.percentHeight(1, this));
+            
+            previous.left();
+            next.right();
+            
+            add(previous).minSize(0).grow().pad(1);
+            add(label).expand();
+            add(next).minSize(0).grow().pad(1);
             label.setAlignment(Align.center);
 
             next.addListener(new ClickListener() {
@@ -203,7 +208,7 @@ public class DatePicker extends Table {
     private static class WeekLabel extends Table {
 
         public WeekLabel() {
-            Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey6);
+            Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey7);
             add(createLabel("Mo", style)).uniform().expand();
             add(createLabel("Di", style)).uniform().expand();
             add(createLabel("Mi", style)).uniform().expand();
@@ -238,30 +243,6 @@ public class DatePicker extends Table {
     public static final SelectBehavior defaultHoverBehavior = new SelectBehavior() {
         @Override
         public void select(DaysGrid.DayButton[] buttons, Date date) {
-        }
-    };
-
-    public static class WeekSelectBehavior implements SelectBehavior {
-        private final NinePatchSolid solid = new NinePatchSolid(ERE.assets.lightGreen, 10);
-        private final Drawable left = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 10, ERE.assets.mediumGreen);
-        private final Drawable right = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 10, ERE.assets.mediumGreen);
-        private final Drawable def = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
-
-        @Override
-        public void select(DaysGrid.DayButton[] buttons, Date date) {
-            for (DayButton button : buttons) {
-                if (DateUtil.compareWeek(date, button.getDay()) == 0) {
-                    if(DateUtil.getDayOfWeek(button.getDay()) == Calendar.MONDAY){
-                        button.check(left);
-                    }else if(DateUtil.getDayOfWeek(button.getDay()) == Calendar.SUNDAY){
-                        button.check(right);
-                    }else{
-                        button.check(solid);
-                    }
-                } else {
-                    button.uncheck();
-                }
-            }
         }
     };
 

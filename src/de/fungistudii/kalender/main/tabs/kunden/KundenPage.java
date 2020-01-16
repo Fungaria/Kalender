@@ -17,6 +17,7 @@ public class KundenPage extends TabPage{
 
     @Override
     public void show() {
+        ERE.mainScreen.dialogManager.showViewCustomer(0);
     }
 
     @Override

@@ -29,6 +29,12 @@ public class Termin extends MapElement{
     public Date erstellt;
     @XmlAttribute
     public int urheber;
+    @XmlAttribute
+    public String notes;
+    @XmlAttribute
+    public String color;
+    @XmlAttribute
+    public int paidPrice;
 
     @Override
     public String toString() {

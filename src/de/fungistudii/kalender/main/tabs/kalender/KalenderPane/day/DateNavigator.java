@@ -33,25 +33,22 @@ public class DateNavigator extends KalenderTable.Navigator{
         super();
         
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
-        nextStyle.imageUp = ERE.assets.createDrawable("kalender/navigation/arrow_up");
-        nextStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey1);
-        nextStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey3);
-        nextStyle.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 9, ERE.assets.grey3);
+        nextStyle.imageUp = ERE.assets.createDrawable("icons/arrow_side");
+        nextStyle.up = ERE.assets.createNinePatchDrawable("rounded/outline_right", 12);
+        nextStyle.down = ERE.assets.createNinePatchDrawable("rounded/outline_right", 12, ERE.assets.grey2);
 
         ImageButton.ImageButtonStyle prevStyle = new ImageButton.ImageButtonStyle();
-        SpriteDrawable d = ERE.assets.createDrawable("kalender/navigation/arrow_up");
+        SpriteDrawable d = ERE.assets.createDrawable("icons/arrow_side");
         d.getSprite().flip(true, false);
-        prevStyle.up = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey1);
-        prevStyle.over = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey3);
-        prevStyle.down = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 9, ERE.assets.grey3);
+        prevStyle.up = ERE.assets.createNinePatchDrawable("rounded/outline_left", 12);
+        prevStyle.down = ERE.assets.createNinePatchDrawable("rounded/outline_left", 12, ERE.assets.grey2);
         prevStyle.imageUp = d;
         
         TextButton.TextButtonStyle labelStyle = new TextButton.TextButtonStyle();
-        labelStyle.up = new NinePatchSolid(ERE.assets.grey1);
-        labelStyle.over = new NinePatchSolid(ERE.assets.grey3);
-        labelStyle.down = new NinePatchSolid(ERE.assets.grey3);
-        labelStyle.font = ERE.assets.fonts.createFont("roboto", 14);
-        labelStyle.fontColor = Color.BLACK;
+        labelStyle.up = ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12);
+        labelStyle.down = ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12, ERE.assets.grey2);
+        labelStyle.font = ERE.assets.fonts.createFont("roboto", 16);
+        labelStyle.fontColor = ERE.assets.grey6;
         
         
         next = new ImageButton(nextStyle);
