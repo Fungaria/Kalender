@@ -5,7 +5,6 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day;
 
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
 import java.util.Date;
@@ -14,7 +13,7 @@ import java.util.Date;
  *
  * @author sreis
  */
-public class DayTable extends KalenderTable {
+public class DayTable extends KalenderTable{
 
     public DayTable(Date date) {
         super(date, new NamesHeader(), new DateNavigator());
@@ -22,7 +21,7 @@ public class DayTable extends KalenderTable {
 
     @Override
     public KalenderGrid createGrid(Date date) {
-        return new DayGrid(date, super.getElementHeight());
+        return new DayGrid(date);
     }
-
+    
 }

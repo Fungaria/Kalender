@@ -5,14 +5,14 @@
  */
 package de.fungistudii.kalender.client.database.adapters;
 
-import de.fungistudii.kalender.client.database.Customer;
+import de.fungistudii.kalender.client.database.Kunde;
 
 /**
  *
  * @author sreis
  */
-public class ClientAdapter extends MapAdapter<Customer>{
+public class ClientAdapter extends MapAdapter<Kunde>{
     public ClientAdapter() {
-        super(Customer[]::new);
+        super(Kunde[]::new);
     }
 }

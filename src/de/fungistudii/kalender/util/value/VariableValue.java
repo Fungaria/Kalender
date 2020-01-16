@@ -16,7 +16,7 @@ public class VariableValue extends Value{
     }
 
     public void setValue(float value) {
-        this.value = value;
+        this.value = ((int)(value*2))/2;
     }
 
     public VariableValue(float value) {

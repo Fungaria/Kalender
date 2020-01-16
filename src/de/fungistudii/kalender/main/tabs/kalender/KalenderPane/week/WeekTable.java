@@ -30,6 +30,6 @@ public class WeekTable extends KalenderTable{
     @Override
     public KalenderGrid createGrid(Date date) {
         ((DateHeader)super.header).setDate(date);
-        return new WeekGrid(date, super.getElementHeight(), workerId);
+        return new WeekGrid(date, workerId);
     }
 }

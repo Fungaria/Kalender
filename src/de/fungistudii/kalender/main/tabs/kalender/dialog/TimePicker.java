@@ -26,8 +26,8 @@ public class TimePicker extends Table{
     private int numHours = 13;
     
     public TimePicker() {
-        NinePatchDrawable rounded = ERE.assets.createRounded("rounded/outline");
-        NinePatchDrawable roundedCheck = ERE.assets.createRounded("rounded/outline_check");
+        NinePatchDrawable rounded = ERE.assets.createNinePatchDrawable("generic/rounded", 10);
+        NinePatchDrawable roundedCheck = ERE.assets.createNinePatchDrawable("generic/rounded_check", 10);
         
         String[] hours = new String[numHours];
         for (int i = 0; i < numHours; i++) {
@@ -37,11 +37,11 @@ public class TimePicker extends Table{
         timeHours = new GenericDropDown<>(null, rounded, roundedCheck, hours);
         timeMins = new GenericDropDown<>(null, rounded, roundedCheck, new String[]{"00", "15", "30", "45"});
         
-        Image image = new Image(ERE.assets.createDrawable("kalender/time_dots"));
+        Image image = new Image(ERE.assets.createDrawable("kalender/dialog/time_dots"));
         image.setScaling(Scaling.fit);
-        add(timeHours).grow();
-        add(image).height(Value.percentHeight(0.15f, timeHours)).padLeft(1).left();
-        add(timeMins).grow();
+        add(timeHours);
+        add(image).height(Value.percentHeight(0.15f, timeHours)).padLeft(1);
+        add(timeMins);
     }
     
     
