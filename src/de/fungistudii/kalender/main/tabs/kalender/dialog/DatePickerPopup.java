@@ -6,9 +6,9 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.generic.DatePicker;
+import de.fungistudii.kalender.main.generic.datepicker.DatePicker;
 import de.fungistudii.kalender.util.Popup;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -58,10 +58,11 @@ public class DatePickerPopup extends Popup {
         add(navigation).grow().pad(20);
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         navigation.setDate(date);
     }
 
+    @Override
     public void hide() {
         super.hide();
         this.open = false;

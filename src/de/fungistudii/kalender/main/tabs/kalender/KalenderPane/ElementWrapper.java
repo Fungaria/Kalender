@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.value.ValueUtil;
+import java.time.temporal.ChronoField;
 
 /**
  *
@@ -22,7 +23,7 @@ public class ElementWrapper<T extends GridElement> extends Table {
 
         height = ValueUtil.percentValue(element.getSpan(), elementHeight);
         
-        int startCell = DateUtil.getMinuteOfDay(element.getStart()) - KalenderTable.startTime * 60;
+        int startCell = element.getStart().get(ChronoField.MINUTE_OF_DAY) - KalenderTable.startTime*60;
         super.add(this.element).height(height).grow().fillY().padTop(ValueUtil.percentValue(startCell / 15, elementHeight)).top();
         
         setTouchable(Touchable.childrenOnly);

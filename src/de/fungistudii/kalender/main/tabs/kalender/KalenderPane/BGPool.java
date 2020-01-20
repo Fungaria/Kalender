@@ -1,7 +1,7 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
 import com.badlogic.gdx.utils.Pool;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -14,7 +14,7 @@ public class BGPool extends Pool<BackgroundElement>{
         return new BackgroundElement();
     }
 
-    public BackgroundElement obtain(Date date, int row) {
+    public BackgroundElement obtain(LocalDateTime date, int row) {
         BackgroundElement element = super.obtain();
         element.init(date, row, row % 4 == 0);
         return element;

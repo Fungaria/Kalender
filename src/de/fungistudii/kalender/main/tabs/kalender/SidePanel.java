@@ -5,7 +5,6 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -15,8 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.GenericTextButton;
-import de.fungistudii.kalender.main.generic.DatePicker;
-import de.fungistudii.kalender.util.DrawableSolid;
+import de.fungistudii.kalender.main.generic.datepicker.DatePicker;
 import de.fungistudii.kalender.util.NinePatchSolid;
 
 /**

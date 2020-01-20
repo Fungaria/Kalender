@@ -14,7 +14,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import de.fungistudii.kalender.account.ConnectScreen;
-import de.fungistudii.kalender.client.database.DataHandler;
+import de.fungistudii.kalender.database.DataHandler;
 
 /**
  * public static o9i6trEhrenvoll.DEINE_MOM_SINGLETONDÄEhrenClient client; That cat was kina cute.
@@ -40,7 +40,6 @@ public class Main extends Game{
         
         loadDataBase();
         
-        mainScreen = new MainScreen();
         ConnectScreen c = new ConnectScreen();
         setScreen(c);
         c.connect();

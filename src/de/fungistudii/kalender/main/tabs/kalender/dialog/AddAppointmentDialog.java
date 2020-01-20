@@ -11,16 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Friseur;
+import de.fungistudii.kalender.database.Friseur;
 import de.fungistudii.kalender.client.NetworkData.CreateTerminRequest;
-import de.fungistudii.kalender.client.database.Customer;
+import de.fungistudii.kalender.database.Customer;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.generic.GenericImageButton;
 import de.fungistudii.kalender.main.generic.GenericMask;
 import de.fungistudii.kalender.main.generic.GenericSearchField;
-import de.fungistudii.kalender.main.generic.GenericTextField;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 /**
  *
@@ -45,8 +45,6 @@ public class AddAppointmentDialog extends GenericMask{
     
     //4
     private GenericDropDown<Friseur> urheber;
-    
-    private Calendar calendar = Calendar.getInstance();
     
     public AddAppointmentDialog() {
         super(3, "Termin Hinzufügen");
@@ -117,13 +115,9 @@ public class AddAppointmentDialog extends GenericMask{
         edit.addListener(() -> ERE.mainScreen.dialogManager.showCustomer());
         
         super.addConfirmCallback(() -> {
-                calendar.setTime(date.getDate());
-                calendar.set(Calendar.HOUR_OF_DAY, 11);
-                calendar.set(Calendar.MINUTE, 30);
-                calendar.set(Calendar.SECOND, 0);
                 CreateTerminRequest request = new CreateTerminRequest();
                 request.duration = serviceWidget.getService(0).duration;
-                request.start = calendar.getTime();
+                request.start = LocalDateTime.of(date.getDate(), LocalTime.of(11, 30));
                 request.friseurId = friseur.getSelected().id;
                 request.kundenId = customerName.getSelected().id;
                 request.serviceId = serviceWidget.getService(0).id;
@@ -132,8 +126,8 @@ public class AddAppointmentDialog extends GenericMask{
         });
     }
     
-    public void init(Date def, int friseur){
-        date.navigator.setDate(def);
+    public void init(LocalDateTime def, int friseur){
+        date.navigator.setDate(def.toLocalDate());
         this.friseur.setSelectedIndex(friseur);
     }
     

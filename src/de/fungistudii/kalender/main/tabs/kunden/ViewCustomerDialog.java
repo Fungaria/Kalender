@@ -15,12 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Scaling;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Customer;
-import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.database.Customer;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.main.generic.GenericDialog;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.Fonts;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 
 /**
@@ -47,7 +48,7 @@ public class ViewCustomerDialog extends GenericDialog{
         return result;
     }
     
-    private static final SimpleDateFormat format = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
+    private static final DateTimeFormatter format = DateTimeFormatter.ofPattern("EEEE', 'dd' 'MMMMM' 'yyyy");
     
     private InfoTable createLastAppointment(Termin termin){
         InfoTable result = new InfoTable("Letzter Termin");
@@ -76,7 +77,7 @@ public class ViewCustomerDialog extends GenericDialog{
         
         Customer customer = ERE.data.root.kunden.get(kunde);
         Optional<Termin> optional = ERE.data.root.appointments.values().stream().filter(t -> t.kundenid==kunde).max((termin1, termin2) -> {
-            return DateUtil.compare(termin1.start, termin2.start);
+            return termin1.start.compareTo(termin2.start);
         });
         
         Table main = new Table();

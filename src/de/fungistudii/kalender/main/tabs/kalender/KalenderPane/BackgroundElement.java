@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
 import com.badlogic.gdx.utils.Pool;
 import static de.fungistudii.kalender.Main.ERE;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -17,24 +17,24 @@ public class BackgroundElement extends Button implements Pool.Poolable{
     
     private int row;
     private int friseur;
-    private Date start;
+    private LocalDateTime start;
     
     public BackgroundElement() {
         super();
     }
     
-    public void init(Date date, int row, boolean top){
+    public void init(LocalDateTime date, int row, boolean top){
         setFriseur(friseur);
         setRow(row);
         setStart(date);
         setStyle(top?topStyle:bottomStyle);
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDateTime start) {
         this.start = start;
     }
 
-    public Date getStart() {
+    public LocalDateTime getStart() {
         return start;
     }
 

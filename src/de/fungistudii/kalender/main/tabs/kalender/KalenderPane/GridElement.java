@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Layout;
 import com.badlogic.gdx.utils.Disposable;
 import static de.fungistudii.kalender.Main.ERE;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -83,7 +83,7 @@ public abstract class GridElement extends Table implements Disposable {
         ERE.mainScreen.stage.removeListener(listener);
     }
 
-    public abstract Date getStart();
+    public abstract LocalDateTime getStart();
 
     public abstract int getFriseur();
 
@@ -91,7 +91,7 @@ public abstract class GridElement extends Table implements Disposable {
 
     public abstract void setFriseur(int friseur);
 
-    public abstract void setStart(Date start);
+    public abstract void setStart(LocalDateTime start);
 
     public abstract void setSpan(int span);
 

@@ -17,7 +17,8 @@ import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.Fonts;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -29,7 +30,7 @@ public class DateButton extends TextButton {
 
     private InputListener hideListener;
     private final Vector2 screenPosition = new Vector2();
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEEE', 'dd' 'MMMMM' 'yyyy");
 
     public DateButton() {
         super("", new DateButtonStyle());
@@ -62,7 +63,7 @@ public class DateButton extends TextButton {
         return Cons.defaultRowHeight;
     }
     
-    public Date getDate(){
+    public LocalDate getDate(){
         return navigator.navigation.getDate();
     }
 

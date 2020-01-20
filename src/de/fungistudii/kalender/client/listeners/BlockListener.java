@@ -5,7 +5,7 @@ import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
-import de.fungistudii.kalender.client.database.Blockierung;
+import de.fungistudii.kalender.database.Blockierung;
 
 /**
  *

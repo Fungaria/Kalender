@@ -4,7 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import de.fungistudii.kalender.client.database.Service;
+import de.fungistudii.kalender.database.Service;
 import java.util.ArrayList;
 
 /**

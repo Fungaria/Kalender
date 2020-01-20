@@ -12,9 +12,8 @@ import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.Header;
-import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.NinePatchSolid;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -63,6 +62,6 @@ public class NamesHeader extends Header {
     }
 
     @Override
-    public void setDate(Date time) {
+    public void setDate(LocalDate time) {
     }
 }

@@ -10,8 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
-import de.fungistudii.kalender.client.database.Friseur;
-import de.fungistudii.kalender.client.database.Vacation;
+import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Vacation;
 import de.fungistudii.kalender.main.generic.GenericImageButton;
 
 /**

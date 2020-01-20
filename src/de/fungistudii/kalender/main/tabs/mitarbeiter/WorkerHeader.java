@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Friseur;
+import de.fungistudii.kalender.database.Friseur;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
 import java.util.function.Consumer;

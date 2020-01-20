@@ -15,12 +15,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
-import de.fungistudii.kalender.client.database.Blockierung;
-import de.fungistudii.kalender.client.database.Termin;
-import de.fungistudii.kalender.util.DateUtil;
-import java.util.Calendar;
-import java.util.Date;
+import de.fungistudii.kalender.database.Blockierung;
+import de.fungistudii.kalender.database.Termin;
 import static de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.BG_POOL;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -34,23 +32,22 @@ public class MitarbeiterColumn extends Stack implements Disposable {
     public static final int NUM_ROWS = 16;
     private final Value elementHeight;
 
-    public MitarbeiterColumn(Date start, Value elementHeight) {
+    public MitarbeiterColumn(LocalDateTime start, Value elementHeight) {
         this.elementHeight = elementHeight;
         table = new Table();
         table.addListener(selectListener);
         super.add(table);
 
-        DateUtil.calendar.setTime(start);
         for (int row = 0; row < NUM_ROWS * 4; row++) {
-            BackgroundElement element = BG_POOL.obtain(DateUtil.calendar.getTime(), row);
+            BackgroundElement element = BG_POOL.obtain(start, row);
             backgroundElements.add(element);
             table.add(element).minSize(0).height(elementHeight).top().grow();
             table.row();
-            DateUtil.calendar.add(Calendar.MINUTE, 15);
+            start = start.plusMinutes(15);
         }
     }
 
-    public void initialize(int friseur, Termin[] termine, Blockierung[] blockierungen, Date startTime) {
+    public void initialize(int friseur, Termin[] termine, Blockierung[] blockierungen) {
         for (BackgroundElement element : backgroundElements) {
             element.setFriseur(friseur);
         }

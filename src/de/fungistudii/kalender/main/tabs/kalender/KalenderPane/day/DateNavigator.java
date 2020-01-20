@@ -13,8 +13,9 @@ import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -26,10 +27,10 @@ public class DateNavigator extends KalenderTable.Navigator{
     private ImageButton previous;
     private TextButton dateLabel;
     
-    private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEEE', 'dd' 'MMMM' 'yyyy");
     
     
-    public DateNavigator() {
+    public DateNavigator(DayTable parent) {
         super();
         
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
@@ -63,19 +64,18 @@ public class DateNavigator extends KalenderTable.Navigator{
         
         next.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.kalender.calendar.add(Calendar.DATE, 1);
-                ERE.mainScreen.kalender.updateDate(1);
+                ERE.mainScreen.kalender.updateDate(parent.getCurrentDate().plusDays(1));
             }
         });
         previous.addListener(new ClickListener(){
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.kalender.calendar.add(Calendar.DATE, -1);
-                ERE.mainScreen.kalender.updateDate(-1);
+                ERE.mainScreen.kalender.updateDate(parent.getCurrentDate().minusDays(1));
             }
         });
     }
 
-    public void setDate(Date time) {
+    @Override
+    public void setDate(LocalDate time) {
         dateLabel.setText(dateFormat.format(time));
     }
 }

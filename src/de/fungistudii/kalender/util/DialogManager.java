@@ -15,16 +15,18 @@ import com.badlogic.gdx.scenes.scene2d.ui.WidgetGroup;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import de.fungistudii.kalender.Cons;
-import de.fungistudii.kalender.client.database.Service;
-import de.fungistudii.kalender.client.database.Termin;
+import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.database.Service;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.main.tabs.kalender.AddBlockDialog;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.StornoDialog;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.main.tabs.kalender.dialog.DatePickerPopup;
 import de.fungistudii.kalender.main.tabs.kunden.EditCustomerDialog;
 import de.fungistudii.kalender.main.tabs.kunden.ViewCustomerDialog;
 import de.fungistudii.kalender.main.tabs.servies.AddServiceDialog;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -62,9 +64,15 @@ public class DialogManager extends WidgetGroup {
         this.setTouchable(Touchable.childrenOnly);
     }
 
-    public void showAppointment(Date date, int friseur) {
-        appointment.init(date, friseur);
+    public void showAppointment() {
+        BackgroundElement selectedElement = ERE.mainScreen.kalender.getKalender().getSelectedElement();
         appointment.show(getStage());
+        if(selectedElement != null){
+            int defFriseur = selectedElement.getFriseur();
+            LocalDateTime defDate = selectedElement.getStart();
+            appointment.init(defDate, defFriseur);
+        }
+            
         openDialog(appointment);
     }
 

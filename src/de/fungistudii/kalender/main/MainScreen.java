@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.badlogic.gdx.utils.viewport.Viewport;
 import de.fungistudii.kalender.util.DialogManager;
 import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
@@ -27,7 +28,7 @@ public class MainScreen extends ScreenAdapter {
 
     public final Stage stage;
     public final Table root;
-    private ScreenViewport viewport;
+    private Viewport viewport;
 
     private Table contentTable;
     private TabPage currentPage;

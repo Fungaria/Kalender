@@ -5,10 +5,10 @@
  */
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day;
 
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.GridElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
-import java.util.Date;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.DateHeader;
+import java.time.LocalDate;
 
 /**
  *
@@ -16,12 +16,16 @@ import java.util.Date;
  */
 public class DayTable extends KalenderTable {
 
-    public DayTable(Date date) {
-        super(date, new NamesHeader(), new DateNavigator());
+    public DayTable() {
+        super();
+        super.header = new NamesHeader();
+        super.navigator = new DateNavigator(this);
+        super.initGUI();
+        super.initListeners();
     }
 
     @Override
-    public KalenderGrid createGrid(Date date) {
+    public KalenderGrid createGrid(LocalDate date) {
         return new DayGrid(date, super.getElementHeight());
     }
 

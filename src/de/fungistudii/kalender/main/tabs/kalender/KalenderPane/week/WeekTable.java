@@ -7,8 +7,7 @@ package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week;
 
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -18,8 +17,12 @@ public class WeekTable extends KalenderTable{
 
     private int workerId;
     
-    public WeekTable(Date date) {
-        super(date, new DateHeader(), new WeekNavigator());
+    public WeekTable() {
+        super();
+        super.header = new DateHeader();
+        super.navigator = new WeekNavigator(this);
+        super.initGUI();
+        super.initListeners();
     }
     
     public void setFriseur(int workerId){
@@ -28,7 +31,7 @@ public class WeekTable extends KalenderTable{
     }
 
     @Override
-    public KalenderGrid createGrid(Date date) {
+    public KalenderGrid createGrid(LocalDate date) {
         ((DateHeader)super.header).setDate(date);
         return new WeekGrid(date, super.getElementHeight(), workerId);
     }

@@ -6,8 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Service;
-import de.fungistudii.kalender.client.database.ServiceCategory;
+import de.fungistudii.kalender.database.Service;
+import de.fungistudii.kalender.database.ServiceCategory;
 import de.fungistudii.kalender.util.Fonts;
 
 /**

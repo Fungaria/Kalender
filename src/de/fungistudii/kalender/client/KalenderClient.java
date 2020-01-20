@@ -2,17 +2,22 @@ package de.fungistudii.kalender.client;
 
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
-import de.fungistudii.kalender.client.database.DataRoot;
-import de.fungistudii.kalender.client.database.Friseur;
-import de.fungistudii.kalender.client.database.Customer;
-import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.database.DataRoot;
+import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Customer;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.client.NetworkData.*;
-import de.fungistudii.kalender.client.database.Blockierung;
-import de.fungistudii.kalender.client.database.Service;
-import de.fungistudii.kalender.client.database.ServiceCategory;
-import de.fungistudii.kalender.client.database.Vacation;
+import de.fungistudii.kalender.database.Blockierung;
+import de.fungistudii.kalender.database.Service;
+import de.fungistudii.kalender.database.ServiceCategory;
+import de.fungistudii.kalender.database.Vacation;
 import de.fungistudii.kalender.client.listeners.*;
+import de.fungistudii.kalender.database.serializers.DateSerializer;
+import de.fungistudii.kalender.database.serializers.DateTimeSerializer;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -45,7 +50,9 @@ public class KalenderClient extends Client{
         k.register(HashMap.class);
         k.register(HashMap.Entry.class);
         k.register(DataRoot.class);
-        k.register(Date.class);
+        k.register(LocalDate.class, new DateSerializer());
+        k.register(LocalTime.class);
+        k.register(LocalDateTime.class, new DateTimeSerializer());
         k.register(Customer.class);
         k.register(Friseur.class);
         k.register(Vacation.class);
@@ -64,6 +71,7 @@ public class KalenderClient extends Client{
         k.register(RemoveBlockRequest.class);
         k.register(CreateServiceRequest.class);
         k.register(RemoveServiceRequest.class);
+        
     }
     
     public void registerListeners(){

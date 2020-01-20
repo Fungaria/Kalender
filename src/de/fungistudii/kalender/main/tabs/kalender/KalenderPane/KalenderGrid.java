@@ -23,14 +23,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Disposable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Blockierung;
-import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.database.Blockierung;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.main.generic.ContextMenu;
-import de.fungistudii.kalender.main.generic.DatePicker;
-import de.fungistudii.kalender.util.DateUtil;
-import de.fungistudii.kalender.util.value.VariableValue;
-import java.util.Calendar;
-import java.util.Date;
+import de.fungistudii.kalender.main.generic.datepicker.DatePicker;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.function.Consumer;
@@ -50,8 +48,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     private final Drawable topFiller = ERE.assets.createNinePatchDrawable("kalender/grid/filler_top", 2);
     private final Drawable bottomFiller = ERE.assets.createNinePatchDrawable("kalender/grid/filler_bottom", 2);
 
-    protected Calendar calendar;
-    public Date start;
+    protected LocalDate date;
 
     final ButtonGroup<BackgroundElement> buttons = new ButtonGroup<>();
 
@@ -62,14 +59,9 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
     private final Value elementHeight;
 
-    public KalenderGrid(Date date, Value elementHeight) {
-        calendar = Calendar.getInstance();
-        calendar.setTime(date);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.HOUR_OF_DAY, KalenderTable.startTime);
-        this.start = calendar.getTime();
-        
+    public KalenderGrid(LocalDate date, Value elementHeight) {
+        this.date = date;
+
         this.elementHeight = elementHeight;
 
         buttons.setMinCheckCount(0);
@@ -91,13 +83,14 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
     protected void init() {
         for (int i = 0; i < columns.length; i++) {
-            columns[i] = new MitarbeiterColumn(start, elementHeight);
-            columns[i].initialize(getFriseur(i), getTermine(i, start), getBlockierungen(i, start), start);
+            columns[i] = new MitarbeiterColumn(getStartTime(i, date), elementHeight);
+            columns[i].initialize(getFriseur(i), getTermine(i, date), getBlockierungen(i, date));
+            
             for (BackgroundElement bg : columns[i].backgroundElements) {
                 buttons.add(bg);
             }
         }
-
+        
         setRound(false);
 
         SpriteDrawable vs = ERE.assets.createDrawable("generic/vertical_separator", ERE.assets.grey2);
@@ -140,7 +133,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
     public void updateColumn(int column) {
         columns[column].clearElements();
-        columns[column].initialize(column, getTermine(column, start), getBlockierungen(column, start), start);
+        columns[column].initialize(column, getTermine(column, date), getBlockierungen(column, date));
     }
 
     @Override
@@ -150,11 +143,13 @@ public abstract class KalenderGrid extends Table implements Disposable {
         }
     }
 
-    protected abstract Termin[] getTermine(int column, Date date);
+    protected abstract Termin[] getTermine(int column, LocalDate date);
 
-    protected abstract Blockierung[] getBlockierungen(int column, Date date);
+    protected abstract Blockierung[] getBlockierungen(int column, LocalDate date);
 
     protected abstract int getFriseur(int column);
+    
+    protected abstract LocalDateTime getStartTime(int column, LocalDate date);
 
     public void animateIn(boolean direction, float width, Consumer<KalenderGrid> consumer) {
         setVisible(true);
@@ -199,11 +194,11 @@ public abstract class KalenderGrid extends Table implements Disposable {
         }
     }
 
-    private final DragListener dragListener = new DragListener(){
+    private final DragListener dragListener = new DragListener() {
         //drag and drop
         private int col;
         private float actorY;
-        private Date startTime;
+        private LocalDateTime startTime;
         private int startRow;
         private final Vector2 tmpVec = new Vector2();
 
@@ -213,7 +208,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
         @Override
         public void dragStart(InputEvent event, float x, float y, int pointer) {
             Actor hit = event.getTarget();
-            if (!(hit instanceof GridElement) || !((GridElement)hit).isFocused()) {
+            if (!(hit instanceof GridElement) || !((GridElement) hit).isFocused()) {
                 return;
             }
 
@@ -235,14 +230,15 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
         @Override
         public void dragStop(InputEvent event, float x, float y, int pointer) {
-            if(!dragging)
+            if (!dragging) {
                 return;
-            
+            }
+
             enableInput();
-            Date start = dragged.getGridElement().getStart();
+            LocalDateTime start = dragged.getGridElement().getStart();
             dragged.getGridElement().setFriseur(col);
             ERE.client.sendTCP(dragged.getGridElement().serialize());
-            
+
             Timer timer = new Timer();
             timer.schedule(new TimerTask() {
                 @Override
@@ -254,22 +250,29 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
         @Override
         public void drag(InputEvent event, float x, float y, int pointer) {
-            if (!dragging)
+            if (!dragging) {
                 return;
-            
+            }
+
             col = (int) (x / columns[0].getWidth());
             float targetX = columns[col].getX();
             int distanceY = startRow - columns[0].table.getRow(y);
-            dragged.getGridElement().setStart(DateUtil.add(startTime, Calendar.MINUTE, -15 * distanceY));
+            dragged.getGridElement().setStart(startTime.minusMinutes(15 * distanceY));
             dragged.setPosition(targetX, actorY + elementHeight.get() * distanceY);
         }
     };
 
+    public void reload() {
+        for (int i = 0; i < columns.length; i++) {
+            updateColumn(i);
+        }
+    }
+
     public class VacationColumn extends MitarbeiterColumn {
 
         public VacationColumn(int friseur) {
-            super(start, elementHeight);
-            super.initialize(friseur, new Termin[0], new Blockierung[]{new Blockierung(start, NUM_ROWS * 4, friseur, "Urlaub")}, start);
+            super(getStartTime(friseur, date), elementHeight);
+//            super.initialize(friseur, new Termin[0], new Blockierung[]{new Blockierung(date, NUM_ROWS * 4, friseur, "Urlaub")});
         }
     }
 }

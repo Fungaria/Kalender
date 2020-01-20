@@ -1,12 +1,8 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
@@ -14,15 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Friseur;
+import de.fungistudii.kalender.database.Friseur;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.Navigator;
-import de.fungistudii.kalender.util.DrawableSolid;
-import de.fungistudii.kalender.util.Fonts;
-import de.fungistudii.kalender.util.NinePatchSolid;
+import de.fungistudii.kalender.util.YearWeek;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -36,7 +29,7 @@ public class WeekNavigator extends Navigator {
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
 
-    public WeekNavigator() {
+    public WeekNavigator(WeekTable weekTable) {
         super();
 
         ImageButton.ImageButtonStyle nextStyle = new ImageButton.ImageButtonStyle();
@@ -63,14 +56,12 @@ public class WeekNavigator extends Navigator {
 
         next.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.kalender.calendar.add(Calendar.DATE, 7);
-                ERE.mainScreen.kalender.updateDate(1);
+                ERE.mainScreen.kalender.updateDate(weekTable.getCurrentDate().plusWeeks(1));
             }
         });
         previous.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                ERE.mainScreen.kalender.calendar.add(Calendar.DATE, -7);
-                ERE.mainScreen.kalender.updateDate(-1);
+                ERE.mainScreen.kalender.updateDate(weekTable.getCurrentDate().minusWeeks(1));
             }
         });
         dropDown.addListener(new ChangeListener() {
@@ -86,6 +77,7 @@ public class WeekNavigator extends Navigator {
         dropDown.setSelectedIndex(id);
     }
 
-    public void setDate(Date time) {
+    @Override
+    public void setDate(LocalDate time) {
     }
 }

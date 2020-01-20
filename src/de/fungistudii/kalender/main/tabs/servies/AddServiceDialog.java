@@ -3,7 +3,7 @@ package de.fungistudii.kalender.main.tabs.servies;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
-import de.fungistudii.kalender.client.database.Service;
+import de.fungistudii.kalender.database.Service;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.generic.GenericMask;
 import de.fungistudii.kalender.main.generic.GenericTextField;

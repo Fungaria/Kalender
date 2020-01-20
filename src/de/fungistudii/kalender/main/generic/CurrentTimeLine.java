@@ -1,20 +1,19 @@
 package de.fungistudii.kalender.main.generic;
 
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
-import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
-import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.PaddedDrawable;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -47,10 +46,10 @@ public abstract class CurrentTimeLine extends Container {
         }
     }
 
-    protected Date date = new Date();
+    protected LocalTime date = LocalTime.now();
     protected void updatePosition() {
-        date.setTime(System.currentTimeMillis());
-        float minute = DateUtil.getMinuteOfDay(date);
+        date = LocalTime.now();
+        float minute = date.getMinute();
         minute -= KalenderTable.startTime * 60;
         position.setPercent(minute / 15f);
         invalidate();
@@ -67,7 +66,7 @@ public abstract class CurrentTimeLine extends Container {
     public static class Elbel extends CurrentTimeLine {
         private Label label;
         private PaddedDrawable bg;
-        private final SimpleDateFormat format = new SimpleDateFormat("HH':'mm");
+        private final DateTimeFormatter format = DateTimeFormatter.ofPattern("HH':'mm");
         public Elbel(Value elementHeight) {
             super(elementHeight);
             Label.LabelStyle style = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 16), Color.BLACK);

@@ -6,23 +6,24 @@
 package de.fungistudii.kalender.main.tabs.kalender;
 
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Container;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData;
-import de.fungistudii.kalender.main.generic.DatePicker;
+import de.fungistudii.kalender.main.generic.datepicker.DatePicker;
 import de.fungistudii.kalender.main.tabs.TabPage;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.WeekSelectBehavior;
+import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.WeekSelectBehavior;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day.DayTable;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week.WeekTable;
-import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.NinePatchSolid;
-import java.util.Calendar;
-import java.util.Date;
+import de.fungistudii.kalender.util.YearWeek;
+import java.time.LocalDate;
+import java.time.temporal.ChronoField;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.WeekFields;
 
 /**
  *
@@ -32,9 +33,6 @@ public class KalenderPage extends TabPage {
 
     private Container contentTable;
     public final SidePanel sidePanel;
-
-    public Calendar calendar = Calendar.getInstance();
-    private Date currentDate = new Date();
 
     public final DayTable dayTable;
     public final WeekTable weekTable;
@@ -46,25 +44,12 @@ public class KalenderPage extends TabPage {
         contentTable = new Container();
         super.setBackground(new NinePatchSolid(ERE.assets.kalBG));
 
-        sidePanel = new SidePanel((Date date, int direction) -> {
-            if(weekView){
-                int dir = DateUtil.compareWeek(date, currentDate);
-                //if date in the same week is selected, do nothing
-                if(dir != 0){
-                    calendar.setTime(date);
-                    calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                    this.currentDate = calendar.getTime();
-                    updateDate(dir);
-                }
-            }else{
-                calendar.setTime(date);
-                updateDate(direction);
-                this.currentDate = date;
-            }
+        sidePanel = new SidePanel((LocalDate date, int direction) -> {
+            updateDate(date);
         });
 
-        dayTable = new DayTable(calendar.getTime());
-        weekTable = new WeekTable(calendar.getTime());
+        dayTable = new DayTable();
+        weekTable = new WeekTable();
         
         currentTable = dayTable;
         contentTable.setActor(currentTable);
@@ -72,7 +57,7 @@ public class KalenderPage extends TabPage {
         add(sidePanel).minWidth(Cons.sideBarMinWidth).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY();
         add(contentTable).minSize(0).grow().pad(Value.percentHeight(0.03f, this), Value.percentWidth(0.02f, this), Value.percentWidth(0.01f, this), Value.percentWidth(0.02f, this));
 
-        updateDate(0);
+        updateDate(LocalDate.now());
     }
 
     public void toWeekView(int workerId){
@@ -80,8 +65,6 @@ public class KalenderPage extends TabPage {
         sidePanel.navigation.setSelectBehavior(new WeekSelectBehavior());
         weekTable.setFriseur(workerId);
         currentTable = weekTable;
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        updateDate(0);
         contentTable.setActor(currentTable); 
         currentTable.invalidateHierarchy();
         weekTable.setElementHeight(dayTable.getElementHeight().get());
@@ -92,8 +75,6 @@ public class KalenderPage extends TabPage {
         weekView = false;
         sidePanel.navigation.setSelectBehavior(DatePicker.defaultSelectBehavior);
         currentTable = dayTable;
-        calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-        updateDate(0);
         contentTable.setActor(currentTable);
         currentTable.invalidateHierarchy();
         dayTable.setElementHeight(weekTable.getElementHeight().get());
@@ -108,17 +89,13 @@ public class KalenderPage extends TabPage {
         return currentTable;
     }
 
-    public void updateDate(int direction) {
-        currentDate = calendar.getTime();
-        currentTable.switchDate(calendar.getTime(), direction);
-        if(DateUtil.compareDay(currentDate, sidePanel.navigation.getDate())!=0)
-            sidePanel.navigation.setDate(currentDate);
+    public void updateDate(LocalDate date) {
+        currentTable.switchDate(date);
+        sidePanel.navigation.setDate(date);
     }
 
     public void addTermin() {
-        Button selectedElement = ERE.mainScreen.kalender.getKalender().getSelectedElement();
-        int defFriseur = (selectedElement instanceof BackgroundElement)?((BackgroundElement)selectedElement).getFriseur():0;
-        ERE.mainScreen.dialogManager.showAppointment(sidePanel.navigation.getDate(), defFriseur);
+        ERE.mainScreen.dialogManager.showAppointment();
     }
 
     @Override

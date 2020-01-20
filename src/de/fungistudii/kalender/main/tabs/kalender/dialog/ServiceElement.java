@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Service;
+import de.fungistudii.kalender.database.Service;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.util.Durations;
 import de.fungistudii.kalender.util.NinePatchOffsetDrawable;

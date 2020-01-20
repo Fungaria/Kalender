@@ -7,12 +7,12 @@ package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.day;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Blockierung;
-import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.database.Blockierung;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
-import de.fungistudii.kalender.util.DateUtil;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -22,7 +22,7 @@ public class DayGrid extends KalenderGrid{
     
     private static final SimpleDateFormat compareDayFormat = new SimpleDateFormat("yyyyMMdd");
     
-    public DayGrid(Date date, Value e) {
+    public DayGrid(LocalDate date, Value e) {
         super(date, e);
         init();
     } 
@@ -33,20 +33,21 @@ public class DayGrid extends KalenderGrid{
     }
 
     @Override
-    protected Termin[] getTermine(int column, Date date) {
+    protected Termin[] getTermine(int column, LocalDate date) {
         return ERE.data.root.appointments.values().stream().filter(
-                (termin) -> (termin.friseur == column && DateUtil.compareDay(date, termin.start)==0)
-        ).sorted((termin1, termin2) -> {
-            return DateUtil.compare(termin1.start, termin2.start);
-        }).toArray(Termin[]::new);
+                (termin) -> (termin.friseur == column && termin.start.toLocalDate().isEqual(date))
+        ).toArray(Termin[]::new);
     }
 
     @Override
-    protected Blockierung[] getBlockierungen(int column, Date date) {
+    protected Blockierung[] getBlockierungen(int column, LocalDate date) {
         return ERE.data.root.blockierungen.values().stream().filter(
-                (blockierung) -> (blockierung.friseur == column && DateUtil.compareDay(date, blockierung.start)==0)
-        ).sorted((block1, block2) -> {
-            return DateUtil.compare(block1.start, block2.start);
-        }).toArray(Blockierung[]::new);
+                (blockierung) -> (blockierung.friseur == column && blockierung.start.toLocalDate().isEqual(date))
+        ).toArray(Blockierung[]::new);
+    }
+
+    @Override
+    protected LocalDateTime getStartTime(int column, LocalDate date) {
+        return date.atTime(8, 0);
     }
 }

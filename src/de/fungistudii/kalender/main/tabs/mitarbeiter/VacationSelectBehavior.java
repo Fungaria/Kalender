@@ -7,12 +7,12 @@ package de.fungistudii.kalender.main.tabs.mitarbeiter;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Friseur;
-import de.fungistudii.kalender.client.database.Vacation;
-import de.fungistudii.kalender.main.generic.DaysGrid;
-import de.fungistudii.kalender.util.DateUtil;
+import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Vacation;
+import de.fungistudii.kalender.main.generic.datepicker.DayButton;
+import de.fungistudii.kalender.main.generic.datepicker.DaysGrid;
 import de.fungistudii.kalender.util.NinePatchSolid;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -27,8 +27,8 @@ public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
     private final Drawable leftGreen = ERE.assets.createNinePatchDrawable("generic/rounded_filled_left", 10, ERE.assets.mediumGreen);
     private final Drawable rightGreen = ERE.assets.createNinePatchDrawable("generic/rounded_filled_right", 10, ERE.assets.mediumGreen);
 
-    private Date beginDate;
-    private Date endDate;
+    private LocalDate beginDate;
+    private LocalDate endDate;
 
     private boolean isBegin = true;
 
@@ -40,7 +40,7 @@ public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
         this.workerId = workerId;
     }
 
-    public VacationSelectBehavior(int workerId, int vacationId, Date begin, Date end) {
+    public VacationSelectBehavior(int workerId, int vacationId, LocalDate begin, LocalDate end) {
         this(workerId, vacationId);
         this.beginDate = begin;
         this.endDate = end;
@@ -54,22 +54,22 @@ public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
         return vacationId;
     }
 
-    public Date getBeginDate() {
+    public LocalDate getBeginDate() {
         return beginDate;
     }
 
-    public Date getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
     
-    public void selectRange(DaysGrid.DayButton[] buttons, Date begin, Date end, Drawable l, Drawable c, Drawable r) {
-        for (DaysGrid.DayButton button : buttons) {
-            int c1 = DateUtil.compareDay(button.getDay(), begin);
-            int c2 = DateUtil.compareDay(button.getDay(), end);
+    public void selectRange(DayButton[] buttons, LocalDate begin, LocalDate end, Drawable l, Drawable c, Drawable r) {
+        for (DayButton button : buttons) {
+            int c1 = button.getDay().compareTo(begin);
+            int c2 = button.getDay().compareTo(end);
 
-            if (c1 == 0 && (begin.before(end) || !isBegin)) {
+            if (c1 == 0 && (begin.isBefore(end) || !isBegin)) {
                 button.check(l);
-            } else if (c2 == 0 && (begin.before(end) || isBegin)) {
+            } else if (c2 == 0 && (begin.isBefore(end) || isBegin)) {
                 button.check(r);
             } else if (c1 > 0 && c2 < 0) {
                 button.check(c);
@@ -85,8 +85,8 @@ public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
         return isBegin;
     }
 
-    public void updateSelection(DaysGrid.DayButton[] buttons) {
-        for (DaysGrid.DayButton button : buttons) {
+    public void updateSelection(DayButton[] buttons) {
+        for (DayButton button : buttons) {
             button.uncheck();
         }
 
@@ -95,13 +95,13 @@ public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
 
         for (Vacation v : friseur.vacations.values()) {
             if (v.id != vacationId) {
-                selectRange(buttons, v.start, v.end, leftRed, solidRed, rightRed);
+//                selectRange(buttons, v.start, v.end, leftRed, solidRed, rightRed);
             }
         }
     }
 
     @Override
-    public void select(DaysGrid.DayButton[] buttons, Date date) {
+    public void select(DayButton[] buttons, LocalDate date) {
         if (isBegin) {
             beginDate = date;
         } else {

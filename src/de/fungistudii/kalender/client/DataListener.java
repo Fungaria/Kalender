@@ -3,7 +3,7 @@ package de.fungistudii.kalender.client;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.DataRoot;
+import de.fungistudii.kalender.database.DataRoot;
 
 /**
  *

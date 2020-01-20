@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dataRoot xmlns:ns2="de.fungistudii.kalender">
     <termine>
-        <item kundenid="1" start="2019-12-29 09:00:00" dauer="150" service="0" friseur="1" erstellt="2019-12-30 00:07:25" urheber="0" paidPrice="0" id="1"/>
+        <item kundenid="1" start="2019-12-29 09:45:00" duration="0" service="0" friseur="2" erstellt="2019-12-30 00:07:25" urheber="0" paidPrice="0" id="1"/>
+        <item kundenid="0" start="2019-12-31 10:00:00" duration="0" service="0" friseur="1" erstellt="2019-12-31 14:19:57" urheber="0" paidPrice="0" id="2"/>
+        <item kundenid="1" start="2020-01-18 09:45:00" duration="15" service="0" friseur="2" erstellt="2020-01-18 17:16:39" urheber="0" paidPrice="0" id="3"/>
     </termine>
     <blockierungen>
         <item start="2019-12-28 11:00:00" duration="4" friseur="2" msg="" id="1"/>
@@ -18,8 +20,8 @@
     <friseure>
         <item name="Meryem" id="0">
             <vacations>
-                <item start="2019-12-17 17:55:00" end="2019-12-21 20:16:00" id="1"/>
-                <item start="2019-12-03 17:46:00" end="2019-12-07 17:46:00" id="2"/>
+                <item start="2019-12-17" end="2019-12-21" id="1"/>
+                <item start="2019-12-03" end="2019-12-07" id="2"/>
             </vacations>
         </item>
         <item name="Nena" id="1">
@@ -30,13 +32,13 @@
         </item>
         <item name="Linh" id="3">
             <vacations>
-                <item start="2019-10-27 23:16:01" end="2019-10-27 23:16:01" id="1"/>
+                <item start="2019-10-27" end="2019-10-27" id="1"/>
             </vacations>
         </item>
         <item name="Nida" id="4">
             <vacations>
-                <item start="2019-10-15 23:19:00" end="2019-10-19 23:19:00" id="1"/>
-                <item start="2019-10-22 01:46:00" end="2019-10-25 01:46:00" id="2"/>
+                <item start="2019-10-15" end="2019-10-19" id="1"/>
+                <item start="2019-10-22" end="2019-10-25" id="2"/>
             </vacations>
         </item>
         <item name="Linh" id="5">

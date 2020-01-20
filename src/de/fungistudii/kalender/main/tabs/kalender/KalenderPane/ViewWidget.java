@@ -47,12 +47,14 @@ public class ViewWidget extends Table{
         day.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println("d");
                 ERE.mainScreen.kalender.toDayView(0);
             }
         });
         week.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                System.out.println("w");
                 ERE.mainScreen.kalender.toWeekView(0);
             }
         });

@@ -1,6 +1,5 @@
 package de.fungistudii.kalender.main.tabs.kalender.KalenderPane;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
@@ -10,9 +9,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Scaling;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Blockierung;
+import de.fungistudii.kalender.database.Blockierung;
 import de.fungistudii.kalender.util.CompositeDrawable;
 import de.fungistudii.kalender.util.Fonts;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 /**
@@ -91,8 +91,8 @@ public class BlockElement extends GridElement {
     }
 
     @Override
-    public Date getStart() {
-        return new Date(block.start.getTime());
+    public LocalDateTime getStart() {
+        return block.start;
     }
 
     @Override
@@ -111,8 +111,8 @@ public class BlockElement extends GridElement {
     }
 
     @Override
-    public void setStart(Date start) {
-        block.start.setTime(start.getTime());
+    public void setStart(LocalDateTime start) {
+        block.start = start;
     }
 
     @Override

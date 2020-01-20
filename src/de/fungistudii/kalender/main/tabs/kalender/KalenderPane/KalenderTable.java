@@ -4,7 +4,6 @@ import de.fungistudii.kalender.util.ScrollPaneFollower;
 import de.fungistudii.kalender.util.AnimationStack;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
@@ -19,14 +18,14 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Customer;
+import de.fungistudii.kalender.database.Customer;
 import de.fungistudii.kalender.main.generic.CurrentTimeLine;
 import de.fungistudii.kalender.main.generic.GenericSearchField;
 import de.fungistudii.kalender.util.Fonts;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import de.fungistudii.kalender.util.value.ValueUtil;
 import de.fungistudii.kalender.util.value.VariableValue;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  *
@@ -46,43 +45,39 @@ public abstract class KalenderTable extends Table {
     protected Navigator navigator;
     private ScrollPaneFollower top;
     protected Header header;
-    
+
     private TimeColumn rightTimeColumn;
     private TimeColumn leftTimeColumn;
-
-    
 
     private GenericSearchField<Customer> search;
     public TextButton resizeButton;
     public ViewWidget viewWidget;
     public CurrentTimeLine timeLine;
 
-    private final VariableValue elementHeight = new VariableValue(24);
+    public LocalDate currentDate;
     
-    public KalenderTable(Date date, Header header, Navigator navigator) {
-        BG_POOL = new BGPool();
-        this.header = header;
-        this.navigator = navigator;
+    private final VariableValue elementHeight = new VariableValue(24);
 
-        initGUI(date);
-        initListeners();
-        
+    public KalenderTable() {
+        BG_POOL = new BGPool();
+
+        currentDate = LocalDate.now();
     }
 
-    private void initGUI(Date date){
-        old = createGrid(date);
+    protected void initGUI() {
+        old = createGrid(LocalDate.now());
         container = new AnimationStack(old);
 
         ScrollPane.ScrollPaneStyle paneStyle = new ScrollPane.ScrollPaneStyle();
         paneStyle.hScroll = new NinePatchSolid(ERE.assets.grey2, 2, 15, 15);
         paneStyle.hScrollKnob = new NinePatchSolid(ERE.assets.grey4, 2, 15, 15);
-        
+
         pane = new ScrollPane(container, paneStyle);
         pane.getListeners().removeIndex(0);
         pane.setFadeScrollBars(false);
         pane.setVariableSizeKnobs(true);
         pane.setOverscroll(false, true);
-        
+
         leftTimeColumn = new TimeColumn(Align.right);
         Stack leftStack = new Stack(leftTimeColumn);
         ScrollPaneFollower p1 = new ScrollPaneFollower(leftStack);
@@ -90,12 +85,11 @@ public abstract class KalenderTable extends Table {
         p1.setParent(pane);
         CurrentTimeLine tl = new CurrentTimeLine.Elbel(elementHeight);
         leftStack.add(tl);
-        
+
         rightTimeColumn = new TimeColumn(Align.left);
         ScrollPaneFollower p2 = new ScrollPaneFollower(rightTimeColumn);
         p2.setScrollingDisabled(true, false);
         p2.setParent(pane);
-        
 
         top = new ScrollPaneFollower(header);
         top.setScrollingDisabled(false, true);
@@ -111,7 +105,7 @@ public abstract class KalenderTable extends Table {
 
         timeLine = new CurrentTimeLine.Line(elementHeight);
         container.add(timeLine);
-        
+
         viewWidget = new ViewWidget();
 
         Table navig = new Table();
@@ -137,8 +131,8 @@ public abstract class KalenderTable extends Table {
         p1.setZIndex(1000);
         top.setZIndex(1000);
     }
-    
-    private void initListeners(){
+
+    protected void initListeners() {
         //resize Listener
         ERE.mainScreen.stage.addCaptureListener(new InputListener() {
             @Override
@@ -175,32 +169,10 @@ public abstract class KalenderTable extends Table {
             }
         });
     }
-    
+
     @Override
     public float getPrefWidth() {
         return 2000;
-    }
-
-    public void setElementHeight(float eH) {
-        resizeButton.setText(((int) (eH / 0.0024f)) / 100 + "%");
-        
-        //round
-        float nuHeight = ((int)(eH*2))/2;
-        //bound
-        float min = getHeight() / (16 * 4);
-        float max = 40; //willkürlich
-        nuHeight = Math.min(Math.max(nuHeight, min), max);
-        //apply
-        this.elementHeight.setValue(nuHeight);
-        old.invalidateHierarchy();
-        pane.layout();
-        rightTimeColumn.elementHeight.setValue(nuHeight);
-        leftTimeColumn.elementHeight.setValue(nuHeight);
-        rightTimeColumn.invalidateHierarchy();
-        leftTimeColumn.invalidateHierarchy();
-    }
-    public Value getElementHeight() {
-        return elementHeight;
     }
 
     @Override
@@ -217,14 +189,42 @@ public abstract class KalenderTable extends Table {
         timeLine.setZIndex(100);
     }
 
+    public void setElementHeight(float eH) {
+        resizeButton.setText(((int) (eH / 0.0024f)) / 100 + "%");
+
+        //round
+        float nuHeight = ((int) (eH * 2)) / 2;
+        //bound
+        float min = getHeight() / (16 * 4);
+        float max = 40; //willkürlich
+        nuHeight = Math.min(Math.max(nuHeight, min), max);
+        //apply
+        this.elementHeight.setValue(nuHeight);
+        old.invalidateHierarchy();
+        pane.layout();
+        rightTimeColumn.elementHeight.setValue(nuHeight);
+        leftTimeColumn.elementHeight.setValue(nuHeight);
+        rightTimeColumn.invalidateHierarchy();
+        leftTimeColumn.invalidateHierarchy();
+    }
+
+    public Value getElementHeight() {
+        return elementHeight;
+    }
+
     public void updateCurrentTable() {
-        old.remove();
-        old = createGrid(old.start);
-        container.setMainActor(old);
+        old.reload();
         setElementHeight(elementHeight.get());
     }
 
-    public void switchDate(Date date, int direction) {
+    public LocalDate getCurrentDate(){
+        return currentDate;
+    }
+    
+    public void switchDate(LocalDate date) {
+        int direction = date.compareTo(currentDate);
+        currentDate = date;
+        
         navigator.setDate(date);
 
         if (direction == 0) {
@@ -242,9 +242,10 @@ public abstract class KalenderTable extends Table {
         nu = createGrid(date);
         container.setMainActor(nu);
         nu.setVisible(false);
-        
+        nu.buttons.uncheckAll();
+
         Gdx.app.postRunnable(() -> {
-            nu.animateIn(direction > 0, old.getWidth(), (c) -> {
+            nu.animateIn(direction > 0, old.getWidth(), (KalenderGrid c) -> {
                 old = c;
                 nu = null;
             });
@@ -252,7 +253,7 @@ public abstract class KalenderTable extends Table {
         });
     }
 
-    public abstract KalenderGrid createGrid(Date date);
+    public abstract KalenderGrid createGrid(LocalDate date);
 
     public BackgroundElement getSelectedElement() {
         return old.getSelectedElement();
@@ -263,6 +264,7 @@ public abstract class KalenderTable extends Table {
     }
 
     private static class TimeColumn extends Table {
+
         public final VariableValue elementHeight = new VariableValue(24);
 
         private final Drawable timeFiller = ERE.assets.createNinePatchDrawable("kalender/grid/time", 2);
@@ -292,11 +294,11 @@ public abstract class KalenderTable extends Table {
 
         public abstract void updateLayout(KalenderGrid grid);
 
-        public abstract void setDate(Date time);
+        public abstract void setDate(LocalDate time);
     }
 
     public static abstract class Navigator extends Table {
 
-        public abstract void setDate(Date time);
+        public abstract void setDate(LocalDate time);
     }
 }

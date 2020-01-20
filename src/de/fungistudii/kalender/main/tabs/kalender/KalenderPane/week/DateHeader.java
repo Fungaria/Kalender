@@ -14,8 +14,9 @@ import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable.Header;
 import de.fungistudii.kalender.util.NinePatchSolid;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -26,10 +27,6 @@ public class DateHeader extends Header {
     private TextButton[] labels;
     private final TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
 
-    private static final SimpleDateFormat format = new SimpleDateFormat("E', 'd'.'MM");
-    
-    private final Calendar calendar;
-    
     public DateHeader() {
         super.center();
         
@@ -38,8 +35,6 @@ public class DateHeader extends Header {
         style.over = new NinePatchSolid(ERE.assets.grey1);
         style.down = new NinePatchSolid(ERE.assets.grey2);
 
-        calendar = Calendar.getInstance();
-        
         this.labels = new TextButton[7];
         SpriteDrawable vs = ERE.assets.createDrawable("generic/vertical_separator", ERE.assets.grey2);
         add(new Image(vs));
@@ -62,11 +57,9 @@ public class DateHeader extends Header {
 
     
     @Override
-    public void setDate(Date time) {
-        calendar.setTime(time);
+    public void setDate(LocalDate time) {
         for (TextButton label : labels) {
-            label.setText(format.format(calendar.getTime()));
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            label.setText(time.format(DateTimeFormatter.ofPattern("E', 'd'.'MM")));
         }
     }
     

@@ -17,14 +17,15 @@ import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Scaling;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Customer;
-import de.fungistudii.kalender.client.database.Service;
-import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.database.Customer;
+import de.fungistudii.kalender.database.Service;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.util.DateUtil;
 import de.fungistudii.kalender.util.Fonts;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
 
 /**
  *
@@ -45,7 +46,7 @@ public class TerminElement extends GridElement {
     private Color upColor;
     private Color downColor;
 
-    private static final SimpleDateFormat timeFormat = new SimpleDateFormat("HH':'mm");
+    private static final DateTimeFormatter timeFormat = DateTimeFormatter.ofPattern("HH':'mm");
     
     private static final Color[] colors = new Color[]{
         new Color(118 / 255f, 207 / 255f, 145 / 255f, 1),
@@ -149,8 +150,8 @@ public class TerminElement extends GridElement {
     }
 
     @Override
-    public Date getStart() {
-        return new Date(termin.start.getTime());
+    public LocalDateTime getStart() {
+        return termin.start;
     }
 
     @Override
@@ -160,7 +161,7 @@ public class TerminElement extends GridElement {
 
     @Override
     public int getSpan() {
-        return termin.dauer / 15;
+        return termin.duration / 15;
     }
 
     @Override
@@ -211,20 +212,20 @@ public class TerminElement extends GridElement {
     }
 
     @Override
-    public void setStart(Date start) {
-        termin.start.setTime(start.getTime());
+    public void setStart(LocalDateTime start) {
+        termin.start = start;
         updateLabelText();
     }
 
     private void updateLabelText() {
         String startTime = timeFormat.format(termin.start);
-        String endTime = timeFormat.format(DateUtil.add(termin.start, Calendar.MINUTE, termin.dauer));
+        String endTime = timeFormat.format(termin.start.plusMinutes(termin.duration));
         timeLabel.setText(startTime + "-" + endTime);
     }
 
     @Override
     public void setSpan(int span) {
-        termin.dauer = span * 15;
+        termin.duration = span * 15;
         updateLabelText();
     }
 

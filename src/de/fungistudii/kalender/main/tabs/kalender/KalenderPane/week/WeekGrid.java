@@ -2,12 +2,14 @@ package de.fungistudii.kalender.main.tabs.kalender.KalenderPane.week;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.client.database.Blockierung;
-import de.fungistudii.kalender.client.database.Termin;
+import de.fungistudii.kalender.database.Blockierung;
+import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderGrid;
-import de.fungistudii.kalender.util.DateUtil;
+import de.fungistudii.kalender.util.YearWeek;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  *
@@ -19,7 +21,7 @@ public class WeekGrid extends KalenderGrid{
     
     private final int workerId;
     
-    public WeekGrid(Date date, Value elementHeight, int workerId) {
+    public WeekGrid(LocalDate date, Value elementHeight, int workerId) {
         super(date, elementHeight);
         this.workerId = workerId;
         init();
@@ -31,20 +33,21 @@ public class WeekGrid extends KalenderGrid{
     }
 
     @Override
-    protected Termin[] getTermine(int column, Date date) {
+    protected Termin[] getTermine(int column, LocalDate date) {
         return ERE.data.root.appointments.values().stream().filter(
-                (termin) -> (termin.friseur == workerId && DateUtil.compareDay(calendar.getTime(), termin.start)==0)
-        ).sorted((termin1, termin2) -> {
-            return DateUtil.compare(termin1.start, termin2.start);
-        }).toArray(Termin[]::new);
+                (termin) -> (termin.friseur == workerId && termin.start.toLocalDate().isEqual(date.plusDays(column)))
+        ).toArray(Termin[]::new);
     }
 
     @Override
-    protected Blockierung[] getBlockierungen(int column, Date date) {
+    protected Blockierung[] getBlockierungen(int column, LocalDate date) {
         return ERE.data.root.blockierungen.values().stream().filter(
-                (blockierung) -> (blockierung.friseur == workerId && DateUtil.compareDay(calendar.getTime(), blockierung.start)==0)
-        ).sorted((block1, block2) -> {
-            return DateUtil.compare(block1.start, block2.start);
-        }).toArray(Blockierung[]::new);
+                (blockierung) -> (blockierung.friseur == workerId && blockierung.start.toLocalDate().isEqual(date.plusDays(column)))
+        ).toArray(Blockierung[]::new);
+    }
+
+    @Override
+    protected LocalDateTime getStartTime(int column, LocalDate date) {
+        return date.plusDays(column).atTime(8, 0);
     }
 }
