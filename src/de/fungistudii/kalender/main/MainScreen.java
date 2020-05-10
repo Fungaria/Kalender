@@ -9,16 +9,14 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import de.fungistudii.kalender.Cons;
 import de.fungistudii.kalender.util.DialogManager;
-import de.fungistudii.kalender.main.tabs.TabPage;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPage;
-import de.fungistudii.kalender.main.tabs.kunden.KundenPage;
-import de.fungistudii.kalender.main.tabs.mitarbeiter.MitarbeiterPage;
-import de.fungistudii.kalender.main.tabs.produkte.ProduktePage;
-import de.fungistudii.kalender.main.tabs.servies.ServicePage;
+import de.fungistudii.kalender.main.kalender.KalenderPage;
+import de.fungistudii.kalender.main.kunden.KundenPage;
+import de.fungistudii.kalender.main.mitarbeiter.MitarbeiterPage;
+import de.fungistudii.kalender.main.produkte.ProduktePage;
+import de.fungistudii.kalender.main.servies.ServicePage;
 
 /**
  *
@@ -28,7 +26,7 @@ public class MainScreen extends ScreenAdapter {
 
     public final Stage stage;
     public final Table root;
-    private Viewport viewport;
+    private ScreenViewport viewport;
 
     private Table contentTable;
     private TabPage currentPage;
@@ -38,28 +36,28 @@ public class MainScreen extends ScreenAdapter {
     public KundenPage kunden;
     public ProduktePage produkte;
     public ServicePage service;
-    
+
     private boolean printfps = false;
 
     private final ContextMenuManager contextManager;
     public final DialogManager dialogManager;
-    
+
     public MainScreen() {
         root = new Table();
         this.viewport = new ScreenViewport();
         stage = new Stage(viewport);
 
         //unfocus Actors when user clicks anywhere. By default Actors are only unfocused when another Actor "claims" the Keyboard Focus
-        stage.addListener(new InputListener(){
+        stage.addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
-                if(stage.getKeyboardFocus()!=null && !stage.getKeyboardFocus().isAscendantOf(event.getTarget())){
+                if (stage.getKeyboardFocus() != null && !stage.getKeyboardFocus().isAscendantOf(event.getTarget())) {
                     stage.setKeyboardFocus(null);
                 }
                 return false;
             }
         });
-        
+
         contextManager = new ContextMenuManager();
         dialogManager = new DialogManager();
     }
@@ -67,7 +65,7 @@ public class MainScreen extends ScreenAdapter {
     @Override
     public void show() {
         super.show();
-        
+
         Gdx.input.setInputProcessor(stage);
 
         root.setFillParent(true);
@@ -75,11 +73,16 @@ public class MainScreen extends ScreenAdapter {
 
         contentTable = new Table();
         currentPage = new TabPage() {
-            public void show() {}
-            public void hide() {}
-            public void resize(int width, int height) {}
+            public void show() {
+            }
+
+            public void hide() {
+            }
+
+            public void resize(int width, int height) {
+            }
         };
-        
+
         kalender = new KalenderPage();
         mitarbeiter = new MitarbeiterPage();
         produkte = new ProduktePage();
@@ -87,20 +90,20 @@ public class MainScreen extends ScreenAdapter {
         kunden = new KundenPage();
 
         root.row();
-        root.add(new TabPane()).left().height(Value.percentHeight(0.05f, root)).growX().fillY();
+        root.add(new TabPane()).left().height(Cons.tabPaneHeight).growX().fillY();
         root.row();
         root.add(contentTable).grow();
         root.top();
-        
+
         root.setRound(true);
 
         setTab(kalender);
-        
+
         contextManager.init();
         stage.addActor(dialogManager);
-        
-        Gdx.app.postRunnable(() ->{
-            resize(Gdx.graphics.getWidth()+1, Gdx.graphics.getHeight());
+
+        Gdx.app.postRunnable(() -> {
+            resize(Gdx.graphics.getWidth() + 1, Gdx.graphics.getHeight());
         });
     }
 
@@ -124,7 +127,7 @@ public class MainScreen extends ScreenAdapter {
         super.hide();
         dispose();
     }
-    
+
     float fps = 0;
     float timer = 0;
     boolean debug;
@@ -132,24 +135,25 @@ public class MainScreen extends ScreenAdapter {
     @Override
     public void render(float delta) {
         super.render(delta);
+        
         Gdx.gl.glClearColor(1, 1, 1, 1f);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT);
         stage.act();
-//        stage.getBatch().enableBlending();
-//        stage.getBatch().setBlendFunction(GL20.GL_ONE, GL20.GL_ONE_MINUS_SRC_ALPHA);
         stage.draw();
-        
-        fps = 1/delta;
+
+        fps = 1 / delta;
         timer += fps;
-        if(printfps && timer>0.5f){
+        if (printfps && timer > 0.5f) {
             System.out.println(fps);
             timer = 0;
         }
-            
-        if(Gdx.input.isKeyJustPressed(Keys.F1))
+
+        if (Gdx.input.isKeyJustPressed(Keys.F1)) {
             stage.setDebugAll(debug = !debug);
-        if(Gdx.input.isKeyJustPressed(Keys.F2))
+        }
+        if (Gdx.input.isKeyJustPressed(Keys.F2)) {
             printfps = !printfps;
+        }
     }
 
     @Override
@@ -158,5 +162,5 @@ public class MainScreen extends ScreenAdapter {
         stage.getViewport().update(width, height, true);
         currentPage.resize(width, height);
     }
-    
+
 }

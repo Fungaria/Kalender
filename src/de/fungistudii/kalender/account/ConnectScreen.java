@@ -9,10 +9,11 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.utils.Timer;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.client.NetworkData.LoginRequest;
 import java.io.IOException;
-import java.util.Timer;
+//import java.util.Timer;
 import java.util.TimerTask;
 
 /**
@@ -39,7 +40,7 @@ public class ConnectScreen extends ScreenAdapter {
     }
 
     public void connect() {
-        t.schedule(new TimerTask() {
+        t.scheduleTask(new Timer.Task() {
             @Override
             public void run() {
                 try {
@@ -60,7 +61,7 @@ public class ConnectScreen extends ScreenAdapter {
                     });
                 }
             }
-        }, 200);
+        }, 0.2f);
     }
 
     private void login() {

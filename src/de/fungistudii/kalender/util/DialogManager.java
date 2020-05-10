@@ -18,14 +18,15 @@ import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.database.Service;
 import de.fungistudii.kalender.database.Termin;
-import de.fungistudii.kalender.main.tabs.kalender.AddBlockDialog;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.StornoDialog;
-import de.fungistudii.kalender.main.tabs.kalender.dialog.AddAppointmentDialog;
-import de.fungistudii.kalender.main.tabs.kalender.dialog.DatePickerPopup;
-import de.fungistudii.kalender.main.tabs.kunden.EditCustomerDialog;
-import de.fungistudii.kalender.main.tabs.kunden.ViewCustomerDialog;
-import de.fungistudii.kalender.main.tabs.servies.AddServiceDialog;
+import de.fungistudii.kalender.main.kalender.AddBlockDialog;
+import de.fungistudii.kalender.main.kalender.KalenderPane.BackgroundElement;
+import de.fungistudii.kalender.main.kalender.KalenderPane.StornoDialog;
+import de.fungistudii.kalender.main.kalender.dialog.AddAppointmentDialog;
+import de.fungistudii.kalender.main.kalender.dialog.DatePickerPopup;
+import de.fungistudii.kalender.main.kunden.EditCustomerDialog;
+import de.fungistudii.kalender.main.kunden.ViewCustomerDialog;
+import de.fungistudii.kalender.main.kunden.ViewCustomerDialogNu;
+import de.fungistudii.kalender.main.servies.AddServiceDialog;
 import java.time.LocalDateTime;
 
 /**
@@ -39,7 +40,7 @@ public class DialogManager extends WidgetGroup {
     private final AddServiceDialog service;
     private final StornoDialog storno;
     private final AddBlockDialog block;
-    private ViewCustomerDialog viewCustomer;
+    private ViewCustomerDialogNu viewCustomer;
 
     private Array<Popup> openPops = new Array<>();
 
@@ -54,7 +55,7 @@ public class DialogManager extends WidgetGroup {
         this.service = new AddServiceDialog();
         this.storno = new StornoDialog();
         this.block = new AddBlockDialog();
-        this.viewCustomer = new ViewCustomerDialog();
+        this.viewCustomer = new ViewCustomerDialogNu();
         super.setFillParent(true);
 
         stageBackground = new Image(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
@@ -102,7 +103,6 @@ public class DialogManager extends WidgetGroup {
     }
     
     public void showViewCustomer(int kunde) {
-        viewCustomer = new ViewCustomerDialog();
         viewCustomer.show(getStage(), kunde);
         openDialog(viewCustomer);
     }
@@ -125,8 +125,9 @@ public class DialogManager extends WidgetGroup {
             pop.setHeight(pop.getPrefHeight());
 
             if(pop.isCentered()){
-                pop.setX((getWidth() - pop.getPrefWidth()) / 2);
-                pop.setY((getHeight() - pop.getPrefHeight()) / 2);
+                //Cast to int bcz: otherwise shit gets bluryboi
+                pop.setX((int) (getWidth() - pop.getPrefWidth()) / 2);
+                pop.setY((int) (getHeight() - pop.getPrefHeight()) / 2);
             }
         }
         

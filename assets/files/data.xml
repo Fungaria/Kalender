@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <ns2:dataRoot xmlns:ns2="de.fungistudii.kalender">
     <termine>
-        <item kundenid="1" start="2019-12-29 09:45:00" duration="0" service="0" friseur="2" erstellt="2019-12-30 00:07:25" urheber="0" paidPrice="0" id="1"/>
-        <item kundenid="0" start="2019-12-31 10:00:00" duration="0" service="0" friseur="1" erstellt="2019-12-31 14:19:57" urheber="0" paidPrice="0" id="2"/>
-        <item kundenid="1" start="2020-01-18 09:45:00" duration="15" service="0" friseur="2" erstellt="2020-01-18 17:16:39" urheber="0" paidPrice="0" id="3"/>
+        <item kundenid="1" start="2020-03-19 11:00:00" duration="30" service="0" friseur="1" erstellt="2020-03-19 14:44:48" urheber="0" paidPrice="0" id="1"/>
+        <item kundenid="1" start="2020-03-19 09:00:00" duration="90" service="0" friseur="4" erstellt="2020-03-19 16:47:48" urheber="0" paidPrice="0" id="2"/>
+        <item kundenid="1" start="2020-03-21 08:45:00" duration="165" service="0" friseur="2" erstellt="2020-03-21 15:35:47" urheber="0" paidPrice="0" id="3"/>
     </termine>
     <blockierungen>
         <item start="2019-12-28 11:00:00" duration="4" friseur="2" msg="" id="1"/>
@@ -15,7 +15,32 @@
         <item name="Reiser" vorname="Peter" phone="45678" mail="" notes="" id="0"/>
         <item name="Reiser" vorname="Samuel" phone="45678" mail="" notes="" id="1"/>
         <item name="Chur" vorname="Chill" phone="45678" mail="" notes="" id="2"/>
-        <item name="Me" vorname="Boi" phone="45678" mail="" notes="" id="3"/>
+        <item name="Washington" vorname="George" phone="45678" mail="" notes="" id="3"/>
+        <item name="John" vorname="Adams" phone="45678" mail="" notes="" id="4"/>
+        <item name="Thomas" vorname="Jefferson" phone="45678" mail="" notes="" id="5"/>
+        <item name="James" vorname="Madison" phone="45678" mail="" notes="" id="6"/>
+        <item name="James" vorname="Monroe" phone="45678" mail="" notes="" id="7"/>
+        <item name="Quincy Adams" vorname="John " phone="45678" mail="" notes="" id="8"/>
+        <item name="Jackson" vorname="Andrew" phone="45678" mail="" notes="" id="9"/>
+        <item name="van Buren" vorname="Martin" phone="45678" mail="" notes="" id="10"/>
+        <item name="Harrison" vorname="William Henry" phone="45678" mail="" notes="" id="11"/>
+        <item name="Taylor" vorname="John" phone="45678" mail="" notes="" id="12"/>
+        <item name="Fillmore" vorname="Millard" phone="45678" mail="" notes="" id="13"/>
+        <item name="Pierce" vorname="Franklin " phone="45678" mail="" notes="" id="14"/>
+        <item name="Buchanan" vorname="James" phone="45678" mail="" notes="" id="15"/>
+        <item name="Lincoln" vorname="Abraham" phone="45678" mail="" notes="" id="16"/>
+        <item name="Johnson" vorname="Andrew" phone="45678" mail="" notes="" id="17"/>
+        <item name="Grant" vorname="Ulysses S." phone="45678" mail="" notes="" id="18"/>
+        <item name="Hayes" vorname="Rutherford B." phone="45678" mail="" notes="" id="19"/>
+        <item name="Garfield" vorname="James Abram" phone="45678" mail="" notes="" id="20"/>
+        <item name="Arthur" vorname="Chester Alan" phone="45678" mail="" notes="" id="21"/>
+        <item name="Cleveland" vorname="Grover" phone="45678" mail="" notes="" id="22"/>
+        <item name="Harrison" vorname="Benjamin" phone="45678" mail="" notes="" id="23"/>
+        <item name="McKinley" vorname="William" phone="45678" mail="" notes="" id="24"/>
+        <item name="Roosevelt" vorname="Theodore" phone="45678" mail="" notes="" id="25"/>
+        <item name="Taft" vorname="William Howard" phone="45678" mail="" notes="" id="26"/>
+        <item name="Wilson" vorname="Woodrow" phone="45678" mail="" notes="" id="27"/>
+        <item name="Harding" vorname="Warren Gamaliel" phone="45678" mail="" notes="" id="28"/>
     </kunden>
     <friseure>
         <item name="Meryem" id="0">
@@ -41,10 +66,13 @@
                 <item start="2019-10-22" end="2019-10-25" id="2"/>
             </vacations>
         </item>
-        <item name="Linh" id="5">
+        <item name="Fret" id="5">
             <vacations/>
         </item>
         <item name="Nardos" id="6">
+            <vacations/>
+        </item>
+        <item name="Maxi" id="7">
             <vacations/>
         </item>
     </friseure>

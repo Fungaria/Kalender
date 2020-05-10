@@ -15,7 +15,6 @@ import de.fungistudii.kalender.Cons;
 public class GenericMask extends GenericDialog{
 
     private int columns;
-    private float[] columnWeights;
     private Table contentTable;
     
     public GenericMask(int columns, String title) {
@@ -25,11 +24,6 @@ public class GenericMask extends GenericDialog{
         
         contentTable = new Table();
         this.columns = columns;
-        
-        columnWeights = new float[columns];
-        for (int i = 0; i < this.columns; i++) {
-            columnWeights[i] = 1f/columns;
-        }
         
         contentTable.defaults().spaceLeft(Cons.dialogHorizontalSpacing).spaceRight(Cons.dialogHorizontalSpacing);
         setMainActor(contentTable);

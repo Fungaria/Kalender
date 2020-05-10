@@ -13,41 +13,39 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
-import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
 import java.time.LocalDate;
 
 public class DayButton extends Table {
 
     private LocalDate day;
-
     private final Label label;
 
     private final Drawable def = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, Color.CLEAR);
-    private final Drawable hovered = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.grey3);
-    private Drawable drawable;
-
-    private final Label.LabelStyle hardStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey7);
-    private final Label.LabelStyle softStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
-    
+    private Drawable checkedDrawable;
+    private Drawable hoveredDrawable;
     private boolean checked;
-    private ClickListener clickListener;
+    private boolean hovered;
+
+    private final Label.LabelStyle currentMonthStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey7);
+    private final Label.LabelStyle outerMonthStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("robotoCondensed", 14), ERE.assets.grey5);
+    
+    private final ClickListener clickListener;
 
     public DayButton(DaysGrid parent) {
         super();
 
-        label = new Label("", hardStyle);
-        label.setAlignment(Align.center);
+        label = new Label("", currentMonthStyle);
 
         super.setBackground(def);
-        super.add(label).grow();
+        super.add(label).expand();
         super.setSize(getPrefWidth(), getPrefHeight());
         super.setTouchable(Touchable.enabled);
 
         clickListener = new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                parent.setSelectedDate(day);
+                parent.selectDate(day);
             }
 
             @Override
@@ -62,26 +60,32 @@ public class DayButton extends Table {
 
     @Override
     public void act(float delta) {
-        if (clickListener.isOver() && !checked) {
-            setBackground(hovered);
-        } else {
-            setBackground(drawable);
+        if (checked) {
+            setBackground(checkedDrawable);
+        } else if(hovered){
+            setBackground(hoveredDrawable);
+        }else{
+            setBackground(def);
         }
         super.act(delta);
     }
 
     public void check(Drawable drawable) {
-        this.drawable = drawable;
+        this.checkedDrawable = drawable;
         this.checked = true;
     }
-
+    
+    public void hover(Drawable drawable){
+        this.hoveredDrawable = drawable;
+        this.hovered = true;
+    }
+    
     public void uncheck() {
-        this.drawable = def;
         this.checked = false;
     }
 
     public void setStyle(boolean hard) {
-        label.setStyle(hard? hardStyle:softStyle);
+        label.setStyle(hard? currentMonthStyle:outerMonthStyle);
     }
 
     public void setDate(LocalDate day) {
@@ -91,5 +95,9 @@ public class DayButton extends Table {
 
     public LocalDate getDay() {
         return day;
+    }
+
+    void unhover() {
+        hovered = false;
     }
 }

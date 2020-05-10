@@ -68,7 +68,7 @@ public class SearchField<T> extends TextField implements Disableable {
             }
         });
     }
-    
+
     public T getSelected(){
         return list.list.getSelected();
     }
@@ -83,11 +83,12 @@ public class SearchField<T> extends TextField implements Disableable {
     }
     
     private void updateItems(){
-        T[] toArray = (T[])itemsAll.stream().filter((a) -> filter.test(getText(), a)).toArray();
+        T[] toArray = (T[])itemsAll.stream().filter((a) -> filter.test(getText().toLowerCase(), a)).toArray();
         items.clear();
         for (T t : toArray) {
             items.add(t);
         }
+        System.out.println(items.size);
     }
 
     protected void onShow(Actor selectBoxList, boolean below) {

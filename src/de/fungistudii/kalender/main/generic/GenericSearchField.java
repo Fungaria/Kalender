@@ -26,8 +26,8 @@ import de.fungistudii.kalender.util.SearchField;
 public class GenericSearchField<T> extends SearchField<T>{
 
     private final Drawable icon;
-    private static final int iconPadSide = 8;
-    private static final int iconPadTop= 16;
+    static final int iconPadSide = 8;
+    static final int iconPadTop= 12;
     private boolean drawIcon = true;
     
     public GenericSearchField(ListFilter<T> filter) {
@@ -70,7 +70,7 @@ public class GenericSearchField<T> extends SearchField<T>{
             super.textFieldStyle.selection = new NinePatchSolid(ERE.assets.grey2);
             super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey1));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
-            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 15);
+            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 10);
             
             super.textFieldStyle.background.setLeftWidth(Cons.defaultLeftWidth);
 //            super.textFieldStyle.disabledBackground.setLeftWidth(Cons.defaultLeftWidth);

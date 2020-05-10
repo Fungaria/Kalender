@@ -32,9 +32,4 @@ public class DateTimeAdapter extends XmlAdapter<String, LocalDateTime> {
             return LocalDateTime.parse(v, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         }
     }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
 }

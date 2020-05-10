@@ -19,6 +19,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.utils.Align;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.util.DrawableSolid;
 import java.util.ArrayList;
 
 /**
@@ -40,6 +41,8 @@ public class TabPane extends Table {
     public TabPane() {
         super();
         
+        ButtonGroup bg = new ButtonGroup();
+        
         orplid = new Logo();
         orplid.setDisabled(true);
         kalender = new TabButton("Kalender");
@@ -47,7 +50,7 @@ public class TabPane extends Table {
         mitarbeiter = new TabButton("Mitarbeiter");
         produkte = new TabButton("Produkte");
         services = new TabButton("Services");
-        filler = new Image(ERE.assets.createNinePatchDrawable("tabs/button_up", 3));
+        filler = new Image(new DrawableSolid(ERE.assets.tabGrey));
         
         tabs.add(kalender);
         tabs.add(kunden);
@@ -91,16 +94,16 @@ public class TabPane extends Table {
                 ERE.mainScreen.setTab(ERE.mainScreen.service);
             }
         });
+        
+        super.setRound(false);
+        
 
-        super.setRound(true);
         super.align(Align.left);
-        super.add(orplid).minWidth(Cons.sideBarMinWidth).prefWidth(Value.percentWidth(Cons.sideBarPercentWidth, this)).growY().minHeight(0);
-        ButtonGroup bg = new ButtonGroup();
+        super.add(orplid).width(Cons.sideBarWidth).fill();
         for (Button tab : tabs) {
             bg.add(tab);
-            super.add(tab).prefWidth(Value.percentWidth(Cons.tabButtonWidth, this)).growY().minSize(0).fill();
+            super.add(tab).prefWidth(Value.percentWidth(Cons.tabButtonWidth, this)).fill();
         }
         super.add(filler).grow();
     }
-
 }

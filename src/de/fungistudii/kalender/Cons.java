@@ -9,9 +9,11 @@ public class Cons {
     public static final float calendarTransitionTime = 0.4f;
     public static final float datePickerTransitionTime = 0.3f;
     
+    public static final int sideBarWidth = 280;
     public static final int sideBarMinWidth = 200;
     public static final float sideBarPercentWidth = 0.15f;
-    public static final float tabPanePercentHeight = 0.15f;
+    
+    public static final float tabPaneHeight = 45;
     public static final float tabButtonWidth = 0.1f;
     
     public static final float appointmentPad = 5;   
@@ -28,7 +30,10 @@ public class Cons {
     public static final float dialogRowPadBottom =7;
     
     
-    public static final float roundedOffset = -5;
+    public static final float roundedOffset = 0;
     public static final int roundedPad = 15;
-    public static final float downscale = 1f;
+    public static final float downscale = 0.5f;
+    
+    public static final int startTime = 8;
+    public static final int endTime = 20;
 }

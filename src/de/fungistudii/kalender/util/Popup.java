@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.Touchable;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.fadeOut;
 import static com.badlogic.gdx.scenes.scene2d.actions.Actions.sequence;
@@ -18,7 +17,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Window;
 import com.badlogic.gdx.scenes.scene2d.utils.FocusListener;
 import com.badlogic.gdx.utils.ObjectMap;
 import de.fungistudii.kalender.Cons;
-import static de.fungistudii.kalender.Main.ERE;
 
 /**
  *
@@ -26,16 +24,10 @@ import static de.fungistudii.kalender.Main.ERE;
  */
 public class Popup extends Table {
 
-    ObjectMap<Actor, Object> values = new ObjectMap();
     boolean cancelHide;
     Actor previousKeyboardFocus, previousScrollFocus;
     FocusListener focusListener;
 
-    private final Vector2 tmpPosition = new Vector2();
-    private final Vector2 tmpSize = new Vector2();
-    
-    private Window w;
-    
     private float prefWidth;
     private float prefHeight;
     
@@ -220,10 +212,6 @@ public class Popup extends Table {
      */
     public void hide() {
         hide(sequence(fadeOut(Cons.dialogFadeTime, Interpolation.fade), Actions.removeListener(ignoreTouchDown, true), Actions.removeActor()));
-    }
-
-    public void setObject(Actor actor, Object object) {
-        values.put(actor, object);
     }
 
     /**

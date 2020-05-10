@@ -5,14 +5,14 @@
  */
 package de.fungistudii.kalender.main.generic.datepicker;
 
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.Array;
-import static de.fungistudii.kalender.main.generic.datepicker.DatePicker.defaultHoverBehavior;
-import static de.fungistudii.kalender.main.generic.datepicker.DatePicker.defaultSelectBehavior;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.time.temporal.Temporal;
 
 /**
  *
@@ -26,13 +26,15 @@ public class DaysGrid extends Table {
 
     private Array<DatePicker.DateSelectCallback> callbacks;
 
-    public SelectBehavior selectBehavior = defaultSelectBehavior;
-    public SelectBehavior hoverBehavior = defaultHoverBehavior;
+    public SelectBehavior selectBehavior = new DefaultSelectBehavior();
+    public SelectBehavior hoverBehavior = new DefaultHoverBehavior();
 
     public DaysGrid(DatePicker.DateSelectCallback... callbacks) {
         this.callbacks = new Array(callbacks);
         selectedDate = LocalDate.now();
 
+        super.setRound(true);
+        
         int i = 0;
         for (int w = 0; w < 6; w++) {
             for (int d = 0; d < 7; d++) {
@@ -42,9 +44,19 @@ public class DaysGrid extends Table {
             }
             row();
         }
+        
+        super.addListener(new InputListener(){
+            @Override
+            public void exit(InputEvent event, float x, float y, int pointer, Actor toActor) {
+                for (DayButton dayButton : dayButtons) {
+                    dayButton.unhover();
+                }
+            }
+        });
     }
 
-    public void setMonth(YearMonth month) {
+    
+    void setMonth(YearMonth month) {
         LocalDate firstOfMonth = month.atDay(1);
         LocalDate curr = firstOfMonth.with(DayOfWeek.MONDAY);
 
@@ -60,24 +72,28 @@ public class DaysGrid extends Table {
         selectBehavior.select(dayButtons, getSelectedDate());
     }
 
-    public LocalDate getSelectedDate() {
+    LocalDate getSelectedDate() {
         return selectedDate;
     }
 
-    public void setSelectedDate(LocalDate date) {
-        if (date.isEqual(selectedDate)) {
+    void selectDate(LocalDate date) {
+        if(date.equals(getSelectedDate()))
             return;
-        }
         int direction = date.compareTo(selectedDate);
-        this.selectedDate = date;
         for (DatePicker.DateSelectCallback callback : callbacks) {
             callback.dateSelected(date, direction);
         }
+        setSelectedDate(date);
+    }
+    
+    void setSelectedDate(LocalDate date){
+        this.selectedDate = date;
         selectBehavior.select(dayButtons, date);
     }
-
+    
     void setHoveredDate(LocalDate day) {
         hoverBehavior.select(dayButtons, day);
+        selectBehavior.select(dayButtons, getSelectedDate());
     }
 
     public static interface SelectBehavior {

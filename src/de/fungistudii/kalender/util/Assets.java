@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -37,6 +38,8 @@ public class Assets {
     public final Color lightGreen = new Color(218/255f, 241/255f, 184/255f, 1);
     public final Color mediumGreen = new Color(115/255f, 215/255f, 0/255f, 1);
     public final Color darkGreen = new Color(104/255f, 193/255f, 0/255f, 1);
+    public final Color tabGrey = new Color(0.3f, 0.3f, 0.3f, 1);
+    public final Color tabGreyer = new Color(0.25f, 0.25f, 0.25f, 1);
 
     public Fonts fonts;
     
@@ -44,12 +47,21 @@ public class Assets {
     
     private final boolean debug;
     
+    public SpriteDrawable horizontal_separator;
+    
     public Assets() {
         debug = !Gdx.files.internal("").file().getAbsolutePath().endsWith("assets");
     }
     
     public void load(){
         atlas = new TextureAtlas(internal("img/sprites.pack"));
+        
+        for (Texture texture : atlas.getTextures()) {
+            System.out.println(texture.getMinFilter());
+        }
+        
+        horizontal_separator = createDrawable("generic/horizontal_separator");
+        
         fonts = new Fonts();
     }
     
@@ -110,18 +122,18 @@ public class Assets {
         NinePatch res = new NinePatch(atlas.findRegion("rounded/"+stuff), 15, 15, 15, 15);
         res.scale(Cons.downscale, Cons.downscale);
         NinePatchOffsetDrawable rounded = new NinePatchOffsetDrawable(res);
-        rounded.setOffsetX(Cons.roundedOffset);
-        rounded.setPadding(4.5f, 0, 4.5f, 4.5f);
+//        rounded.setOffsetX(Cons.roundedOffset);
+//        rounded.setPadding(4.5f, 0, 4.5f, 4.5f);
         return rounded;
     }
     
     public NinePatchOffsetDrawable createRounded(String stuff, Color color){
-        NinePatch res = new NinePatch(atlas.findRegion("rounded/"+stuff), 15, 15, 15, 15);
+        NinePatch res = new NinePatch(atlas.findRegion("rounded/"+stuff), 20, 20, 20, 20);
         res.setColor(color);
         res.scale(Cons.downscale, Cons.downscale);
         NinePatchOffsetDrawable rounded = new NinePatchOffsetDrawable(res);
-        rounded.setOffsetX(Cons.roundedOffset);
-        rounded.setPadding(4.5f, 0, 4.5f, 4.5f);
+//        rounded.setOffsetX(Cons.roundedOffset);
+//        rounded.setPadding(4.5f, 0, 4.5f, 4.5f);
         return rounded;
     }
     

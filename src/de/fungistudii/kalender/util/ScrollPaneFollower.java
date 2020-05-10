@@ -63,6 +63,7 @@ public class ScrollPaneFollower extends WidgetGroup {
         return super.hit(x, y, touchable);
     }
 
+    @Override
     public void layout() {
         float bgLeftWidth = 0, bgRightWidth = 0, bgTopHeight = 0, bgBottomHeight = 0;
 

@@ -46,10 +46,17 @@ public class Main extends Game{
     }
 
     @Override
+    public void dispose() {
+        super.dispose(); //To change body of generated methods, choose Tools | Templates.
+        client.close();
+        client.stop();
+    }
+
+    @Override
     public void render() {
-        super.render(); //To change body of generated methods, choose Tools | Templates.
+        super.render();
         
-        if(Gdx.input.isKeyJustPressed(Keys.R)){
+        if(Gdx.input.isKeyJustPressed(Keys.F11)){
             mainScreen = new MainScreen();
             setScreen(mainScreen);
         }

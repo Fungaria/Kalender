@@ -3,10 +3,10 @@ package de.fungistudii.kalender.main;
 import com.badlogic.gdx.utils.Array;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.main.generic.ContextMenu;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BackgroundElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.BlockElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.TerminElement;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.ElementWrapper;
+import de.fungistudii.kalender.main.kalender.KalenderPane.BackgroundElement;
+import de.fungistudii.kalender.main.kalender.KalenderPane.BlockElement;
+import de.fungistudii.kalender.main.kalender.KalenderPane.TerminElement;
+import de.fungistudii.kalender.main.kalender.KalenderPane.ElementWrapper;
 
 /**
  *

@@ -1,5 +1,6 @@
 package de.fungistudii.kalender.main.generic;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.ImageButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -17,9 +18,13 @@ public class GenericImageButton extends ImageButton{
     }
 
     public GenericImageButton(String icon) {
-        super(new Style(icon));
-        getImageCell().pad(3, 3, 3, 7.5f);
+        this(icon, Color.WHITE);
     }
+    
+    public GenericImageButton(String icon, Color color) {
+        super(new Style(icon, color));
+    }
+    
 
     public void addListener(Runnable r){
         super.addListener(new ClickListener(){
@@ -51,8 +56,8 @@ public class GenericImageButton extends ImageButton{
     }
     
     private static class Style extends ImageButtonStyle{
-        public Style(String icon) {
-            super.imageUp = ERE.assets.createDrawable(icon);
+        public Style(String icon, Color color) {
+            super.imageUp = ERE.assets.createDrawable(icon, color);
             super.up = ERE.assets.createRounded("outline");
             super.over = ERE.assets.createRounded("outline_over");
             super.down = ERE.assets.createRounded("outline_down");

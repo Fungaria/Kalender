@@ -7,11 +7,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.main.tabs.kalender.KalenderPane.KalenderTable;
+import de.fungistudii.kalender.main.kalender.KalenderPane.KalenderTable;
 import de.fungistudii.kalender.util.PaddedDrawable;
 import de.fungistudii.kalender.util.value.ValueUtil;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 

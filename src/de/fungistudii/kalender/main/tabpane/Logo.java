@@ -12,7 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 import de.fungistudii.kalender.Main;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
+import de.fungistudii.kalender.util.NinePatchSolid;
 
 /**
  *
@@ -22,10 +24,9 @@ public class Logo extends TextButton{
     public Logo() {
         super("Orplid Friseure", new Style());
         
-        
         super.getLabel().setAlignment(Align.left);
         super.getLabel().setX(5);
-        super.getLabelCell().padLeft(5);
+        super.getLabelCell().padLeft(15);
     }
     
     private static class Style extends TextButtonStyle{
@@ -34,7 +35,7 @@ public class Logo extends TextButton{
             param.minFilter = Texture.TextureFilter.MipMapLinearLinear;
             param.size = 16;
             param.genMipMaps = true;
-            super.up = ERE.assets.createNinePatchDrawable("tabs/button_up", 4);
+            super.up = new DrawableSolid(ERE.assets.tabGrey, 10);
             super.font = Main.ERE.assets.fonts.createFont("roboto", param, Fonts.BOLD);
         }
     }

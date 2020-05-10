@@ -26,7 +26,6 @@ import de.fungistudii.kalender.util.Fonts;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
 
 /**
  *
@@ -34,7 +33,7 @@ import java.time.temporal.Temporal;
  */
 public class DatePicker extends Table {
 
-    private DaysGrid datesOld;
+    private DaysGrid datesCurr;
     private DaysGrid datesNext;
     private MonthHeader monthHeader;
     private WeekLabel weekLabel;
@@ -55,8 +54,8 @@ public class DatePicker extends Table {
     public DatePicker(DateSelectCallback callback) {
         currentMonth = YearMonth.now();
         
-        datesOld = new DaysGrid(callback, monthChanger);
-        datesOld.setMonth(currentMonth);
+        datesCurr = new DaysGrid(callback, monthChanger);
+        datesCurr.setMonth(currentMonth);
         datesNext = new DaysGrid(callback, monthChanger);
         datesNext.setMonth(currentMonth);
         weekLabel = new WeekLabel();
@@ -65,7 +64,7 @@ public class DatePicker extends Table {
         this.callback = callback;
 
         stack = new TestStack();
-        stack.add(datesOld);
+        stack.add(datesCurr);
         stack.addActor(datesNext);
         datesNext.setVisible(false);
 
@@ -86,27 +85,27 @@ public class DatePicker extends Table {
     }
 
     public void setSelectBehavior(SelectBehavior selectBehavior) {
-        this.datesOld.selectBehavior = selectBehavior;
+        this.datesCurr.selectBehavior = selectBehavior;
         this.datesNext.selectBehavior = selectBehavior;
-        selectBehavior.select(datesOld.dayButtons, getDate());
+        selectBehavior.select(datesCurr.dayButtons, getDate());
     }
 
     public void setHoverBehavior(SelectBehavior sh) {
-        this.datesOld.hoverBehavior = sh;
+        this.datesCurr.hoverBehavior = sh;
         this.datesNext.hoverBehavior = sh;
     }
 
     public DayButton[] getDateButtons() {
-        return datesOld.dayButtons;
+        return datesCurr.dayButtons;
     }
 
     public void setDate(LocalDate date) {
-        datesOld.setSelectedDate(date);
+        datesCurr.setSelectedDate(date);
         transitionIfMonthChanged(date);
     }
-
+ 
     public LocalDate getDate() {
-        return datesOld.getSelectedDate();
+        return datesCurr.getSelectedDate();
     }
 
     public void transitionIfMonthChanged(LocalDate date) {
@@ -117,24 +116,22 @@ public class DatePicker extends Table {
     }
 
     private void transition(int direction) {
-        datesNext.setWidth(datesOld.getWidth());
-        datesNext.setHeight(datesOld.getHeight());
+        datesNext.setSelectedDate(datesCurr.getSelectedDate());
+        datesNext.setWidth(datesCurr.getWidth());
+        datesNext.setHeight(datesCurr.getHeight());
         datesNext.setVisible(true);
-        datesNext.hoverBehavior.select(datesNext.dayButtons, datesOld.getSelectedDate());
-        datesNext.hoverBehavior.select(datesNext.dayButtons, datesOld.getSelectedDate());
 
-        datesOld.clearActions();
+        datesCurr.clearActions();
         datesNext.clearActions();
-        datesNext.setSelectedDate(datesOld.getSelectedDate());
 
-        datesOld.setPosition(0, 0);
-        datesNext.setPosition(direction * datesOld.getWidth(), 0);
+        datesCurr.setPosition(0, 0);
+        datesNext.setPosition(direction * datesCurr.getWidth(), 0);
         Gdx.app.postRunnable(() -> {
             datesNext.addAction(Actions.moveTo(0, 0, Cons.datePickerTransitionTime, Interpolation.sineIn));
-            datesOld.addAction(Actions.sequence(Actions.moveBy(-direction * datesOld.getWidth(), 0, Cons.datePickerTransitionTime, Interpolation.sineIn), Actions.run(() -> {
+            datesCurr.addAction(Actions.sequence(Actions.moveBy(-direction * datesCurr.getWidth(), 0, Cons.datePickerTransitionTime, Interpolation.sineIn), Actions.run(() -> {
                 stack.setLayoutEnabled(true);
-                DaysGrid g = datesOld;
-                datesOld = datesNext;
+                DaysGrid g = datesCurr;
+                datesCurr = datesNext;
                 datesNext = g;
                 datesNext.setVisible(false);
             })));
@@ -216,27 +213,6 @@ public class DatePicker extends Table {
             return l;
         }
     }
-
-    public static final SelectBehavior defaultSelectBehavior = new SelectBehavior() {
-        
-        private final Drawable drawable = ERE.assets.createNinePatchDrawable("generic/rounded_filled", 10, ERE.assets.mediumGreen);
-        
-        @Override
-        public void select(DayButton[] buttons, LocalDate date) {
-            for (DayButton button : buttons) {
-                if(button.getDay().isEqual(date))
-                    button.check(drawable);
-                else
-                    button.uncheck();
-            }
-        }
-    };
-
-    public static final SelectBehavior defaultHoverBehavior = new SelectBehavior() {
-        @Override
-        public void select(DayButton[] buttons, LocalDate date) {
-        }
-    };
 
     public static interface DateSelectCallback {
 

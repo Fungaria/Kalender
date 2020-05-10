@@ -18,11 +18,15 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 public class DrawableSolid extends TextureRegionDrawable{
 
     public DrawableSolid(Color color) {
-        super(new TextureRegion(createTexture(color)));
+        this(color, 100);
     }
     
-    private static final Texture createTexture(Color color){
-        Pixmap bgPixmap = new Pixmap(100,100, Pixmap.Format.RGBA8888);
+    public DrawableSolid(Color color, int size){
+        super(new TextureRegion(createTexture(color, size)));
+    }
+    
+    private static final Texture createTexture(Color color, int size){
+        Pixmap bgPixmap = new Pixmap(size,size, Pixmap.Format.RGBA8888);
         bgPixmap.setColor(color);
         bgPixmap.fill();
         return new Texture(bgPixmap);
