@@ -29,7 +29,7 @@ public class DataRoot {
 
     @XmlElement(name = "friseure")
     @XmlJavaTypeAdapter(WorkerAdapter.class)
-    public final HashMap<Integer, Friseur> friseure = new HashMap<>();
+    public final HashMap<Integer, Employee> friseure = new HashMap<>();
 
     @XmlElement(name = "services")
     @XmlJavaTypeAdapter(ServiceAdapter.class)

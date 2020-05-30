@@ -12,7 +12,7 @@
         <item start="2019-12-30 10:15:00" duration="4" friseur="1" msg="hghg" id="4"/>
     </blockierungen>
     <kunden>
-        <item name="Reiser" vorname="Peter" phone="45678" mail="" notes="" id="0"/>
+        <item name="Reiser" vorname="Peter" phone="45678" mail="sreiser9@gmx.de" notes="einz zwei boii" id="0"/>
         <item name="Reiser" vorname="Samuel" phone="45678" mail="" notes="" id="1"/>
         <item name="Chur" vorname="Chill" phone="45678" mail="" notes="" id="2"/>
         <item name="Washington" vorname="George" phone="45678" mail="" notes="" id="3"/>
@@ -43,36 +43,33 @@
         <item name="Harding" vorname="Warren Gamaliel" phone="45678" mail="" notes="" id="28"/>
     </kunden>
     <friseure>
-        <item name="Meryem" id="0">
-            <vacations>
-                <item start="2019-12-17" end="2019-12-21" id="1"/>
-                <item start="2019-12-03" end="2019-12-07" id="2"/>
-            </vacations>
-        </item>
-        <item name="Nena" id="1">
+        <item surname="Meryem" name="Reiser" id="0">
             <vacations/>
         </item>
-        <item name="Barbara" id="2">
+        <item surname="Nena" name="Nachname" id="1">
             <vacations/>
         </item>
-        <item name="Linh" id="3">
+        <item surname="Barbara" name="Nachname" id="2">
+            <vacations/>
+        </item>
+        <item surname="Linh" name="Nachname" id="3">
             <vacations>
                 <item start="2019-10-27" end="2019-10-27" id="1"/>
             </vacations>
         </item>
-        <item name="Nida" id="4">
+        <item surname="Nida" name="Nachname" id="4">
             <vacations>
                 <item start="2019-10-15" end="2019-10-19" id="1"/>
                 <item start="2019-10-22" end="2019-10-25" id="2"/>
             </vacations>
         </item>
-        <item name="Fret" id="5">
+        <item surname="Fret" name="Nachname" id="5">
             <vacations/>
         </item>
-        <item name="Nardos" id="6">
+        <item surname="Nardos" name="Nachname" id="6">
             <vacations/>
         </item>
-        <item name="Maxi" id="7">
+        <item surname="Maxi" name="Nachname" id="7">
             <vacations/>
         </item>
     </friseure>

@@ -1,78 +1,56 @@
 package de.fungistudii.kalender.main.kunden;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Button.ButtonStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
-import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Scaling;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.database.Customer;
-import de.fungistudii.kalender.main.generic.GenericSearchTF;
 import de.fungistudii.kalender.util.NinePatchSolid;
 
 /**
  *
  * @author sreis
  */
-public class KSidePanel extends Table {
-
-    private GenericSearchTF search;
+public class KList extends ScrollPane {
 
     private Table list;
-
-    public KSidePanel() {
-
-        super.setBackground(new NinePatchSolid(ERE.assets.kalSide));
-
-        super.top();
+    private ButtonGroup group;
+    private CustomerPage parent;
+    
+    public KList(CustomerPage parent) {
+        super(new Table());
         
-        list = new Table();
-        list.pad(0, 5, 5, 5);
-
-        ScrollPane scrollPane = new ScrollPane(list);
-        scrollPane.setScrollingDisabled(true, false);
-
-        search = new GenericSearchTF();
-        search.setMessageText("Kunden suchen ...");
-        search.setTextFieldListener(new TextField.TextFieldListener() {
-            @Override
-            public void keyTyped(TextField textField, char c) {
-                updateContent(textField.getText().toLowerCase());
-            }
-        });
-
-        add(search).growX().pad(8, 10, 8, 10);
-        row();
-
-        SpriteDrawable separator = ERE.assets.createDrawable("horizontal_separator_shadow");
-        Image sep = new Image(separator);
-        sep.setScaling(Scaling.stretchX);
-        sep.setAlign(Align.top);
-        add(sep).growX().height(1);
-
-        row();
-        add(scrollPane).growX();
-        scrollPane.setZIndex(0);
+        this.parent = parent;
         
+        list = (Table)getActor();
+
+        group = new ButtonGroup();
+        
+        super.setScrollingDisabled(true, false);
         updateContent("");
     }
 
     public void updateContent(String prefix) {
         list.clear();
+        group.clear();
+        
         ERE.data.root.kunden.values().stream().
                 filter(c -> c.name.toLowerCase().startsWith(prefix) | c.vorname.toLowerCase().startsWith(prefix)).
                 sorted((a, b) -> a.vorname.compareTo(b.vorname)).
                 forEach(c -> {
-            list.add(new CustButton(c)).growX();
-            list.row();
-            list.add(new Image(ERE.assets.horizontal_separator)).height(1);
-            list.row();
-        });
+                    CustButton button = new CustButton(c);
+                    group.add(button);
+                    list.add(button).growX();
+                    list.row();
+                    list.add(new Image(ERE.assets.horizontal_separator)).height(1).growX();
+                    list.row();
+                });
     }
 
     private Label.LabelStyle nameStyle = new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 18), ERE.assets.grey6);
@@ -80,14 +58,14 @@ public class KSidePanel extends Table {
     
     private ButtonStyle bStyle = new ButtonStyle() {
         {
-            super.down = new NinePatchSolid(ERE.assets.grey4);
+            super.checked = new NinePatchSolid(ERE.assets.grey3);
+            super.down = new NinePatchSolid(ERE.assets.grey3);
             super.over = new NinePatchSolid(ERE.assets.grey3);
             super.up = new NinePatchSolid(ERE.assets.kalSide);
         }
     };
 
     private class CustButton extends Button {
-
         private Customer customer;
 
         public CustButton(Customer customer) {
@@ -99,6 +77,13 @@ public class KSidePanel extends Table {
             super.add(n).pad(8, 15, 8, 10).left();
             super.add(p).expand().pad(8, 15, 8, 10).right();
             this.customer = customer;
+            
+            addListener(new ClickListener(){
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    parent.setSelectedCustomer(customer);
+                }
+            });
         }
 
     }

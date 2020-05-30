@@ -7,7 +7,7 @@ package de.fungistudii.kalender.main.mitarbeiter;
 
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.database.Vacation;
 import de.fungistudii.kalender.main.generic.datepicker.DayButton;
 import de.fungistudii.kalender.main.generic.datepicker.DaysGrid;
@@ -90,7 +90,7 @@ public class VacationSelectBehavior implements DaysGrid.SelectBehavior {
             button.uncheck();
         }
 
-        Friseur friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == workerId)).findFirst().get();
+        Employee friseur = ERE.data.root.friseure.values().stream().filter((fr) -> (fr.id == workerId)).findFirst().get();
         selectRange(buttons, beginDate, endDate, leftGreen, solidGreen, rightGreen);
 
         for (Vacation v : friseur.vacations.values()) {

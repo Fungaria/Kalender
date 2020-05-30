@@ -9,7 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.util.DrawableSolid;
 import de.fungistudii.kalender.util.Fonts;
 import java.util.function.Consumer;
@@ -18,11 +18,11 @@ import java.util.function.Consumer;
  *
  * @author sreis
  */
-public class WorkerHeader extends SelectBox<Friseur> {
+public class WorkerHeader extends SelectBox<Employee> {
 
     public WorkerHeader(Consumer<Integer> callback) {
         super(new WHStyle());
-        super.setItems(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        super.setItems(ERE.data.root.friseure.values().stream().toArray(Employee[]::new));
         if (getStyle().background != null) {
             super.getStyle().background.setLeftWidth(10);
             super.getStyle().backgroundOpen.setLeftWidth(10);

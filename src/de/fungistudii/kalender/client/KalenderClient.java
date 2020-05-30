@@ -3,7 +3,7 @@ package de.fungistudii.kalender.client;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryonet.Client;
 import de.fungistudii.kalender.database.DataRoot;
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.database.Customer;
 import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.client.NetworkData.*;
@@ -54,7 +54,7 @@ public class KalenderClient extends Client{
         k.register(LocalTime.class);
         k.register(LocalDateTime.class, new DateTimeSerializer());
         k.register(Customer.class);
-        k.register(Friseur.class);
+        k.register(Employee.class);
         k.register(Vacation.class);
         k.register(Service.class);
         k.register(ServiceCategory.class);

@@ -12,7 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.client.NetworkData.CreateTerminRequest;
 import de.fungistudii.kalender.database.Customer;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
@@ -37,14 +37,14 @@ public class AddAppointmentDialog extends GenericMask{
     //2
     private DateButton date;
     private GenericDropDown<LocalTime> timePicker; 
-    public GenericDropDown<Friseur> friseur;
+    public GenericDropDown<Employee> friseur;
     
     //3
     private ServiceWidget serviceWidget;
     private GenericImageButton addServiceButton;
     
     //4
-    private GenericDropDown<Friseur> urheber;
+    private GenericDropDown<Employee> urheber;
     
     public AddAppointmentDialog() {
         super(3, "Termin Hinzufügen");
@@ -75,7 +75,7 @@ public class AddAppointmentDialog extends GenericMask{
         //ROW 2  ---------------------------------------------------------------
         date = new DateButton();
         timePicker = new TimePicker();
-        friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Employee[]::new));
         super.addC(new TitledWidget("Datum:", date));
         super.addC(new TitledWidget("Uhrzeit:", timePicker));
         super.addC(new TitledWidget("Friseur:", friseur)).padRight(100);
@@ -96,7 +96,7 @@ public class AddAppointmentDialog extends GenericMask{
         super.separator();
         
         //ROW 4 ----------------------------------------------------------------
-        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        urheber = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Employee[]::new));
         Container bottom = new Container(new TitledWidget("Urheber:", urheber));
         bottom.left();
         bottom.width(Value.percentWidth(0.25f, this));

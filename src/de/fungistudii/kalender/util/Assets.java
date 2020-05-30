@@ -6,21 +6,22 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.DistanceFieldFont;
 import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import de.fungistudii.kalender.Cons;
+import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.main.generic.TwoColorLabel;
 
 /**
  *
  * @author sreis
  */
 public class Assets {
-
     public final Color kalSide = new Color(buildColor(229, 229, 231));
     public final Color kalBG = new Color(buildColor(245, 245, 247));
     
@@ -41,6 +42,12 @@ public class Assets {
     public final Color tabGrey = new Color(0.3f, 0.3f, 0.3f, 1);
     public final Color tabGreyer = new Color(0.25f, 0.25f, 0.25f, 1);
 
+    public Label.LabelStyle titleStyle1;
+    public Label.LabelStyle titleStyle2;
+    public Label.LabelStyle bodyStyle1;
+    
+    public TwoColorLabel.TwoColorLabelStyle twoColorStyle;
+    
     public Fonts fonts;
     
     private TextureAtlas atlas;
@@ -63,6 +70,15 @@ public class Assets {
         horizontal_separator = createDrawable("generic/horizontal_separator");
         
         fonts = new Fonts();
+        
+        initStyles();
+    }
+    
+    public void initStyles(){
+        titleStyle1 = new Label.LabelStyle(fonts.createFont("roboto",24), grey7);
+        titleStyle2 = new Label.LabelStyle(fonts.createFont("roboto", 22), grey7);
+        bodyStyle1 = new Label.LabelStyle(fonts.createFont("roboto", 18), grey7);
+        twoColorStyle = new TwoColorLabel.TwoColorLabelStyle(ERE.assets.fonts.createFont("roboto", 18), ERE.assets.fonts.createFont("roboto", 18), ERE.assets.grey5, ERE.assets.grey7);
     }
     
     public NinePatchDrawable createNinePatchDrawable(String name, int l, int r, int t, int b){

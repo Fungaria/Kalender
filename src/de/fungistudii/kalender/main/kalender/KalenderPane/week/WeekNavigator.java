@@ -10,7 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.badlogic.gdx.utils.Align;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.main.generic.GenericDropDown;
 import de.fungistudii.kalender.main.kalender.KalenderPane.KalenderTable.Navigator;
 import de.fungistudii.kalender.util.YearWeek;
@@ -25,7 +25,7 @@ public class WeekNavigator extends Navigator {
 
     private ImageButton next;
     private ImageButton previous;
-    private SelectBox<Friseur> dropDown;
+    private SelectBox<Employee> dropDown;
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE', 'dd' 'MMMMM' 'yyyy");
 
@@ -46,7 +46,7 @@ public class WeekNavigator extends Navigator {
 
         next = new ImageButton(nextStyle);
         previous = new ImageButton(prevStyle);
-        dropDown = new GenericDropDown<Friseur>(null, ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12), ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12), ERE.data.root.friseure.values().stream().toArray(Friseur[]::new));
+        dropDown = new GenericDropDown<Employee>(null, ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12), ERE.assets.createNinePatchDrawable("rounded/outline_middle", 12), ERE.data.root.friseure.values().stream().toArray(Employee[]::new));
 
         super.add(previous).minSize(0).maxWidth(Value.percentHeight(1, this));
         super.add(dropDown).grow().minHeight(0);

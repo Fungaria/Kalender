@@ -5,14 +5,14 @@
  */
 package de.fungistudii.kalender.database.adapters;
 
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 
 /**
  *
  * @author sreis
  */
-public class WorkerAdapter extends MapAdapter<Friseur>{
+public class WorkerAdapter extends MapAdapter<Employee>{
     public WorkerAdapter() {
-        super(Friseur[]::new);
+        super(Employee[]::new);
     }
 }

@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import static de.fungistudii.kalender.Main.ERE;
-import de.fungistudii.kalender.database.Friseur;
+import de.fungistudii.kalender.database.Employee;
 
 /**
  *
@@ -14,12 +14,12 @@ public class VacationListener extends Listener{
 
     @Override
     public void received(Connection connection, Object object) {
-        if(object instanceof Friseur){
+        if(object instanceof Employee){
             Gdx.app.postRunnable(() -> {
-                Friseur nuFriseur = (Friseur)object;
+                Employee nuFriseur = (Employee)object;
                 ERE.data.root.friseure.put(nuFriseur.id, nuFriseur);
                 ERE.data.writeFile();
-                ERE.mainScreen.mitarbeiter.updateContent();
+//                ERE.mainScreen.mitarbeiter.updateContent();
             });
         }
     }

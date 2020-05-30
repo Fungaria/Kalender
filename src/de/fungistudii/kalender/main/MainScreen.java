@@ -13,8 +13,8 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import de.fungistudii.kalender.Cons;
 import de.fungistudii.kalender.util.DialogManager;
 import de.fungistudii.kalender.main.kalender.KalenderPage;
-import de.fungistudii.kalender.main.kunden.KundenPage;
-import de.fungistudii.kalender.main.mitarbeiter.MitarbeiterPage;
+import de.fungistudii.kalender.main.kunden.CustomerPage;
+import de.fungistudii.kalender.main.mitarbeiter.EmployeePage;
 import de.fungistudii.kalender.main.produkte.ProduktePage;
 import de.fungistudii.kalender.main.servies.ServicePage;
 
@@ -32,8 +32,8 @@ public class MainScreen extends ScreenAdapter {
     private TabPage currentPage;
 
     public KalenderPage kalender;
-    public MitarbeiterPage mitarbeiter;
-    public KundenPage kunden;
+    public EmployeePage mitarbeiter;
+    public CustomerPage kunden;
     public ProduktePage produkte;
     public ServicePage service;
 
@@ -84,10 +84,10 @@ public class MainScreen extends ScreenAdapter {
         };
 
         kalender = new KalenderPage();
-        mitarbeiter = new MitarbeiterPage();
+        mitarbeiter = new EmployeePage();
         produkte = new ProduktePage();
         service = new ServicePage();
-        kunden = new KundenPage();
+        kunden = new CustomerPage();
 
         root.row();
         root.add(new TabPane()).left().height(Cons.tabPaneHeight).growX().fillY();

@@ -18,8 +18,10 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
  *
  * @author sreis
  */
-@XmlRootElement(name = "friseur")
-public class Friseur extends MapElement{
+@XmlRootElement(name = "employee")
+public class Employee extends MapElement{
+    @XmlAttribute
+    public String surname;
     @XmlAttribute
     public String name;
     @XmlElement
@@ -28,7 +30,7 @@ public class Friseur extends MapElement{
     
     @Override
     public String toString() {
-        return name;
+        return surname+" "+name;
     }
     
     public boolean hasVacation(LocalDate date){
