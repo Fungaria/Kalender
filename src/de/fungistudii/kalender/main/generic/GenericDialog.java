@@ -56,8 +56,8 @@ public class GenericDialog extends Popup {
         this.okButton = new GenericTextButton("Bestätigen", new GenericTextButton.FilledStyle());
         this.cancelButton = new GenericTextButton("Abbrechen", new GenericTextButton.CancelStyle());
         this.titleLabel = new Label(title, new Label.LabelStyle(ERE.assets.fonts.createFont("roboto", 20), Color.BLACK));
-        this.closeButton = new ImageButton(ERE.assets.createDrawable("generic/cross", ERE.assets.grey4));
-        this.closeButton.getStyle().imageOver = ERE.assets.createDrawable("generic/cross", ERE.assets.grey7);
+        this.closeButton = new ImageButton(ERE.assets.createDrawable("icons/cross", ERE.assets.grey4));
+        this.closeButton.getStyle().imageOver = ERE.assets.createDrawable("icons/cross", ERE.assets.grey7);
         
         Table titleTable = new Table();
         titleTable.add(titleLabel).grow().pad(Cons.dialogOuterPadding/2, Cons.dialogOuterPadding, Cons.dialogOuterPadding/2, 0);

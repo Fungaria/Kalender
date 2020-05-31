@@ -10,13 +10,6 @@ generic/context_bg
   orig: 55, 32
   offset: 0, 0
   index: -1
-generic/cross
-  rotate: false
-  xy: 333, 365
-  size: 111, 111
-  orig: 111, 111
-  offset: 0, 0
-  index: -1
 generic/filled_middle
   rotate: false
   xy: 667, 179
@@ -183,6 +176,13 @@ icons/color
   xy: 223, 119
   size: 52, 52
   orig: 52, 52
+  offset: 0, 0
+  index: -1
+icons/cross
+  rotate: false
+  xy: 333, 365
+  size: 111, 111
+  orig: 111, 111
   offset: 0, 0
   index: -1
 icons/customer

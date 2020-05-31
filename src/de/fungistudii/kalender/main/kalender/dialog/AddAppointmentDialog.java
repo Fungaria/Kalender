@@ -20,7 +20,6 @@ import de.fungistudii.kalender.main.generic.GenericImageButton;
 import de.fungistudii.kalender.main.generic.GenericMask;
 import de.fungistudii.kalender.main.generic.GenericSearchField;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 /**
  *
@@ -29,8 +28,7 @@ import java.time.LocalTime;
 public class AddAppointmentDialog extends GenericMask{
     
     //1
-    private GenericSearchField<Customer> customerName;
-//      private GenericTextField customerPhone;
+    private CustomerPicker customerName;
     private GenericImageButton edit;
     private GenericImageButton nu;
     
@@ -55,9 +53,7 @@ public class AddAppointmentDialog extends GenericMask{
 
     private void initGUI(){
         // ROW 1 ---------------------------------------------------------------
-        customerName = new GenericSearchField<>((String s, Customer k) -> (k.name.toLowerCase().startsWith(s) || (k.vorname.toLowerCase() + " " + k.name.toLowerCase()).startsWith(s)));
-        customerName.setMessageText("Enter name");
-        customerName.setItems(ERE.data.root.kunden.values());
+        customerName = new CustomerPicker();
         edit = new GenericImageButton("icons/edit2", ERE.assets.grey3);
         nu = new GenericImageButton("icons/person", ERE.assets.grey3);
         
@@ -102,9 +98,6 @@ public class AddAppointmentDialog extends GenericMask{
     }
     
     private void addListeners(){
-        customerName.setListener((k) -> {
-            customerName.setText(k.toString());
-        });
         
         addServiceButton.addListener(
             () -> serviceWidget.addService()
