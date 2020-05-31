@@ -5,17 +5,20 @@
  */
 package de.fungistudii.kalender.main.kunden;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.database.Customer;
 import de.fungistudii.kalender.main.generic.TwoColorLabel;
+import de.fungistudii.kalender.main.mitarbeiter.Section;
 
 /**
  *
  * @author sreis
  */
-public class CustomerTable extends Table{
+public class CustomerTable extends Section{
     
     private TwoColorLabel phone;
     private TwoColorLabel mobile;
@@ -23,7 +26,7 @@ public class CustomerTable extends Table{
     private TwoColorLabel notes;
     
     public CustomerTable() {
-        super.add(new Label("Kontaktinformationen:", ERE.assets.titleStyle2)).left().padBottom(10);
+        super("Kontaktinformationen:");
         super.row();
         
         super.left().top();
@@ -46,6 +49,13 @@ public class CustomerTable extends Table{
         super.add(mail).left().padLeft(10);
         super.row();
         super.add(notes).left().padLeft(10);
+        
+        edit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ERE.mainScreen.dialogManager.showEditCustomer();
+            }
+        });
     }
     
     public void setCustomer(Customer customer){

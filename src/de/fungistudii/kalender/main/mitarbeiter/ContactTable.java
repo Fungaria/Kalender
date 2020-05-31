@@ -5,8 +5,10 @@
  */
 package de.fungistudii.kalender.main.mitarbeiter;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.main.generic.TwoColorLabel;
@@ -21,6 +23,8 @@ public class ContactTable extends Section{
     private TwoColorLabel mobile;
     private TwoColorLabel mail;
     private TwoColorLabel notes;
+    
+    private Employee employee;
     
     public ContactTable() {
         super("Details: ");
@@ -41,9 +45,18 @@ public class ContactTable extends Section{
         super.add(mail).left().padLeft(10);
         super.row();
         super.add(notes).left().padLeft(10);
+        
+        super.edit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                ERE.mainScreen.dialogManager.showEmpolyeeContact(employee);
+                System.out.println("ngjtrigtr");
+            }
+        });
     }
     
-    public void setEmployee(Employee customer){
+    public void setEmployee(Employee employee){
+        this.employee = employee;
 //        phone.setRightText(customer.phone);
 //        mail.setRightText(customer.mail);
 //        notes.setRightText(customer.notes);

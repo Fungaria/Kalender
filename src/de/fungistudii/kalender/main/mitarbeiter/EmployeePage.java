@@ -57,7 +57,7 @@ public class EmployeePage extends TabPage{
         super.row();
         super.add(sep).height(1).colspan(2).growX();
         super.row();
-        super.add(new ColorContainer(sidePanel, ERE.assets.kalSide, 5, Align.top)).growY().width(500);
+        super.add(new ColorContainer(sidePanel, ERE.assets.kalSide, 0, Align.top)).growY().width(500);
         super.add(contentTable).minSize(0).pad(10, 10, 5, 10).left().top().growX();
         
         sep.setZIndex(100);

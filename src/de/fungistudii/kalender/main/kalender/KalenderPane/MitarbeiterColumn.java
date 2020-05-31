@@ -88,9 +88,9 @@ public class MitarbeiterColumn extends Stack implements Disposable {
         int max = Math.max(start.getRow(), start.getRow() + range);
         for (BackgroundElement element : backgroundElements) {
             if (element.getRow() <= max && element.getRow() >= min) {
-                ((Button) element).setChecked(true);
+                element.setChecked(true);
             } else {
-                ((Button) element).setChecked(false);
+                element.setChecked(false);
             }
         }
     }

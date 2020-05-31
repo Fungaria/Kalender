@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.NinePatch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.scenes.scene2d.ui.CheckBox;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.utils.NinePatchDrawable;
 import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import de.fungistudii.kalender.Cons;
@@ -27,6 +29,7 @@ public class Assets {
     
     public final Color grey1 = new Color(0.94f, 0.94f, 0.94f, 1);
     public final Color grey2 = new Color(225f/255f, 225f/255f, 225f/255f, 1);
+    public final Color grey2p5 = new Color(215f/255f, 215f/255f, 215f/255f, 1);
     public final Color grey3 = new Color(200f/255f, 200f/255f, 200f/255f, 1);
     public final Color grey4 = new Color(130f/255f, 130f/255f, 130f/255f, 1);
     public final Color grey5 = new Color(160f/255f, 160f/255f, 160f/255f, 1);
@@ -45,6 +48,9 @@ public class Assets {
     public Label.LabelStyle titleStyle1;
     public Label.LabelStyle titleStyle2;
     public Label.LabelStyle bodyStyle1;
+    public Label.LabelStyle bodyStyle2;
+    public CheckBox.CheckBoxStyle checkBoxStyle;
+    public List.ListStyle listStyle;
     
     public TwoColorLabel.TwoColorLabelStyle twoColorStyle;
     
@@ -55,6 +61,7 @@ public class Assets {
     private final boolean debug;
     
     public SpriteDrawable horizontal_separator;
+    public SpriteDrawable verticalSeparator;
     
     public Assets() {
         debug = !Gdx.files.internal("").file().getAbsolutePath().endsWith("assets");
@@ -68,6 +75,7 @@ public class Assets {
         }
         
         horizontal_separator = createDrawable("generic/horizontal_separator");
+        verticalSeparator = createDrawable("generic/vertical_separator");
         
         fonts = new Fonts();
         
@@ -78,7 +86,11 @@ public class Assets {
         titleStyle1 = new Label.LabelStyle(fonts.createFont("roboto",24), grey7);
         titleStyle2 = new Label.LabelStyle(fonts.createFont("roboto", 22), grey7);
         bodyStyle1 = new Label.LabelStyle(fonts.createFont("roboto", 18), grey7);
+        bodyStyle2 = new Label.LabelStyle(fonts.createFont("roboto", 16), grey6);
+        checkBoxStyle = new CheckBox.CheckBoxStyle(createDrawable("generic/square"), createDrawable("generic/square"), fonts.createFont("roboto", 16), grey6);
         twoColorStyle = new TwoColorLabel.TwoColorLabelStyle(ERE.assets.fonts.createFont("roboto", 18), ERE.assets.fonts.createFont("roboto", 18), ERE.assets.grey5, ERE.assets.grey7);
+        
+        listStyle = new List.ListStyle(fonts.createFont("roboto", 15, Fonts.LIGHT), Color.BLACK, grey6, new NinePatchSolid(grey1, 5));
     }
     
     public NinePatchDrawable createNinePatchDrawable(String name, int l, int r, int t, int b){

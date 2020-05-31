@@ -17,6 +17,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.scenes.scene2d.ui.List.ListStyle;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane.ScrollPaneStyle;
+import com.badlogic.gdx.scenes.scene2d.ui.SelectBox;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
@@ -331,7 +332,6 @@ public class SearchField<T> extends TextField implements Disableable {
     }
 
     static public class SFStyle {
-
         public TextField.TextFieldStyle textFieldStyle;
         public ScrollPaneStyle scrollStyle;
         public ListStyle listStyle;

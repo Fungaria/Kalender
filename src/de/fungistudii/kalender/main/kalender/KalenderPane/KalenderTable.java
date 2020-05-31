@@ -102,8 +102,8 @@ public abstract class KalenderTable extends Table {
         viewWidget = new ViewWidget();
 
         Table navig = new Table();
-        navig.add(search).growY().expandX().uniform().left();
-        navig.add(navigator).growY().center();
+        navig.add(search).growY().expandX().uniform().left().prefWidth(300);
+        navig.add(navigator).growY().center().prefWidth(400).padRight(20).padLeft(20);
         navig.add(viewWidget).growY().expandX().uniform().right();
 
         SpriteDrawable separator = ERE.assets.createDrawable("generic/horizontal_separator", ERE.assets.grey3);
@@ -233,7 +233,7 @@ public abstract class KalenderTable extends Table {
         nu = createGrid(date);
         container.setMainActor(nu);
         nu.setVisible(false);
-        nu.buttons.uncheckAll();
+        nu.uncheckAll();
 
         Gdx.app.postRunnable(() -> {
             nu.animateIn(direction > 0, old.getWidth(), (KalenderGrid c) -> {

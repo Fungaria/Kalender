@@ -4,6 +4,7 @@
         <item kundenid="1" start="2020-03-19 11:00:00" duration="30" service="0" friseur="1" erstellt="2020-03-19 14:44:48" urheber="0" paidPrice="0" id="1"/>
         <item kundenid="1" start="2020-03-19 09:00:00" duration="90" service="0" friseur="4" erstellt="2020-03-19 16:47:48" urheber="0" paidPrice="0" id="2"/>
         <item kundenid="1" start="2020-03-21 08:45:00" duration="165" service="0" friseur="2" erstellt="2020-03-21 15:35:47" urheber="0" paidPrice="0" id="3"/>
+        <item kundenid="1" start="2020-05-30 12:00:00" duration="150" service="0" friseur="6" erstellt="2020-05-30 14:26:11" urheber="0" paidPrice="0" id="4"/>
     </termine>
     <blockierungen>
         <item start="2019-12-28 11:00:00" duration="4" friseur="2" msg="" id="1"/>

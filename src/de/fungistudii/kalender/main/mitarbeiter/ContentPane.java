@@ -25,20 +25,21 @@ public class ContentPane extends Table{
         
         defaults().left().padLeft(20);
         
-        
-        add(contactTable);
+        add(contactTable).grow();
         row();
         add(new Image(ERE.assets.horizontal_separator)).growX().height(1).padLeft(0);
         row();
-        add(serviceTable);
+        add(serviceTable).grow();
         row();
         add(new Image(ERE.assets.horizontal_separator)).growX().height(1).padLeft(0);
         row();
-        add(vacationTable);
+        add(vacationTable).grow();
         
     }
 
     void setEmployee(Employee employee) {
+        contactTable.setEmployee(employee);
+        serviceTable.setEmployee(employee);
     }
     
 }

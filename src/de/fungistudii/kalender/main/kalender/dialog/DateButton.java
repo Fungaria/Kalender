@@ -30,7 +30,7 @@ public class DateButton extends TextButton {
 
     private InputListener hideListener;
     private final Vector2 screenPosition = new Vector2();
-    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEEE', 'dd' 'MMMMM' 'yyyy");
+    private static final DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("EEEE', 'dd' 'MMM' 'yyyy");
 
     public DateButton() {
         super("", new DateButtonStyle());

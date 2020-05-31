@@ -18,7 +18,7 @@ public class NamesHeader extends Header {
         TextButton[] labels = new TextButton[ERE.data.root.friseure.size()];
         
         for (int i = 0; i < labels.length; i++) {
-            labels[i] = new TextButton(ERE.data.root.friseure.get(i).name, style);
+            labels[i] = new TextButton(ERE.data.root.friseure.get(i).surname, style);
             final int workerId = i;
             labels[i].addListener(new ClickListener() {
                 @Override

@@ -55,7 +55,7 @@ public class CustomerPage extends TabPage{
         row();
         add(sep).height(1).colspan(2).growX();
         row();
-        add(new ColorContainer(sidePanel, ERE.assets.kalSide, 5, Align.top)).growY().width(500);
+        add(new ColorContainer(sidePanel, ERE.assets.kalSide, 0, Align.top)).growY().width(500);
         add(contentTable).minSize(0).pad(20, 20, 5, 10).left().top().growX();
         
         sep.setZIndex(100);

@@ -5,7 +5,6 @@
  */
 package de.fungistudii.kalender.main.kalender.KalenderPane;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Buttons;
 import com.badlogic.gdx.math.Interpolation;
 import com.badlogic.gdx.math.Vector2;
@@ -13,7 +12,6 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.ButtonGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.Value;
@@ -39,23 +37,13 @@ import java.util.function.Consumer;
 public abstract class KalenderGrid extends Table implements Disposable {
 
     private static final float spacing = 0.1f;
-
-    public MitarbeiterColumn[] columns;
-
     private final Drawable topElement = ERE.assets.createNinePatchDrawable("kalender/grid/element_top", 2);
     private final Drawable bottomElement = ERE.assets.createNinePatchDrawable("kalender/grid/element_bottom", 2);
     private final Drawable topFiller = ERE.assets.createNinePatchDrawable("kalender/grid/filler_top", 2);
     private final Drawable bottomFiller = ERE.assets.createNinePatchDrawable("kalender/grid/filler_bottom", 2);
 
+    public MitarbeiterColumn[] columns;
     protected LocalDate date;
-
-    final ButtonGroup<BackgroundElement> buttons = new ButtonGroup<>();
-
-    private DatePicker.DateSelectCallback callback;
-
-    private ContextMenu backgroundContext;
-    private ContextMenu terminContext;
-
     private final Value elementHeight;
 
     public KalenderGrid(LocalDate date, Value elementHeight) {
@@ -63,16 +51,13 @@ public abstract class KalenderGrid extends Table implements Disposable {
 
         this.elementHeight = elementHeight;
 
-        buttons.setMinCheckCount(0);
-        buttons.setMaxCheckCount(-1);
-
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
                 if (button == Buttons.LEFT) {
-                    buttons.uncheckAll();
+                    uncheckAll();
                 }
-                return super.touchDown(event, x, y, pointer, button);
+                return true;
             }
         });
         addListener(dragListener);
@@ -82,12 +67,8 @@ public abstract class KalenderGrid extends Table implements Disposable {
         for (int i = 0; i < columns.length; i++) {
             columns[i] = new MitarbeiterColumn(getStartTime(i, date), elementHeight);
             columns[i].initialize(getFriseur(i), getTermine(i, date), getBlockierungen(i, date));
-            
-            for (BackgroundElement bg : columns[i].backgroundElements) {
-                buttons.add(bg);
-            }
         }
-        
+
         setRound(true);
 
         SpriteDrawable vs = ERE.assets.createDrawable("generic/vertical_separator", ERE.assets.grey2);
@@ -115,17 +96,17 @@ public abstract class KalenderGrid extends Table implements Disposable {
     }
 
     public BackgroundElement getSelectedElement() {
-        BackgroundElement lowest = buttons.getChecked();
-        for (BackgroundElement button : buttons.getAllChecked()) {
-            if (button.getRow() < lowest.getRow()) {
-                lowest = button;
-            }
-        }
-        return lowest;
+//        BackgroundElement lowest = buttons.getChecked();
+//        for (BackgroundElement button : buttons.getAllChecked()) {
+//            if (button.getRow() < lowest.getRow()) {
+//                lowest = button;
+//            }
+//        }
+        return null;
     }
 
     public int getSelectedDuration() {
-        return buttons.getAllChecked().size;
+        return 1;
     }
 
     public void updateColumn(int column) {
@@ -145,7 +126,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     protected abstract Blockierung[] getBlockierungen(int column, LocalDate date);
 
     protected abstract int getFriseur(int column);
-    
+
     protected abstract LocalDateTime getStartTime(int column, LocalDate date);
 
     public void animateIn(boolean direction, float width, Consumer<KalenderGrid> consumer) {
@@ -178,7 +159,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     void disableInput() {
         for (MitarbeiterColumn column : columns) {
             for (BackgroundElement element : column.backgroundElements) {
-                element.setDisabled(true);
+//                element.setDisabled(true);
             }
         }
     }
@@ -186,7 +167,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     void enableInput() {
         for (MitarbeiterColumn column : columns) {
             for (BackgroundElement element : column.backgroundElements) {
-                element.setDisabled(false);
+//                element.setDisabled(false);
             }
         }
     }
@@ -232,7 +213,6 @@ public abstract class KalenderGrid extends Table implements Disposable {
             }
 
             enableInput();
-            LocalDateTime start = dragged.getGridElement().getStart();
             dragged.getGridElement().setFriseur(col);
 
             dragging = false;
@@ -254,7 +234,7 @@ public abstract class KalenderGrid extends Table implements Disposable {
     };
 
     public void reload() {
-        if(dragged != null){
+        if (dragged != null) {
             dragged.dispose();
             dragged = null;
         }
@@ -263,7 +243,14 @@ public abstract class KalenderGrid extends Table implements Disposable {
         }
     }
 
+    void uncheckAll() {
+        for (MitarbeiterColumn column : columns) {
+            column.deselect();
+        }
+    }
+
     public class VacationColumn extends MitarbeiterColumn {
+
         public VacationColumn(int friseur) {
             super(getStartTime(friseur, date), elementHeight);
 //            super.initialize(friseur, new Termin[0], new Blockierung[]{new Blockierung(date, NUM_ROWS * 4, friseur, "Urlaub")});

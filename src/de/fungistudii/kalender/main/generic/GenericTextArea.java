@@ -9,6 +9,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
 import de.fungistudii.kalender.util.Fonts;
+import de.fungistudii.kalender.util.NinePatchSolid;
 
 /**
  *
@@ -49,7 +50,7 @@ public class GenericTextArea extends TextArea{
             super.background = super.disabledBackground;
             super.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.cursor.setMinWidth(1);
-            super.selection = ERE.assets.createDrawable("generic/textfield_selection");
+            super.selection = new NinePatchSolid(ERE.assets.grey2);
             super.focusedBackground = ERE.assets.createRounded("outline_check");
             super.focusedBackground.setTopHeight(15);
             super.font = ERE.assets.fonts.createFont("roboto", 16, Fonts.LIGHT);

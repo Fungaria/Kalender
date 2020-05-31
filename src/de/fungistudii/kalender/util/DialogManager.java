@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import de.fungistudii.kalender.Cons;
 import static de.fungistudii.kalender.Main.ERE;
+import de.fungistudii.kalender.database.Employee;
 import de.fungistudii.kalender.database.Service;
 import de.fungistudii.kalender.database.Termin;
 import de.fungistudii.kalender.main.kalender.AddBlockDialog;
@@ -24,8 +25,9 @@ import de.fungistudii.kalender.main.kalender.KalenderPane.StornoDialog;
 import de.fungistudii.kalender.main.kalender.dialog.AddAppointmentDialog;
 import de.fungistudii.kalender.main.kalender.dialog.DatePickerPopup;
 import de.fungistudii.kalender.main.kunden.EditCustomerDialog;
-import de.fungistudii.kalender.main.kunden.ViewCustomerDialog;
 import de.fungistudii.kalender.main.kunden.ViewCustomerDialogNu;
+import de.fungistudii.kalender.main.mitarbeiter.EmployeeContactDialog;
+import de.fungistudii.kalender.main.mitarbeiter.EmployeeServicesDialog;
 import de.fungistudii.kalender.main.servies.AddServiceDialog;
 import java.time.LocalDateTime;
 
@@ -40,6 +42,8 @@ public class DialogManager extends WidgetGroup {
     private final AddServiceDialog service;
     private final StornoDialog storno;
     private final AddBlockDialog block;
+    private final EmployeeServicesDialog empServices;
+    private final EmployeeContactDialog empContact;
     private ViewCustomerDialogNu viewCustomer;
 
     private Array<Popup> openPops = new Array<>();
@@ -56,6 +60,8 @@ public class DialogManager extends WidgetGroup {
         this.storno = new StornoDialog();
         this.block = new AddBlockDialog();
         this.viewCustomer = new ViewCustomerDialogNu();
+        this.empServices = new EmployeeServicesDialog();
+        this.empContact = new EmployeeContactDialog();
         super.setFillParent(true);
 
         stageBackground = new Image(new DrawableSolid(new Color(0, 0, 0, 0.6f)));
@@ -77,7 +83,7 @@ public class DialogManager extends WidgetGroup {
         openDialog(appointment);
     }
 
-    public void showCustomer() {
+    public void showEditCustomer() {
         customer.show(getStage());
         openDialog(customer);
     }
@@ -85,6 +91,16 @@ public class DialogManager extends WidgetGroup {
     public void showService(Service service) {
         this.service.show(getStage(), service);
         openDialog(this.service);
+    }
+    
+    public void showEmpolyeeServices(Employee employee){
+        this.empServices.show(getStage(), employee);
+        openDialog(this.empServices);
+    }
+    
+    public void showEmpolyeeContact(Employee employee){
+        this.empContact.show(getStage(), employee);
+        openDialog(this.empContact);
     }
     
     public void showStorno(Termin termin) {

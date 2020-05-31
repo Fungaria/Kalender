@@ -68,9 +68,9 @@ public class GenericSearchField<T> extends SearchField<T>{
             super.textFieldStyle.cursor = ERE.assets.createDrawable("generic/textfield_cursor");
             super.textFieldStyle.cursor.setMinWidth(1);
             super.textFieldStyle.selection = new NinePatchSolid(ERE.assets.grey2);
-            super.listStyle = new List.ListStyle(textFieldStyle.font, ERE.assets.grey7, ERE.assets.grey5, new DrawableSolid(ERE.assets.grey1));
             super.scrollStyle = new ScrollPane.ScrollPaneStyle();
-            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 10);
+            super.listStyle = ERE.assets.listStyle;
+            super.scrollStyle.background = ERE.assets.createNinePatchDrawable("generic/square", 5);
             
             super.textFieldStyle.background.setLeftWidth(Cons.defaultLeftWidth);
 //            super.textFieldStyle.disabledBackground.setLeftWidth(Cons.defaultLeftWidth);

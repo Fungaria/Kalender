@@ -36,7 +36,7 @@ public class AddAppointmentDialog extends GenericMask{
     
     //2
     private DateButton date;
-    private GenericDropDown<LocalTime> timePicker; 
+    private TimePicker timePicker; 
     public GenericDropDown<Employee> friseur;
     
     //3
@@ -48,7 +48,7 @@ public class AddAppointmentDialog extends GenericMask{
     
     public AddAppointmentDialog() {
         super(3, "Termin Hinzufügen");
-        super.setColumnWeights(new float[]{0.3f, 0.2f, 0.1f});
+        super.setColumnWeights(new float[]{0.45f, 0.1f, 0.25f});
         initGUI();
         addListeners();
     }
@@ -58,7 +58,6 @@ public class AddAppointmentDialog extends GenericMask{
         customerName = new GenericSearchField<>((String s, Customer k) -> (k.name.toLowerCase().startsWith(s) || (k.vorname.toLowerCase() + " " + k.name.toLowerCase()).startsWith(s)));
         customerName.setMessageText("Enter name");
         customerName.setItems(ERE.data.root.kunden.values());
-//        customerPhone = new GenericTextField("Telefon");
         edit = new GenericImageButton("icons/edit2", ERE.assets.grey3);
         nu = new GenericImageButton("icons/person", ERE.assets.grey3);
         
@@ -68,7 +67,6 @@ public class AddAppointmentDialog extends GenericMask{
         buttons.add(nu).left();
         
         super.addC(new TitledWidget("Kunde:", customerName));
-//        super.addC(new TitledWidget("Telefon:", customerPhone));
         super.addC(buttons).bottom().left();
         super.separator();
         
@@ -78,7 +76,7 @@ public class AddAppointmentDialog extends GenericMask{
         friseur = new GenericDropDown<>(ERE.data.root.friseure.values().stream().toArray(Employee[]::new));
         super.addC(new TitledWidget("Datum:", date));
         super.addC(new TitledWidget("Uhrzeit:", timePicker));
-        super.addC(new TitledWidget("Friseur:", friseur)).padRight(100);
+        super.addC(new TitledWidget("Friseur:", friseur));
         
         super.separator();
         
@@ -106,21 +104,20 @@ public class AddAppointmentDialog extends GenericMask{
     private void addListeners(){
         customerName.setListener((k) -> {
             customerName.setText(k.toString());
-//            customerPhone.setText(k.phone);
         });
         
         addServiceButton.addListener(
             () -> serviceWidget.addService()
         );
         
-        edit.addListener(() -> ERE.mainScreen.dialogManager.showCustomer());
+        edit.addListener(() -> ERE.mainScreen.dialogManager.showEditCustomer());
         
         super.addConfirmCallback(() -> {
                 CreateTerminRequest request = new CreateTerminRequest();
                 request.duration = 90;
                 request.start = LocalDateTime.of(date.getDate(), timePicker.getSelected());
                 request.friseurId = friseur.getSelected().id;
-                request.kundenId = customerName.getSelected().id;
+                request.kundenId = 1;
                 request.serviceId = serviceWidget.getService(0).id;
                 ERE.client.sendTCP(request);
                 hide();

@@ -60,7 +60,7 @@ public class MList extends ScrollPane {
         {
             super.checked = new NinePatchSolid(ERE.assets.grey3);
             super.down = new NinePatchSolid(ERE.assets.grey3);
-            super.over = new NinePatchSolid(ERE.assets.grey3);
+            super.over = new NinePatchSolid(ERE.assets.grey2p5);
             super.up = new NinePatchSolid(ERE.assets.kalSide);
         }
     };

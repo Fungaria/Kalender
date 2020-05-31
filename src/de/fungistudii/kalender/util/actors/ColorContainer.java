@@ -25,7 +25,7 @@ public class ColorContainer<T> extends Container{
     public ColorContainer(Actor actor, Color color, float pad, int align) {
         super(actor);
         super.setBackground(new NinePatchSolid(color));
-        super.pad(5);
+        super.pad(pad);
         super.fillX();
         super.align(align);
     }
